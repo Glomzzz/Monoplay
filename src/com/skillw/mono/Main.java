@@ -40,7 +40,7 @@ package com.skillw.mono;
  *  * 3. Rent
  *  * 4. Store Money
  *  * 5. End your turn
- *  Your choice: ...
+ *  Your choice: .........
  */
 
 public class Main {
