@@ -34,7 +34,7 @@ package com.skillw.mono;
  * 1
  * Glom has paid $ 5 M to Kevin.
  *
- * Kevin, You can perform 3 cards now:
+ * Kevin, You can perform 2 actions now:
  *  * 1. Perform an action
  *  * 2. Set a property
  *  * 3. Rent
