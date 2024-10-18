@@ -45,6 +45,8 @@ package com.skillw.mono;
 
 public class Main {
     public static void main(String[] args) {
+        Display display = new Display();
+        display.DisplayHeader();
         System.out.println();
         System.out.println("How many players are there?");
     }
