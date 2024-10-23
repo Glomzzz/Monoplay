@@ -16,5 +16,6 @@ public class Birthday extends ActionCard {
      */
     public void perform(State state, Player performer) {
         state.getAllPlayers();
+
     }
 }
