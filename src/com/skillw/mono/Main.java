@@ -1,5 +1,7 @@
 package com.skillw.mono;
 
+import com.skillw.mono.card.action.Birthday;
+
 /**
  *
  * Kevin, this is your turn!
@@ -49,5 +51,6 @@ public class Main {
         display.DisplayHeader();
         System.out.println();
         System.out.println("How many players are there?");
+        Birthday b = Birthday.BIRTHDAY;
     }
 }

@@ -17,6 +17,6 @@ public class DealBreaker extends ActionCard {
      * @param performer Player who performs the card
      */
     public void perform(State state, Player performer) {
-
+        Player target = state.selectPlayer();
     }
 }

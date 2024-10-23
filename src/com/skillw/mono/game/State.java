@@ -14,7 +14,7 @@ public class State {
         return turn;
     }
 
-    public Player[] getPlayers() {
+    public Player[] getAllPlayers() {
         return players;
     }
 
