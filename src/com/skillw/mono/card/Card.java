@@ -1,6 +1,7 @@
 package com.skillw.mono.card;
 
 
+
 public abstract class Card {
 
     /**

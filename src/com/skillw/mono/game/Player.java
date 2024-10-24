@@ -31,10 +31,10 @@ public class Player {
 
     /**
      * Pay the player at least the specified amount.
-     * @param other the player to pay
+     * @param player the player to pay
      * @param atLeast the amount to pay
      */
-    public void pay(Player other, int atLeast) {
+    public void pay(Player player, int atLeast) {
         //todo
     }
 
