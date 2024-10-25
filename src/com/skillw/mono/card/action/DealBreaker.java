@@ -1,7 +1,9 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.command.Command;
+import com.skillw.mono.command.GiveCompleteSet;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.State;
+import com.skillw.mono.game.GameState;
 
 public class DealBreaker extends ActionCard {
 
@@ -13,10 +15,12 @@ public class DealBreaker extends ActionCard {
 
     /**
      * Steal a complete set of properties from any player
-     * @param state Game state
+     *
+     * @param state     Game state
      * @param performer Player who performs the card
+     * @return the command to be executed
      */
-    public void perform(State state, Player performer) {
-        Player target = state.selectPlayer();
+    public Command perform(GameState state, Player performer) {
+        return new GiveCompleteSet(performer);
     }
 }

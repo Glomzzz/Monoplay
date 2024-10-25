@@ -1,11 +1,11 @@
 package com.skillw.mono.game;
 
-public class State {
+public class GameState {
     private int turn;
     private Player[] players;
     private CardStack cardStack;
 
-    public State(int turn, Player[] players) {
+    public GameState(int turn, Player[] players) {
         this.turn = turn;
         this.players = players;
     }

@@ -29,13 +29,4 @@ public class Player {
         return propertyList;
     }
 
-    /**
-     * Pay the player at least the specified amount.
-     * @param player the player to pay
-     * @param atLeast the amount to pay
-     */
-    public void pay(Player player, int atLeast) {
-        //todo
-    }
-
 }

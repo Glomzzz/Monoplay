@@ -1,57 +1,74 @@
 package com.skillw.mono.game;
 
 import com.skillw.mono.card.Card;
+import com.skillw.mono.card.Money;
+import com.skillw.mono.card.Property;
+import com.skillw.mono.card.action.*;
+import com.skillw.mono.util.CardCounter;
 
 /**
  * Cards on the player's hand
  */
-public class CardList {
-    private Card[] cards;
-    private int capacity;
-    private int size;
+public class CardList extends CardCounter{
+    public static final Card[] CARDS = new Card[]{
+            PassGo.PASS_GO,
+            DealBreaker.DEAL_BREAKER,
+            ForcedDeal.FORCED_DEAL,
+            DebtCollector.DEBT_COLLECTOR,
+            SlyDeal.SLY_DEAL,
+            Property.UNIVERSAL,
+            Property.RED,
+            Property.BLUE,
+            Property.PINK,
+            Property.GREEN,
+            Property.YELLOW,
+            Property.BLACK,
+            Property.ORANGE,
+            Property.BROWN,
+            Property.LIGHT_BLUE,
+            Property.LIGHT_GREEN,
+            Property.BLACK_N_GREEN,
+            Property.BLACK_N_LIGHT_GREEN,
+            Property.BLACK_N_LIGHT_BLUE,
+            Property.BLUE_N_GREEN,
+            Property.BROWN_N_LIGHT_BLUE,
+            Property.PINK_N_ORANGE,
+            Property.RED_N_YELLOW,
+            House.HOUSE,
+            DoubleTheRent.DOUBLE_THE_RENT,
+            Rent.UNIVERSAL,
+            Rent.BLACK_N_LIGHT_GREEN,
+            Rent.BLUE_N_GREEN,
+            Rent.BROWN_N_LIGHT_BLUE,
+            Rent.PINK_N_ORANGE,
+            Rent.RED_N_YELLOW,
+            Money.ONE,
+            Money.TWO,
+            Money.THREE,
+            Money.FIVE,
+            Money.TEN
+    };
 
 
     public CardList() {
-        this.capacity = 15;
-        this.cards = new Card[this.capacity];
+        super(CARDS.length);
     }
 
-    private CardList(int capacity) {
-        this.cards = new Card[capacity];
-    }
-
-    private void resize(){
-        this.capacity = (int) (this.capacity * 1.5);
-        Card[] newArray = new Card[this.capacity];
-        for(int i = 0; i < cards.length; i++){
-            newArray[i] = this.cards[i];
-        }
-        this.cards = newArray;
-    }
-
-    public void add(Card card) {
-        if(this.size == this.capacity) resize();
-        this.cards[this.size++] = card;
-    }
-
-    public Card get(int index){
-        return cards[index];
-    }
-
-    public int size(){
-        return size;
-    }
-    public void sort(){
-       // sorted by name
-        for (int i = 0; i < size; i++) {
-            for (int j = i + 1; j < size; j++) {
-                if (cards[i].getName().compareTo(cards[j].getName()) > 0) {
-                    Card temp = cards[i];
-                    cards[i] = cards[j];
-                    cards[j] = temp;
-                }
+    public int getIndexOf(Card card) {
+        for (int i = 0; i < CARDS.length; i++) {
+            if (CARDS[i].equals(card)) {
+                return i;
             }
         }
+        return -1;
+    }
+
+    public int calculateWorth(){
+        int sum = 0;
+        for (int i = 0; i < size(); i++) {
+            sum += getNumOf(i) * CARDS[i].getWorth();
+        }
+        return sum;
     }
 
 

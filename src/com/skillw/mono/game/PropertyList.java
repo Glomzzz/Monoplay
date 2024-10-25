@@ -34,14 +34,24 @@ public class PropertyList {
         return number;
     }
 
+    public int calculateWorthOf(Color color){
+        int number = this.buildings[color.getId()];
+        if (number == 0)
+            return 0;
+        else
+            return color.getLevels()[number];
+    }
+
     /**
-     * Calculate the worth of the properties
+     * Calculate the worth of all the properties
      * @return the worth of the properties
      */
-    public int calculateWorth(){
+    public int calculateWorthOfAll(){
         int worth = 0;
         for (int i = 0; i < 10; i++) {
-            worth +=  Color.UNIVERSAL[i].getLevels()[this.buildings[i]];
+            int number = this.buildings[i];
+            if (number != 0)
+                worth +=  Color.UNIVERSAL[i].getLevels()[number];
         }
         return worth;
     }

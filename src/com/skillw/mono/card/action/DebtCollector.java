@@ -1,7 +1,9 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.command.Command;
+import com.skillw.mono.command.PayMoney;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.State;
+import com.skillw.mono.game.GameState;
 
 public class DebtCollector extends ActionCard {
 
@@ -13,10 +15,13 @@ public class DebtCollector extends ActionCard {
 
     /**
      * Ask any player for $ 5 M
-     * @param state Game state
+     *
+     * @param state     Game state
      * @param performer Player who performs the card
+     * @return the command to be executed
      */
-    public void perform(State state, Player performer) {
+    public Command perform(GameState state, Player performer) {
+        return new PayMoney(performer,5);
     }
 
 

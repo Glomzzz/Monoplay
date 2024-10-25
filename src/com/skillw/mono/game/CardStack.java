@@ -9,7 +9,7 @@ import com.skillw.mono.card.action.*;
  * Cards on the table
  */
 public class CardStack {
-    private Card[] cards;
+    private final Card[] cards;
     private int head = 0; // ++ draw from here
     private int tail = 0; // ++ add to here
     private static final int SIZE = 106;

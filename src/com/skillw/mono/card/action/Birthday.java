@@ -1,7 +1,9 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.command.AllPayMoney;
+import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.State;
+import com.skillw.mono.game.GameState;
 
 
 public class Birthday extends ActionCard {
@@ -11,11 +13,12 @@ public class Birthday extends ActionCard {
     }
     /**
      * Will receive $ 2 M  from each player
-     * @param state the current state of the game
+     *
+     * @param state     the current state of the game
      * @param performer the player who is performing the action
+     * @return the command to be executed
      */
-    public void perform(State state, Player performer) {
-        state.getAllPlayers();
-
+    public Command perform(GameState state, Player performer) {
+       return new AllPayMoney(performer,5);
     }
 }

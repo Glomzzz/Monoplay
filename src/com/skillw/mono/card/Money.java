@@ -1,7 +1,8 @@
 package com.skillw.mono.card;
 
+import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.State;
+import com.skillw.mono.game.GameState;
 
 public class Money extends PerformableCard {
 
@@ -21,10 +22,12 @@ public class Money extends PerformableCard {
 
     /**
      * Store the money in the player's bank
-     * @param state Game state
+     *
+     * @param state     Game state
      * @param performer Player who performs the card
+     * @return
      */
-    public void perform(State state, Player performer) {
+    public Command perform(GameState state, Player performer) {
 
     }
 }

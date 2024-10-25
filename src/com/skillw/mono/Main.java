@@ -47,8 +47,8 @@ import com.skillw.mono.card.action.Birthday;
 
 public class Main {
     public static void main(String[] args) {
-        Display display = new Display();
-        display.DisplayHeader();
+        Interactor interactor = new Interactor();
+        interactor.displayHeader();
         System.out.println();
         System.out.println("How many players are there?");
         Birthday b = Birthday.BIRTHDAY;

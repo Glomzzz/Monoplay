@@ -1,8 +1,9 @@
 package com.skillw.mono.card;
 
 import com.skillw.mono.Color;
+import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.State;
+import com.skillw.mono.game.GameState;
 
 public class Property extends Money {
 
@@ -13,9 +14,9 @@ public class Property extends Money {
     public static final Property YELLOW = new Property("Property Yellow",Color.YELLOW);
     public static final Property BLACK = new Property("Property Black",Color.BLACK);
     public static final Property ORANGE = new Property("Property Orange",Color.ORANGE);
-    public static final Property BROWN = new Property("Property Brown",Color.BROWN);
-    public static final Property LIGHT_BLUE = new Property("Property Light Blue",Color.LIGHT_BLUE);
-    public static final Property LIGHT_GREEN = new Property("Property Light Green",Color.LIGHT_GREEN);
+    public static final Property BROWN = new Property("Property Brown", Color.BROWN);
+    public static final Property LIGHT_BLUE = new Property("Property Light Blue", Color.LIGHT_BLUE);
+    public static final Property LIGHT_GREEN = new Property("Property Light Green", Color.LIGHT_GREEN);
 
     public static final Property BROWN_N_LIGHT_BLUE = new Property("Property Brown & Light",Color.BROWN, Color.LIGHT_BLUE, 1);
     public static final Property BLACK_N_LIGHT_GREEN = new Property("Property Black & Light Green",Color.BLACK, Color.LIGHT_GREEN, 2);
@@ -47,10 +48,12 @@ public class Property extends Money {
 
     /**
      * Set the property to the player's property list
-     * @param state Game state
+     *
+     * @param state     Game state
      * @param performer Player who performs the card
+     * @return the command to be executed
      */
-    public void perform(State state, Player performer) {
+    public Command perform(GameState state, Player performer) {
 
     }
 
