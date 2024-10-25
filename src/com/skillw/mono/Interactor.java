@@ -2,10 +2,11 @@ package com.skillw.mono;
 
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.Money;
-import com.skillw.mono.game.Bank;
-import com.skillw.mono.game.CardList;
-import com.skillw.mono.game.Player;
+import com.skillw.mono.card.PerformableCard;
+import com.skillw.mono.game.*;
+import com.skillw.mono.util.CardCounter;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Interactor {
@@ -28,72 +29,144 @@ public class Interactor {
         return "$ " + amount + "M";
     }
 
+    public String[] registerPlayers(){
+        System.out.println("Please enter players name, enter 'done' to finish.");
+        String[] names = new String[6];
+        int count = 0;
+        while (count < 5){
+            String name = input.nextLine();
+            if (name.equals("done")){
+                if (count < 2){
+                    System.out.println("At least 2 players are needed to start the game.");
+                } else {
+                    System.out.println("All players have been registered.");
+                    break;
+                }
+            } else for (int i = 0; i < names.length; i++) {
+                if (names[i] == null){
+                    names[i] = name;
+                    break;
+                }
+            }
+            count++;
+        }
+        String[] result = new String[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = names[i];
+        }
+        return result;
+    }
 
-    public void askForPay(Player player, int amount){
-        Bank bank = player.getBank();
-        CardList cardList = player.getCardList();
+
+    public int readInt(){
+        try {
+            return input.nextInt();
+        } catch (InputMismatchException e){
+            System.out.println("Invalid input, please enter a number!");
+            return readInt();
+        }
+    }
+
+    public CardStack askToPayWith(Player from, Player to, int amount){
+        CardStack cardStack = new CardStack();
+        Bank bank = from.getBank();
+        CardList cardList = from.getCardList();
         int bankWorth = bank.calculateWorth();
         int cardWorth = cardList.calculateWorth();
         if (bankWorth + cardWorth < amount){
-            System.out.println(player.getName() + " don't have enough money to pay.");
-            return;
+            System.out.println(from.getName() + " don't have enough money & cards to pay, so " + to.getName() + " will take all cards from " + from.getName());
+            for (int i = 0; i < cardList.size(); i++) {
+                Card card = CardList.CARDS[i];
+                int num = cardList.clearOf(i);
+                for (int j = 0; j < num; j++) {
+                    cardStack.add(card);
+                }
+            }
+            return cardStack;
         }
-        System.out.println(player.getName() + " , you have to pay " + moneyOf(amount));
+        System.out.println(from.getName() + " , you have to pay " + moneyOf(amount));
         int paid = 0;
         while (paid < amount){
-            System.out.println("What will you pay with? ( " + paid + "/" + amount + " )");
-            System.out.println("1. Money in your bank " + "( " + bankWorth + " ).");
-            System.out.println("2. Cards on your hand " + "( " + cardWorth + " ).");
-            int choice = input.nextInt();
-            while (choice != 1 && choice != 2){
-                System.out.println("Invalid choice. Please choose again.");
-                choice = input.nextInt();
-            }
-            switch (choice){
-                case 1:{
-                    System.out.println("How much money will you pay with money in bank?");
-                    int index = 1;
-                    int[] map = new int[Bank.MONIES.length];
-                    for (int i = 0; i < Bank.MONIES.length; i++) {
-                        if (bank.hasCardOf(i)){
-                            map[index] = i;
-                            Money money = Bank.MONIES[i];
-                            System.out.printf(itemFormat, index++, money.getName(), bank.getNumOf(i), money.getWorth());
-                        }
-                    }
-                    int moneyIndex = input.nextInt();
-                    while (moneyIndex < 1 || moneyIndex >= index){
-                        System.out.println("Invalid money index. Please choose again.");
-                        moneyIndex = input.nextInt();
-                    }
-                    int money = map[moneyIndex];
-                    bank.take(money);
-                    paid += Bank.MONIES[money].getWorth();
-                    break;
-                }
-                case 2:{
-                    System.out.println("Which card will you pay with?");
-                    int index = 1;
-                    int[] map = new int[CardList.CARDS.length];
-                    for (int i = 0; i < CardList.CARDS.length; i++) {
-                        if (cardList.getNumOf(i) > 0){
-                            map[index] = i;
-                            Card card = CardList.CARDS[i];
-                            System.out.printf(itemFormat, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
-                        }
-                    }
-                    int cardIndex = input.nextInt();
-                    while (cardIndex < 1 || cardIndex >= index){
-                        System.out.println("Invalid card index. Please choose again.");
-                        cardIndex = input.nextInt();
-                    }
-                    int card = map[cardIndex];
-                    cardList.take(card);
-                    paid += CardList.CARDS[card].getWorth();
-                    break;
-                }
+            if (bankWorth > 0){
+                System.out.println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
+                System.out.println("How much money will you pay with money in bank?");
+                Money money  = (Money) selectAllCard(bank);
+                bank.take(money);
+                cardStack.add(money);
+                paid += money.getWorth();
+            } else {
+                System.out.println("Your bank has no money left, you have to pay with cards.");
+                System.out.println("Which card will you pay with?");
+                Card card = selectAllCard(cardList);
+                cardList.take(card);
+                cardStack.add(card);
+                paid += card.getWorth();
             }
         }
+        return cardStack;
+    }
 
+    public PerformableCard selectCard(CardCounter cardList, int from, int to){
+        int index = 1;
+        int[] map = new int[CardList.CARDS.length];
+        for (int i = from; i < Math.min(to,CardList.CARDS.length); i++) {
+            if (cardList.getNumOf(i) > 0){
+                map[index] = i;
+                Card card = CardList.CARDS[i];
+                System.out.printf(itemFormat, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+            }
+        }
+        int option = readInt();
+        while (option < 1 || option >= index){
+            System.out.println("Invalid card index. Please choose again.");
+            option = readInt();
+        }
+        int cardIndex = map[option];
+        return CardList.CARDS[cardIndex];
+    }
+
+
+    public PerformableCard selectAllCard(CardCounter cardList){
+        return selectCard(cardList,0,cardList.size());
+    }
+
+    public PerformableCard selectAllCard(Player player){
+        return selectCard(player.getCardList(),0,CardList.CARDS.length);
+    }
+    public PerformableCard selectActionCard(Player player){
+        return selectCard(player.getCardList(),CardList.ACTION_START,CardList.ACTION_END);
+    }
+
+    public PerformableCard selectPropertyCard(Player player){
+        return selectCard(player.getCardList(),CardList.PROPERTY_START,CardList.PROPERTY_END);
+    }
+
+    public PerformableCard selectRentCard(Player player){
+        return selectCard(player.getCardList(),CardList.RENT_START,CardList.RENT_END);
+    }
+
+    public PerformableCard selectMoneyCard(Player player){
+        return selectCard(player.getCardList(),CardList.MONEY_START,CardList.MONEY_END);
+    }
+
+    public Player selectPlayer(GameState state, Player by){
+        Player[] players = state.getAllPlayers();
+
+        int[] map = new int[players.length-1];
+        int index = 1;
+        for (int i = 0, playersLength = players.length; i < playersLength; i++) {
+            Player player = players[i];
+            if (player != by) {
+                map[index] = i;
+                System.out.println(index++ + ". " + player.getName());
+            }
+        }
+        System.out.print("Please select a player: ");
+        int option = readInt();
+        while (option < 1 || option >= index){
+            System.out.println("Invalid player index. Please choose again: ");
+            option = readInt();
+        }
+        return players[map[option]];
     }
 }

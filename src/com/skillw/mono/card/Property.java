@@ -6,7 +6,7 @@ import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class Property extends Money {
+public class Property extends PerformableCard {
 
     public static final Property RED = new Property("Property Red",Color.RED);
     public static final Property BLUE = new Property("Property Blue",Color.BLUE);

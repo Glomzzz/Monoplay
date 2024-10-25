@@ -103,6 +103,4 @@ public class CardStack {
         cards[head] = null;
         return card;
     }
-
-
 }

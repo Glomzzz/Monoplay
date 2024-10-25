@@ -5,9 +5,13 @@ public class GameState {
     private Player[] players;
     private CardStack cardStack;
 
-    public GameState(int turn, Player[] players) {
-        this.turn = turn;
-        this.players = players;
+
+    public GameState(String[] players) {
+        this.turn = 0;
+        this.players = new Player[players.length];
+        for (int i = 0; i < players.length; i++) {
+            this.players[i] = new Player(players[i]);
+        }
     }
 
     public int getTurn() {
@@ -18,7 +22,7 @@ public class GameState {
         return players;
     }
 
-    public void start(){
+    public void init(){
         cardStack = new CardStack();
         cardStack.shuffle();
         /**
@@ -35,18 +39,13 @@ public class GameState {
         return cardStack;
     }
 
+    public Player getCurrentPlayer() {
+        return this.players[this.turn % this.players.length];
+    }
     /**
      * Every player has a turn, where they can play 3 cards at most
      */
     public void nextTurn() {
-        int current = this.turn++;
-        if (current == this.players.length - 1) {
-            this.turn = 0;
-        }
-    }
-
-    public Player selectPlayer() {
-        // todo
-        return null;
+        this.turn++;
     }
 }

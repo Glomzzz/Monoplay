@@ -16,6 +16,9 @@ public abstract class Card {
         this.worth = worth;
     }
     public Money asMoney() {
+        if (this instanceof Money) {
+            return (Money) this;
+        }
         return new Money(name, worth);
     }
 

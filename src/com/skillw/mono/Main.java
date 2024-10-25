@@ -1,6 +1,10 @@
 package com.skillw.mono;
 
-import com.skillw.mono.card.action.Birthday;
+import com.skillw.mono.card.Card;
+import com.skillw.mono.card.PerformableCard;
+import com.skillw.mono.command.Command;
+import com.skillw.mono.game.GameState;
+import com.skillw.mono.game.Player;
 
 /**
  *
@@ -49,8 +53,73 @@ public class Main {
     public static void main(String[] args) {
         Interactor interactor = new Interactor();
         interactor.displayHeader();
-        System.out.println();
-        System.out.println("How many players are there?");
-        Birthday b = Birthday.BIRTHDAY;
+        String[] names = interactor.registerPlayers();
+        GameState game = new GameState(names);
+        game.init();
+        while (true){
+            Player player = game.getCurrentPlayer();
+            int actionRemain = 3;
+            System.out.println("======================================");
+            while (actionRemain > 0){
+                System.out.println(player.getName()+", this is your turn!");
+                System.out.println("You can perform " + actionRemain +  " actions now:");
+                System.out.println("1. Play an action card");
+                System.out.println("2. Set a property");
+                System.out.println("3. Collect Rent");
+                System.out.println("4. Store Money");
+                System.out.println("5. View other player's card on the table (not count as an action)");
+                System.out.println("6. End your turn");
+                System.out.print("Your choice: ");
+                int choice = interactor.readInt();
+                if (choice == 6) break;
+                PerformableCard card = null;
+                switch (choice){
+                    case 1:
+                        card = interactor.selectActionCard(player);
+                        break;
+                    case 2:
+                        card = interactor.selectPropertyCard(player);
+                        break;
+                    case 3:
+                        card = interactor.selectRentCard(player);
+                        break;
+                    case 4:
+                        card = interactor.selectAllCard(player);
+                        break;
+                    case 5:
+
+                        break;
+                    default:
+                        System.out.println("Invalid choice, please try again.");
+                }
+                if (card != null){
+                    Command command = card.perform(game,player);
+                    switch (command.getId()){
+                        case Command.PAY_MONEY:
+                            break;
+                        case Command.DRAW_CARDS:
+                            break;
+                        case Command.RENT:
+                            break;
+                        case Command.BUILD_PROPERTY:
+                            break;
+                        case Command.GIVE_PROPERTY:
+                            break;
+                        case Command.GIVE_COMPLETE_SET:
+                            break;
+                        case Command.RENT_UNIVERSAL:
+                            break;
+                        case Command.DESPOIT_IN_BANK:
+                            break;
+                        case Command.ALL_PAY_MONEY:
+                            break;
+                        default:
+                            System.out.println("Invalid command!");
+                    }
+                    actionRemain--;
+                }
+            }
+            game.nextTurn();
+        }
     }
 }

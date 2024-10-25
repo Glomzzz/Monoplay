@@ -25,8 +25,17 @@ public abstract class CardCounter {
         return cards[index];
     }
 
+    public int clearOf(int index){
+        int num = cards[index];
+        cards[index] = 0;
+        return num;
+    }
+
     public void take(int index) {
         cards[index] = cards[index] - 1;
+    }
+    public void take(Card card) {
+        take(getIndexOf(card));
     }
 
     public int size(){

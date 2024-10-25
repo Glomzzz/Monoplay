@@ -1,5 +1,7 @@
 package com.skillw.mono.game;
 
+import com.skillw.mono.card.Card;
+import com.skillw.mono.card.Money;
 public class Player {
     private final String name;
     private final Bank bank;
@@ -27,6 +29,14 @@ public class Player {
 
     public PropertyList getPropertyList() {
         return propertyList;
+    }
+
+    public void recieveCard(Card card){
+        if (card instanceof Money){
+            bank.add(card);
+        } else {
+            cardList.add(card);
+        }
     }
 
 }
