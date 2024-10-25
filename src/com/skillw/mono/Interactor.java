@@ -55,10 +55,10 @@ public class Interactor {
                     int index = 1;
                     int[] map = new int[Bank.MONIES.length];
                     for (int i = 0; i < Bank.MONIES.length; i++) {
-                        if (bank.hasMoneyOf(i)){
+                        if (bank.hasCardOf(i)){
                             map[index] = i;
                             Money money = Bank.MONIES[i];
-                            System.out.printf(itemFormat, index++, money.getName(), bank.getMoneyOf(i), money.getWorth());
+                            System.out.printf(itemFormat, index++, money.getName(), bank.getNumOf(i), money.getWorth());
                         }
                     }
                     int moneyIndex = input.nextInt();

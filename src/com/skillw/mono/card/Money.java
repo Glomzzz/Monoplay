@@ -28,6 +28,6 @@ public class Money extends PerformableCard {
      * @return
      */
     public Command perform(GameState state, Player performer) {
-
+        return null;
     }
 }

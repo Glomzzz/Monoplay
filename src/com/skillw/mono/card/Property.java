@@ -1,6 +1,7 @@
 package com.skillw.mono.card;
 
 import com.skillw.mono.Color;
+import com.skillw.mono.command.BuildProperty;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
@@ -54,7 +55,7 @@ public class Property extends Money {
      * @return the command to be executed
      */
     public Command perform(GameState state, Player performer) {
-
+        return new BuildProperty(performer, colors);
     }
 
     public Color[] getColors() {

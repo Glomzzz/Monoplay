@@ -11,6 +11,7 @@ public abstract class Command {
     public static int GIVE_COMPLETE_SET = 5;
     public static int RENT = 6;
     public static int RENT_UNIVERSAL = 7;
+    public static int DESPOIT_IN_BANK = 8;
 
 
     private final int id;
