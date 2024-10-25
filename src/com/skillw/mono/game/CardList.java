@@ -66,7 +66,6 @@ public class CardList extends CardCounter{
     }
 
     public int getIndexOf(Card card) {
-        System.out.println(card.getName());
         for (int i = 0; i < CARDS.length; i++) {
             if (CARDS[i].equals(card)) {
                 return i;
