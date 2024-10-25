@@ -15,7 +15,7 @@ public class Interactor {
 
     public Interactor(){
         input = new Scanner(System.in);
-        itemFormat = "%d. %-13s    x$d    ~ $ %dM%n";
+        itemFormat = "%d. %-13s    x%d    ~ $ %dM%n";
     }
 
 
@@ -34,7 +34,8 @@ public class Interactor {
         String[] names = new String[6];
         int count = 0;
         while (count < 5){
-            String name = input.nextLine();
+            System.out.print("Player " + (count+1) + ": ");
+            String name = input.next();
             if (name.equals("done")){
                 if (count < 2){
                     System.out.println("At least 2 players are needed to start the game.");
@@ -45,10 +46,11 @@ public class Interactor {
             } else for (int i = 0; i < names.length; i++) {
                 if (names[i] == null){
                     names[i] = name;
+                    count++;
+                    System.out.println("Player " + name + " has been registered.");
                     break;
                 }
             }
-            count++;
         }
         String[] result = new String[count];
         for (int i = 0; i < count; i++) {
@@ -106,7 +108,7 @@ public class Interactor {
         return cardStack;
     }
 
-    public PerformableCard selectCard(CardCounter cardList, int from, int to){
+    public Card selectCard(CardCounter cardList, int from, int to){
         int index = 1;
         int[] map = new int[CardList.CARDS.length];
         for (int i = from; i < Math.min(to,CardList.CARDS.length); i++) {
@@ -122,31 +124,31 @@ public class Interactor {
             option = readInt();
         }
         int cardIndex = map[option];
-        return CardList.CARDS[cardIndex];
+        return  CardList.CARDS[cardIndex];
     }
 
 
-    public PerformableCard selectAllCard(CardCounter cardList){
+    public Card selectAllCard(CardCounter cardList){
         return selectCard(cardList,0,cardList.size());
     }
 
-    public PerformableCard selectAllCard(Player player){
+    public Card selectAllCard(Player player){
         return selectCard(player.getCardList(),0,CardList.CARDS.length);
     }
     public PerformableCard selectActionCard(Player player){
-        return selectCard(player.getCardList(),CardList.ACTION_START,CardList.ACTION_END);
+        return (PerformableCard) selectCard(player.getCardList(),CardList.ACTION_START,CardList.ACTION_END);
     }
 
     public PerformableCard selectPropertyCard(Player player){
-        return selectCard(player.getCardList(),CardList.PROPERTY_START,CardList.PROPERTY_END);
+        return (PerformableCard) selectCard(player.getCardList(),CardList.PROPERTY_START,CardList.PROPERTY_END);
     }
 
     public PerformableCard selectRentCard(Player player){
-        return selectCard(player.getCardList(),CardList.RENT_START,CardList.RENT_END);
+        return (PerformableCard) selectCard(player.getCardList(),CardList.RENT_START,CardList.RENT_END);
     }
 
-    public PerformableCard selectMoneyCard(Player player){
-        return selectCard(player.getCardList(),CardList.MONEY_START,CardList.MONEY_END);
+    public Money selectMoneyCard(Player player){
+        return  (Money)selectCard(player.getCardList(),CardList.MONEY_START,CardList.MONEY_END);
     }
 
     public Player selectPlayer(GameState state, Player by){

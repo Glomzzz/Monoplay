@@ -2,7 +2,6 @@ package com.skillw.mono.game;
 
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.Money;
-import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.card.Property;
 import com.skillw.mono.card.action.*;
 import com.skillw.mono.util.CardCounter;
@@ -13,21 +12,22 @@ import com.skillw.mono.util.CardCounter;
 public class CardList extends CardCounter{
 
     public static final int ACTION_START = 0;
-    public static final int ACTION_END = 6;
-    public static final int PROPERTY_START = 6;
-    public static final int PROPERTY_END = 23;
-    public static final int RENT_START = 23;
-    public static final int RENT_END = 28;
-    public static final int MONEY_START = 28;
-    public static final int MONEY_END = 32;
-    public static final PerformableCard[] CARDS = new PerformableCard[]{
+    public static final int ACTION_END = 7;
+    public static final int PROPERTY_START = 7;
+    public static final int PROPERTY_END = 24;
+    public static final int RENT_START = 24;
+    public static final int RENT_END = 30;
+    public static final int MONEY_START = 30;
+    public static final int MONEY_END = 35;
+    public static final Card[] CARDS = new Card[]{
             PassGo.PASS_GO,                                   // 0
             DealBreaker.DEAL_BREAKER,
             ForcedDeal.FORCED_DEAL,
             DebtCollector.DEBT_COLLECTOR,
             SlyDeal.SLY_DEAL,
+            Birthday.BIRTHDAY,
             Property.UNIVERSAL,
-            Property.RED,                                     // 6
+            Property.RED,                                     // 7
             Property.BLUE,
             Property.PINK,
             Property.GREEN,
@@ -44,16 +44,20 @@ public class CardList extends CardCounter{
             Property.BROWN_N_LIGHT_BLUE,
             Property.PINK_N_ORANGE,
             Property.RED_N_YELLOW,
-            Rent.BLACK_N_LIGHT_GREEN,                         // 23
+            Rent.BLACK_N_LIGHT_GREEN,                         // 24
             Rent.BLUE_N_GREEN,
             Rent.BROWN_N_LIGHT_BLUE,
             Rent.PINK_N_ORANGE,
             Rent.RED_N_YELLOW,
-            Money.ONE,                                        // 28
+            RentUniversal.RENT_UNIVERSAL,
+            Money.ONE,                                        // 30
             Money.TWO,
             Money.THREE,
+            Money.FOUR,
             Money.FIVE,
-            Money.TEN                                         // 32
+            Money.TEN,                                         // 35
+            No.NO,
+            DoubleTheRent.DOUBLE_THE_RENT
     };
 
 
@@ -62,6 +66,7 @@ public class CardList extends CardCounter{
     }
 
     public int getIndexOf(Card card) {
+        System.out.println(card.getName());
         for (int i = 0; i < CARDS.length; i++) {
             if (CARDS[i].equals(card)) {
                 return i;

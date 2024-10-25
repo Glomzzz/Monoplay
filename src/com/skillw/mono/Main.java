@@ -84,7 +84,9 @@ public class Main {
                         card = interactor.selectRentCard(player);
                         break;
                     case 4:
-                        card = interactor.selectAllCard(player);
+                        Card selected = interactor.selectAllCard(player);
+                        player.getCardList().take(selected);
+                        card = selected.asMoney();
                         break;
                     case 5:
 
