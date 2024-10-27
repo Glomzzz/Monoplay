@@ -22,6 +22,9 @@ public class GameState {
         return players;
     }
 
+    /**
+     * Initialize the game when the game first started
+     */
     public void init(){
         cardStack = new CardStack();
         cardStack.shuffle();

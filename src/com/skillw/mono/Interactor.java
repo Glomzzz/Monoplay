@@ -13,9 +13,11 @@ public class Interactor {
     private final Scanner input;
     private final String itemFormat;
 
+    public static final Card GO_BACK = null;
+
     public Interactor(){
         input = new Scanner(System.in);
-        itemFormat = "%d. %-13s    x%d    ~ $ %dM%n";
+        itemFormat = "%d. %-25s    x%-2d    ~ $ %dM%n";
     }
 
 
@@ -29,6 +31,10 @@ public class Interactor {
         return "$ " + amount + "M";
     }
 
+    /**
+     * Register the players in the game
+     * @return   - the array of players
+     */
     public String[] registerPlayers(){
         System.out.println("Please enter players name, enter 'done' to finish.");
         String[] names = new String[6];
@@ -111,6 +117,7 @@ public class Interactor {
     public Card selectCard(CardCounter cardList, int from, int to){
         int index = 1;
         int[] map = new int[CardList.CARDS.length];
+        System.out.printf("%d. %-25s%n", 0, "Go Back");
         for (int i = from; i < Math.min(to,CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
@@ -119,9 +126,13 @@ public class Interactor {
             }
         }
         int option = readInt();
-        while (option < 1 || option >= index){
+        while (option < 0 || option >= index){
             System.out.println("Invalid card index. Please choose again.");
+            System.out.print("Your choice: ");
             option = readInt();
+        }
+        if (option == 0){
+            return GO_BACK;
         }
         int cardIndex = map[option];
         return  CardList.CARDS[cardIndex];

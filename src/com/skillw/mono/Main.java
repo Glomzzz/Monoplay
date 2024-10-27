@@ -52,8 +52,10 @@ import com.skillw.mono.game.Player;
 public class Main {
     public static void main(String[] args) {
         Interactor interactor = new Interactor();
+
         interactor.displayHeader();
         String[] names = interactor.registerPlayers();
+
         GameState game = new GameState(names);
         game.init();
         while (true){
@@ -71,6 +73,7 @@ public class Main {
                 System.out.println("6. End your turn");
                 System.out.print("Your choice: ");
                 int choice = interactor.readInt();
+
                 if (choice == 6) break;
                 PerformableCard card = null;
                 switch (choice){
@@ -97,6 +100,8 @@ public class Main {
                 if (card != null){
                     Command command = card.perform(game,player);
                     switch (command.getId()){
+                        case Command.GO_BACK:
+                            break;
                         case Command.PAY_MONEY:
                             break;
                         case Command.DRAW_CARDS:
