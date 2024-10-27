@@ -45,8 +45,9 @@ public class GameState {
     public Player getCurrentPlayer() {
         return this.players[this.turn % this.players.length];
     }
+
     /**
-     * Every player has a turn, where they can play 3 cards at most
+     * Every player has a turn, where they can do 3 actions at most
      */
     public void nextTurn() {
         this.turn++;

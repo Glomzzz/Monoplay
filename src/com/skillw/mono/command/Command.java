@@ -12,8 +12,6 @@ public abstract class Command {
     public final static int RENT = 6;
     public final static int RENT_UNIVERSAL = 7;
     public final static int DESPOIT_IN_BANK = 8;
-    public final static int GO_BACK = 9;
-
 
     private final int id;
     private final Player performer;

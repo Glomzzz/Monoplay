@@ -27,6 +27,12 @@ public class Interactor {
         System.out.println("======================================");
     }
 
+    public void emptyGap(){
+        for(int i = 0; i < 30; i ++){
+            System.out.println();
+        }
+    }
+
     public String moneyOf(int amount){
         return "$ " + amount + "M";
     }

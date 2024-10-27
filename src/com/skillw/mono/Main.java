@@ -2,7 +2,9 @@ package com.skillw.mono;
 
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.PerformableCard;
+import com.skillw.mono.command.BuildProperty;
 import com.skillw.mono.command.Command;
+import com.skillw.mono.command.DrawCards;
 import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
 
@@ -61,6 +63,8 @@ public class Main {
         while (true){
             Player player = game.getCurrentPlayer();
             int actionRemain = 3;
+
+            interactor.emptyGap();
             System.out.println("======================================");
             while (actionRemain > 0){
                 System.out.println(player.getName()+", this is your turn!");
@@ -100,15 +104,15 @@ public class Main {
                 if (card != null){
                     Command command = card.perform(game,player);
                     switch (command.getId()){
-                        case Command.GO_BACK:
-                            break;
                         case Command.PAY_MONEY:
                             break;
                         case Command.DRAW_CARDS:
+                            DrawCards drawCards = new DrawCards(player);
                             break;
                         case Command.RENT:
                             break;
                         case Command.BUILD_PROPERTY:
+                            BuildProperty buildProperty = new BuildProperty(player, Color.UNIVERSAL); //dummy value for universal cuz idk what to put
                             break;
                         case Command.GIVE_PROPERTY:
                             break;
