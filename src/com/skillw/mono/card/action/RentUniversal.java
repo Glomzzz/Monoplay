@@ -14,7 +14,7 @@ public class RentUniversal extends PerformableCard {
         super("Rent Universal", 3);
     }
 
-    public Command perform(GameState state, Player performer) {
+    public Command action(GameState state, Player performer) {
         return new RentAllColor(performer);
     }
 }

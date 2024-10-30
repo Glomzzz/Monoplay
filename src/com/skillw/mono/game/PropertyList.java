@@ -28,6 +28,10 @@ public class PropertyList {
         this.properties[color.getId()] = this.properties[color.getId()] + 1;
     }
 
+    public void removeProperty(Color color){
+        this.properties[color.getId()] = this.properties[color.getId()] - 1;
+    }
+
     public int clearProperties(Color color){
         int number = this.properties[color.getId()];
         this.properties[color.getId()] = 0;

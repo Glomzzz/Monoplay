@@ -17,5 +17,5 @@ public abstract class PerformableCard extends Card {
      * @param performer Player who performs the card
      * @return
      */
-    public abstract Command perform(GameState state, Player performer);
+    public abstract Command action(GameState state, Player performer);
 }

@@ -1,7 +1,7 @@
 package com.skillw.mono.card;
 
 import com.skillw.mono.command.Command;
-import com.skillw.mono.command.DespoitInBank;
+import com.skillw.mono.command.DepositInBank;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
@@ -28,7 +28,7 @@ public class Money extends PerformableCard {
      * @param performer Player who performs the card
      * @return the command to be executed
      */
-    public Command perform(GameState state, Player performer) {
-        return new DespoitInBank(performer, this);
+    public Command action(GameState state, Player performer) {
+        return new DepositInBank(performer, this);
     }
 }

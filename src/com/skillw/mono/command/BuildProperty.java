@@ -6,7 +6,7 @@ import com.skillw.mono.game.Player;
 public class BuildProperty extends Command {
     private final Color[] color;
     public BuildProperty(Player performer,Color[] color) {
-        super(BUILD_PROPERTY, performer);
+        super(SET_PROPERTY, performer);
         this.color = color;
     }
 

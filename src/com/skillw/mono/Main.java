@@ -1,6 +1,5 @@
 package com.skillw.mono;
 
-import com.skillw.mono.card.Card;
 import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.BuildProperty;
 import com.skillw.mono.command.Command;
@@ -54,6 +53,7 @@ import com.skillw.mono.game.Player;
  *  //Display cards on the table
  *  Player: Morro
  *  Properties:
+ *
  *  Moneys:
  *  1. $ 2 M    x 1 ~ $ 1M
  *  2.
@@ -110,7 +110,7 @@ public class Main {
                         System.out.println("Invalid choice, please try again.");
                 }
                 if (card != null){
-                    Command command = card.perform(game,player);
+                    Command command = card.action(game,player);
                     switch (command.getId()){
                         case Command.PAY_MONEY:
                             break;
@@ -128,7 +128,7 @@ public class Main {
                             break;
                         case Command.RENT_UNIVERSAL:
                             break;
-                        case Command.DESPOIT_IN_BANK:
+                        case Command.DEPOSIT_IN_BANK:
                             break;
                         case Command.ALL_PAY_MONEY:
                             break;

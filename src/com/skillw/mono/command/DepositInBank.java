@@ -3,7 +3,7 @@ package com.skillw.mono.command;
 import com.skillw.mono.card.Card;
 import com.skillw.mono.game.Player;
 
-public class DespoitInBank extends Command{
+public class DepositInBank extends Command{
 
     private final Card card;
 

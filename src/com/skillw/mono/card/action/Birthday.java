@@ -18,7 +18,7 @@ public class Birthday extends ActionCard {
      * @param performer the player who is performing the action
      * @return the command to be executed
      */
-    public Command perform(GameState state, Player performer) {
+    public Command action(GameState state, Player performer) {
        return new AllPayMoney(performer,5);
     }
 }
