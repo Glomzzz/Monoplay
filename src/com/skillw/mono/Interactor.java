@@ -12,12 +12,14 @@ import java.util.Scanner;
 public class Interactor {
     private final Scanner input;
     private final String itemFormat;
+    private final String propertyFormat;
 
     public static final Card GO_BACK = null;
 
     public Interactor(){
         input = new Scanner(System.in);
         itemFormat = "%d. %-25s    x%-2d    ~ $ %dM%n";
+        propertyFormat = "%d. %-11s    x%-2d/%-2d    - $ %dM%n";
     }
 
 
@@ -31,6 +33,21 @@ public class Interactor {
         for(int i = 0; i < 30; i ++){
             System.out.println();
         }
+    }
+
+    private void displayPropertyList(PropertyList properties){
+        int index = 1;
+        for (int i = 0; i < Color.UNIVERSAL.length; i++) {
+            Color color = Color.UNIVERSAL[i];
+            int num = properties.getNumOf(color);
+            if (num > 0) {
+                System.out.printf(propertyFormat, index++, color.getName(), num,color.getMaxLevel(), properties.calculateWorthOf(color));
+            }
+        }
+    }
+
+    private void displayBank(Bank money){
+
     }
 
     public void displayCards(GameState state){
@@ -89,6 +106,8 @@ public class Interactor {
         }
     }
 
+
+
     public CardStack askToPayWith(Player from, Player to, int amount){
         CardStack cardStack = new CardStack();
         Bank bank = from.getBank();
@@ -130,14 +149,37 @@ public class Interactor {
 
     public Card selectCard(CardCounter cardList, int from, int to){
         int index = 1;
-        int[] map = new int[CardList.CARDS.length];
+        int[] map = new int[to - from];
         System.out.printf("%d. %-25s%n", 0, "Go Back");
-        for (int i = from; i < Math.min(to,CardList.CARDS.length); i++) {
+        for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
                 Card card = CardList.CARDS[i];
                 System.out.printf(itemFormat, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
+        }
+        /**
+         * What player sees:
+         *
+         * index
+         * ↓
+         * 1. xxx  1
+         * 2. yyy  2
+         * 3. aaa  3
+         */
+        /**
+         * What program sees:
+         *
+         * i     card number
+         * ↓      ↓
+         * 0. ccc 0
+         * 1. xxx 1
+         * 2. ddd 0
+         * 3. yyy 2
+         * 4. aaa 3
+         */
+        if (index == 1) {
+            System.out.println("You have no this type card!");
         }
         int option = readInt();
         while (option < 0 || option >= index){

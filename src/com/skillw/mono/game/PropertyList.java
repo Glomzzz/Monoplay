@@ -24,6 +24,10 @@ public class PropertyList {
         this.properties = new int[10];
     }
 
+    public int getNumOf(Color color) {
+        return this.properties[color.getId()];
+    }
+
     public void addProperty(Color color){
         this.properties[color.getId()] = this.properties[color.getId()] + 1;
     }

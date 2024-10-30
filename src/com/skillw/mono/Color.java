@@ -12,10 +12,14 @@ public class Color {
     public static final Color BROWN = new Color(8,"Brown", new int[]{1,2});
     public static final Color LIGHT_GREEN = new Color(9,"Light Green", new int[]{1,2});
 
+    // Store all colors, and each Color#getId return its index in this array
     public static final Color[] UNIVERSAL = new Color[]{RED, BLUE, GREEN, YELLOW, BLACK, ORANGE, PINK, LIGHT_BLUE, BROWN, LIGHT_GREEN};
 
     private final int id;
     private final String name;
+    // Store the rent level, based on the number of color.
+    // For example, if a player owns 2 Red Property and 1 Blue Property
+    // He can receive the rent of 3 + 3 = 6 M
     private final int[] levels;
 
     private Color(int id,String name, int[] levels) {

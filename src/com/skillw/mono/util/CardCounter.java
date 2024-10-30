@@ -20,16 +20,21 @@ public abstract class CardCounter {
     public boolean hasCardOf(int index){
         return cards[index] > 0;
     }
+    public boolean hasCardOf(Card card){
+        return hasCardOf(getIndexOf(card));
+    }
 
     public int getNumOf(int index){
         return cards[index];
     }
+    public int getNumOf(Card card) { return getNumOf(getIndexOf(card)); }
 
     public int clearOf(int index){
         int num = cards[index];
         cards[index] = 0;
         return num;
     }
+    public int clearOf(Card card) { return clearOf(getIndexOf(card)); }
 
     public void take(int index) {
         cards[index] = cards[index] - 1;

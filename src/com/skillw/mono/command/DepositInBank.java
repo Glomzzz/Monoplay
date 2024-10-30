@@ -7,8 +7,8 @@ public class DepositInBank extends Command{
 
     private final Card card;
 
-    public DespoitInBank(Player performer,Card card) {
-        super(DESPOIT_IN_BANK, performer);
+    public DepositInBank(Player performer, Card card) {
+        super(DEPOSIT_IN_BANK, performer);
         this.card = card;
     }
 

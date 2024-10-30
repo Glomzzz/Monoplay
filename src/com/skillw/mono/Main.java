@@ -4,6 +4,7 @@ import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.BuildProperty;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.DrawCards;
+import com.skillw.mono.command.PayMoney;
 import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
 
@@ -99,9 +100,7 @@ public class Main {
                         card = interactor.selectRentCard(player);
                         break;
                     case 4:
-                        Card selected = interactor.selectAllCard(player);
-                        player.getCardList().take(selected);
-                        card = selected.asMoney();
+                        card = interactor.selectMoneyCard(player);
                         break;
                     case 5:
 
@@ -113,14 +112,20 @@ public class Main {
                     Command command = card.action(game,player);
                     switch (command.getId()){
                         case Command.PAY_MONEY:
+                        {
+                            PayMoney payMoney = (PayMoney) command;
+                            Player target = interactor.selectPlayer(game,player);
+                            interactor.askToPayWith(target, player, payMoney.getAmount());
                             break;
+                        }
                         case Command.DRAW_CARDS:
-                            DrawCards drawCards = new DrawCards(player);
+                            DrawCards drawCards = (DrawCards) command;
+
                             break;
                         case Command.RENT:
                             break;
-                        case Command.BUILD_PROPERTY:
-                            BuildProperty buildProperty = new BuildProperty(player, Color.UNIVERSAL); //dummy value for universal cuz idk what to put
+                        case Command.SET_PROPERTY:
+                            BuildProperty buildProperty = (BuildProperty) command; //dummy value for universal cuz idk what to put
                             break;
                         case Command.GIVE_PROPERTY:
                             break;

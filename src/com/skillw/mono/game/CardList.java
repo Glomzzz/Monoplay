@@ -18,7 +18,7 @@ public class CardList extends CardCounter{
     public static final int RENT_START = 24;
     public static final int RENT_END = 30;
     public static final int MONEY_START = 30;
-    public static final int MONEY_END = 35;
+    public static final int MONEY_END = 36;
     public static final Card[] CARDS = new Card[]{
             PassGo.PASS_GO,                                   // 0
             DealBreaker.DEAL_BREAKER,
@@ -55,8 +55,8 @@ public class CardList extends CardCounter{
             Money.THREE,
             Money.FOUR,
             Money.FIVE,
-            Money.TEN,                                         // 35
-            No.NO,
+            Money.TEN,
+            No.NO,                                            // 36
             DoubleTheRent.DOUBLE_THE_RENT
     };
 
