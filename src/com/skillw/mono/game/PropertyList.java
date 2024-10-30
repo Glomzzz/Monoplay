@@ -18,24 +18,24 @@ public class PropertyList {
      * - 8 : Brown
      * - 9 : Light Green
      */
-    private final int[] buildings;
+    private final int[] properties;
 
     public PropertyList() {
-        this.buildings = new int[10];
+        this.properties = new int[10];
     }
 
-    public void addBuilding(Color color){
-        this.buildings[color.getId()] = this.buildings[color.getId()] + 1;
+    public void addProperty(Color color){
+        this.properties[color.getId()] = this.properties[color.getId()] + 1;
     }
 
-    public int clearBuilding(Color color){
-        int number = this.buildings[color.getId()];
-        this.buildings[color.getId()] = 0;
+    public int clearProperties(Color color){
+        int number = this.properties[color.getId()];
+        this.properties[color.getId()] = 0;
         return number;
     }
 
     public int calculateWorthOf(Color color){
-        int number = this.buildings[color.getId()];
+        int number = this.properties[color.getId()];
         if (number == 0)
             return 0;
         else
@@ -49,7 +49,7 @@ public class PropertyList {
     public int calculateWorthOfAll(){
         int worth = 0;
         for (int i = 0; i < 10; i++) {
-            int number = this.buildings[i];
+            int number = this.properties[i];
             if (number != 0)
                 worth +=  Color.UNIVERSAL[i].getLevels()[number];
         }

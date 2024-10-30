@@ -49,6 +49,14 @@ import com.skillw.mono.game.Player;
  *  * 4. Store Money
  *  * 5. End your turn
  *  Your choice: .........
+ *
+ *
+ *  //Display cards on the table
+ *  Player: Morro
+ *  Properties:
+ *  Moneys:
+ *  1. $ 2 M    x 1 ~ $ 1M
+ *  2.
  */
 
 public class Main {
@@ -73,7 +81,7 @@ public class Main {
                 System.out.println("2. Set a property");
                 System.out.println("3. Collect Rent");
                 System.out.println("4. Store Money");
-                System.out.println("5. View other player's card on the table (not count as an action)");
+                System.out.println("5. View cards on the table (not count as an action)");
                 System.out.println("6. End your turn");
                 System.out.print("Your choice: ");
                 int choice = interactor.readInt();

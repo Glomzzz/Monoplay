@@ -6,6 +6,7 @@ import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.game.*;
 import com.skillw.mono.util.CardCounter;
 
+import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,6 +30,21 @@ public class Interactor {
 
     public void emptyGap(){
         for(int i = 0; i < 30; i ++){
+            System.out.println();
+        }
+    }
+
+    public void displayCards(GameState state){
+        Player[] players = state.getAllPlayers();
+        CardStack cardStack = state.getCardStack();
+//        System.out.printf(itemFormat, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+
+        for (int i=0; i<players.length; i++){
+            PropertyList propertyList;
+            System.out.println(players[i] + ":");
+
+                players[i].getPropertyList();
+
             System.out.println();
         }
     }
