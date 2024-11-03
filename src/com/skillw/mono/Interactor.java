@@ -97,12 +97,14 @@ public class Interactor {
     }
 
 
-    public int readInt(){
+    public int readInt(String prompt){
         try {
+            System.out.print(prompt);
             return input.nextInt();
         } catch (InputMismatchException e){
             System.out.println("Invalid input, please enter a number!");
-            return readInt();
+            input.nextLine();
+            return readInt(prompt);
         }
     }
 
@@ -181,11 +183,10 @@ public class Interactor {
         if (index == 1) {
             System.out.println("You have no this type card!");
         }
-        int option = readInt();
+        int option = readInt("Your choice: ");
         while (option < 0 || option >= index){
             System.out.println("Invalid card index. Please choose again.");
-            System.out.print("Your choice: ");
-            option = readInt();
+            option = readInt("Your choice: ");
         }
         if (option == 0){
             return GO_BACK;
@@ -230,11 +231,10 @@ public class Interactor {
                 System.out.println(index++ + ". " + player.getName());
             }
         }
-        System.out.print("Please select a player: ");
-        int option = readInt();
+        int option = readInt("Please select a player: ");
         while (option < 1 || option >= index){
             System.out.println("Invalid player index. Please choose again: ");
-            option = readInt();
+            option = readInt("Please select a player: ");
         }
         return players[map[option]];
     }

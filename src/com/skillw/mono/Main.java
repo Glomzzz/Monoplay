@@ -84,8 +84,7 @@ public class Main {
                 System.out.println("4. Store Money");
                 System.out.println("5. View cards on the table (not count as an action)");
                 System.out.println("6. End your turn");
-                System.out.print("Your choice: ");
-                int choice = interactor.readInt();
+                int choice = interactor.readInt("Your choice: ");
 
                 if (choice == 6) break;
                 PerformableCard card = null;
