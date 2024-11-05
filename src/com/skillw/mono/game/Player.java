@@ -8,10 +8,10 @@ public class Player {
     private final CardList cardList;
     private final PropertyList propertyList;
 
-    public Player(String name) {
+    public Player(String name, CardStack stack) {
         this.name = name;
         this.bank = new Bank();
-        this.cardList = new CardList();
+        this.cardList = new CardList(stack);
         this.propertyList = new PropertyList();
     }
 
