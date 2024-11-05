@@ -132,15 +132,15 @@ public class Interactor {
         while (paid < amount){
             if (bankWorth > 0){
                 System.out.println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
-                System.out.println("How much money will you pay with money in bank?");
-                Money money  = (Money) selectAllCard(bank);
+                System.out.println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
+                Money money  = (Money) selectAllCard(bank,false);
                 bank.take(money);
                 cardStack.add(money);
                 paid += money.getWorth();
             } else {
                 System.out.println("Your bank has no money left, you have to pay with cards.");
-                System.out.println("Which card will you pay with?");
-                Card card = selectAllCard(cardList);
+                System.out.println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
+                Card card = selectAllCard(cardList,false);
                 cardList.take(card);
                 cardStack.add(card);
                 paid += card.getWorth();
@@ -149,10 +149,11 @@ public class Interactor {
         return cardStack;
     }
 
-    public Card selectCard(CardCounter cardList, int from, int to){
+    public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){
         int index = 1;
         int[] map = new int[to - from];
-        System.out.printf("%d. %-25s%n", 0, "Go Back");
+        if (cancellable)
+            System.out.printf("%d. %-25s%n", 0, "Go Back");
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
@@ -196,27 +197,27 @@ public class Interactor {
     }
 
 
-    public Card selectAllCard(CardCounter cardList){
-        return selectCard(cardList,0,cardList.size());
+    public Card selectAllCard(CardCounter cardList,boolean cancellable){
+        return selectCard(cardList,cancellable,0,cardList.size());
     }
 
-    public Card selectAllCard(Player player){
-        return selectCard(player.getCardList(),0,CardList.CARDS.length);
+    public Card selectAllCard(Player player,boolean cancellable){
+        return selectCard(player.getCardList(),cancellable,0,CardList.CARDS.length);
     }
-    public PerformableCard selectActionCard(Player player){
-        return (PerformableCard) selectCard(player.getCardList(),CardList.ACTION_START,CardList.ACTION_END);
-    }
-
-    public PerformableCard selectPropertyCard(Player player){
-        return (PerformableCard) selectCard(player.getCardList(),CardList.PROPERTY_START,CardList.PROPERTY_END);
+    public PerformableCard selectActionCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.ACTION_START,CardList.ACTION_END);
     }
 
-    public PerformableCard selectRentCard(Player player){
-        return (PerformableCard) selectCard(player.getCardList(),CardList.RENT_START,CardList.RENT_END);
+    public PerformableCard selectPropertyCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.PROPERTY_START,CardList.PROPERTY_END);
     }
 
-    public Money selectMoneyCard(Player player){
-        return  (Money)selectCard(player.getCardList(),CardList.MONEY_START,CardList.MONEY_END);
+    public PerformableCard selectRentCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END);
+    }
+
+    public Money selectMoneyCard(Player player,boolean cancellable){
+        return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END);
     }
 
     public Player selectPlayer(GameState state, Player by){
@@ -237,5 +238,19 @@ public class Interactor {
             option = readInt("Please select a player: ");
         }
         return players[map[option]];
+    }
+
+
+    public Color chooseColor(Player player,Color[] colors){
+        for (int i = 0; i < colors.length; i++) {
+            Color color = colors[i];
+            System.out.println(i+1 + ". " + color.getName());
+        }
+        int option = readInt( player.getName() +", please select a color: ");
+        if (option < 1 || option >= colors.length){
+            System.out.println("Invalid color index. Please choose again: ");
+            return chooseColor(player,colors);
+        }
+        return colors[option-1];
     }
 }

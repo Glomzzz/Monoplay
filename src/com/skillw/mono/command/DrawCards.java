@@ -4,7 +4,14 @@ import com.skillw.mono.game.Player;
 
 public class DrawCards extends Command{
 
-    public DrawCards(Player performer) {
+    private int amount;
+
+    public DrawCards(Player performer,int amount) {
         super(DRAW_CARDS, performer);
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }

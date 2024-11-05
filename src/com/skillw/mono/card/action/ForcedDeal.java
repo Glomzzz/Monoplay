@@ -1,7 +1,7 @@
 package com.skillw.mono.card.action;
 
 import com.skillw.mono.command.Command;
-import com.skillw.mono.command.GiveProperty;
+import com.skillw.mono.command.SwapProperty;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
@@ -21,6 +21,6 @@ public class ForcedDeal extends ActionCard {
      * @return the command to be executed
      */
     public Command action(GameState state, Player performer) {
-        return new GiveProperty(performer);
+        return new SwapProperty(performer);
     }
 }

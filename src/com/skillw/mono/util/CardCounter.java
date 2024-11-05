@@ -4,6 +4,7 @@ import com.skillw.mono.card.Card;
 
 public abstract class CardCounter {
     private int[] cards;
+    private int size = 0;
 
 
     public CardCounter(int size) {
@@ -15,6 +16,7 @@ public abstract class CardCounter {
     public void add(Card card) {
         int index = getIndexOf(card);
         cards[index] = cards[index] + 1;
+        size++;
     }
 
     public boolean hasCardOf(int index){
@@ -32,18 +34,20 @@ public abstract class CardCounter {
     public int clearOf(int index){
         int num = cards[index];
         cards[index] = 0;
+        size -= num;
         return num;
     }
     public int clearOf(Card card) { return clearOf(getIndexOf(card)); }
 
     public void take(int index) {
         cards[index] = cards[index] - 1;
+        size--;
     }
     public void take(Card card) {
         take(getIndexOf(card));
     }
 
     public int size(){
-        return cards.length;
+        return size;
     }
 }

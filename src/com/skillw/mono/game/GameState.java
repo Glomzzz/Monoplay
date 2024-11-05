@@ -1,5 +1,8 @@
 package com.skillw.mono.game;
 
+import com.skillw.mono.card.Card;
+import com.skillw.mono.util.CardCounter;
+
 public class GameState {
     private int turn;
     private Player[] players;
@@ -22,6 +25,7 @@ public class GameState {
         return players;
     }
 
+
     /**
      * Initialize the game when the game first started
      */
@@ -32,7 +36,7 @@ public class GameState {
          * Draw 5 cards for each player at the beginning
          */
         for (Player player : this.players) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 player.getCardList().add(cardStack.draw());
             }
         }
@@ -52,4 +56,6 @@ public class GameState {
     public void nextTurn() {
         this.turn++;
     }
+
+
 }

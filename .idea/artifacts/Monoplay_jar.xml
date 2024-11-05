@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Monoplay:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Monoplay_jar</output-path>
+    <root id="archive" name="Monoplay.jar">
+      <element id="module-output" name="Monoplay" />
+    </root>
+  </artifact>
+</component>

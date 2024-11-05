@@ -19,6 +19,6 @@ public class PassGo extends ActionCard {
      * @return the command to be executed
      */
     public Command action(GameState state, Player performer) {
-        return new DrawCards(performer);
+        return new DrawCards(performer,2);
     }
 }

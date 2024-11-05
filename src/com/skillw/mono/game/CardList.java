@@ -60,9 +60,16 @@ public class CardList extends CardCounter{
             DoubleTheRent.DOUBLE_THE_RENT
     };
 
+    private CardStack cardStack;
 
-    public CardList() {
+    public CardList(GameState game){
         super(CARDS.length);
+        this.cardStack = game.getCardStack();
+    }
+
+    public CardList(CardStack cardStack) {
+        super(CARDS.length);
+        this.cardStack = cardStack;
     }
 
     public int getIndexOf(Card card) {
@@ -74,6 +81,11 @@ public class CardList extends CardCounter{
         return -1;
     }
 
+    public void consume(Card card){
+        take(card);
+        cardStack.add(card);
+    }
+
     public int calculateWorth(){
         int sum = 0;
         for (int i = 0; i < size(); i++) {
@@ -82,5 +94,9 @@ public class CardList extends CardCounter{
         return sum;
     }
 
+
+    public void draw(){
+        add(cardStack.draw());
+    }
 
 }

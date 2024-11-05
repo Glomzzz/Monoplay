@@ -32,7 +32,7 @@ public class PropertyList {
         this.properties[color.getId()] = this.properties[color.getId()] + 1;
     }
 
-    public void removeProperty(Color color){
+    public void takeProperty(Color color){
         this.properties[color.getId()] = this.properties[color.getId()] - 1;
     }
 

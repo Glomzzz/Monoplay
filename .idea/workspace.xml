@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" name="更改" comment="fix: better readInt">
+      <change afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/TakeCompleteProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/DealBreaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/DealBreaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/PassGo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/PassGo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/SlyDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/SlyDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/GiveCompleteSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/TakeProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/GiveProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/SwapProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/CardList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/CardList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/PropertyList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/PropertyList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/util/CardCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/util/CardCounter.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Glomzzz&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Glomzzz/Monoplay.git&quot;,
+    &quot;accountId&quot;: &quot;856fcb77-b161-442c-b0b8-01123367dd0a&quot;
+  }
+}</component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2naxWNN0tvZJT0aHVt73k36GahS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.D:/git/java/Monoplay-git [build].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/git/java/Monoplay-git&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;工件&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
+    &quot;应用程序.Main.executor&quot;: &quot;Run&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.skillw.mono.card" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.skillw.mono.command" />
+      <recent name="com.skillw.mono.game" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle build" />
+    </option>
+  </component>
+  <component name="RunManager" selected="应用程序.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.skillw.mono.Main" />
+      <module name="Monoplay" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.skillw.mono.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="D:/git/java/Monoplay-git [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.Main" />
+        <item itemvalue="Gradle.D:/git/java/Monoplay-git [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" name="更改" comment="" />
+      <created>1729225019429</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729225019429</updated>
+      <workItem from="1729225020315" duration="172000" />
+      <workItem from="1729225251938" duration="9832000" />
+      <workItem from="1729238813359" duration="1122000" />
+      <workItem from="1729239949871" duration="6948000" />
+      <workItem from="1729247595120" duration="308000" />
+      <workItem from="1729248062242" duration="31000" />
+      <workItem from="1729565443904" duration="7000" />
+      <workItem from="1729565461937" duration="312000" />
+      <workItem from="1729565806922" duration="277000" />
+      <workItem from="1729567942995" duration="277000" />
+      <workItem from="1729590187308" duration="617000" />
+      <workItem from="1729650045154" duration="691000" />
+      <workItem from="1729652901155" duration="1623000" />
+      <workItem from="1729738326201" duration="1826000" />
+      <workItem from="1729744825269" duration="449000" />
+      <workItem from="1729818207200" duration="866000" />
+      <workItem from="1729822502181" duration="4745000" />
+      <workItem from="1729830386913" duration="16314000" />
+      <workItem from="1730297520587" duration="5596000" />
+      <workItem from="1730396498776" duration="1347000" />
+      <workItem from="1730635451062" duration="457000" />
+      <workItem from="1730775468739" duration="2998000" />
+    </task>
+    <task id="LOCAL-00001" summary="Init">
+      <option name="closed" value="true" />
+      <created>1729225279342</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1729225279342</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Almost">
+      <option name="closed" value="true" />
+      <created>1729246921340</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729246921340</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor: follow front-end and back-end principle.">
+      <option name="closed" value="true" />
+      <created>1729834972713</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729834972713</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix: make sure the project could be compiled successfully">
+      <option name="closed" value="true" />
+      <created>1729835887866</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729835887866</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix: Money Card's command">
+      <option name="closed" value="true" />
+      <created>1729836045752</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729836045752</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update: complete the struct">
+      <option name="closed" value="true" />
+      <created>1729846247120</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1729846247120</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update: complete the project structural">
+      <option name="closed" value="true" />
+      <created>1729846280339</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1729846280339</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix: fill up CARDS, fix OutOfIndex in Interactor">
+      <option name="closed" value="true" />
+      <created>1729847088954</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1729847088954</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix: remove the debug info in CardCounter#add">
+      <option name="closed" value="true" />
+      <created>1729847220658</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729847220658</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix: better readInt">
+      <option name="closed" value="true" />
+      <created>1730635848136</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1730635848136</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Init" />
+    <MESSAGE value="Almost" />
+    <MESSAGE value="refactor: follow front-end and back-end principle." />
+    <MESSAGE value="fix: make sure the project could be compiled successfully" />
+    <MESSAGE value="fix: Money Card's command" />
+    <MESSAGE value="update: complete the struct" />
+    <MESSAGE value="update: complete the project structural" />
+    <MESSAGE value="fix: fill up CARDS, fix OutOfIndex in Interactor" />
+    <MESSAGE value="fix: remove the debug info in CardCounter#add" />
+    <MESSAGE value="fix: better readInt" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: better readInt" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

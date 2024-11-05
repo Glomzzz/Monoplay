@@ -4,13 +4,13 @@ import com.skillw.mono.Color;
 import com.skillw.mono.game.Player;
 
 public class BuildProperty extends Command {
-    private final Color[] color;
-    public BuildProperty(Player performer,Color[] color) {
+    private final Color[] colors;
+    public BuildProperty(Player performer,Color[] colors) {
         super(SET_PROPERTY, performer);
-        this.color = color;
+        this.colors = colors;
     }
 
-    public Color[] getColor() {
-        return color;
+    public Color[] getColors() {
+        return colors;
     }
 }
