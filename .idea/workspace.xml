@@ -9,22 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" name="更改" comment="fix: better readInt">
-      <change afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/TakeCompleteProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/DealBreaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/DealBreaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/PassGo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/PassGo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/SlyDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/SlyDeal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/GiveCompleteSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/TakeProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/GiveProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/SwapProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/CardList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/CardList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/PropertyList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/PropertyList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/util/CardCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/util/CardCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/Bank.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +90,7 @@
       <command value="gradle build" />
     </option>
   </component>
-  <component name="RunManager" selected="应用程序.Main">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.skillw.mono.Main" />
       <module name="Monoplay" />
@@ -142,7 +128,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="应用程序.Main" />
         <item itemvalue="Gradle.D:/git/java/Monoplay-git [build]" />
       </list>
     </recent_temporary>

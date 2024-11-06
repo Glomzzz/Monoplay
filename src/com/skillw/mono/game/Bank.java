@@ -8,26 +8,26 @@ import com.skillw.mono.util.CardCounter;
  * Where to store and withdraw money
  */
 public class Bank extends CardCounter {
-    public static final Money[] MONIES = new Money[]{
+    public static final Money[] MONEYS = new Money[]{
             Money.ONE,Money.TWO,Money.THREE, Money.FIVE, Money.TEN
     };
 
     public Bank() {
-        super(MONIES.length);
+        super(MONEYS.length);
     }
 
 
     public int calculateWorth(){
         int sum = 0;
         for (int i = 0; i < size(); i++) {
-            sum += getNumOf(i) * MONIES[i].getWorth();
+            sum += getNumOf(i) * MONEYS[i].getWorth();
         }
         return sum;
     }
 
     public int getIndexOf(Card card) {
-        for (int i = 0; i < MONIES.length; i++) {
-            if (MONIES[i].equals(card)) {
+        for (int i = 0; i < MONEYS.length; i++) {
+            if (MONEYS[i].equals(card)) {
                 return i;
             }
         }
