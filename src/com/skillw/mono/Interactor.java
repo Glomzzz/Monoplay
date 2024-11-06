@@ -13,8 +13,7 @@ public class Interactor {
     private final Scanner input;
     private final String itemFormat;
     private final String propertyFormat;
-
-    public static final Card GO_BACK = null;
+    private final Card GO_BACK = null;
 
     public Interactor(){
         input = new Scanner(System.in);
