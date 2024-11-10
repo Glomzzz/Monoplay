@@ -135,6 +135,8 @@ public class Main {
                         case Command.SWAP_PROPERTY:
                             break;
                         case Command.TAKE_PROPERTY:
+                            TakeProperty takeProperty = (TakeProperty) command;
+                            
                             break;
                         case Command.TAKE_COMPLETE_PROPERTY:
                             break;

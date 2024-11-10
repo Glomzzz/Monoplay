@@ -12,7 +12,7 @@ public class CardStack {
     private final Card[] cards;
     private int head = 0; // ++ draw from here
     private int tail = 0; // ++ add to here
-    private static final int SIZE = 104;
+    private static final int SIZE = 101;
 
     public CardStack() {
         this.cards = new Card[SIZE];
@@ -45,13 +45,12 @@ public class CardStack {
         add(Property.BROWN_N_LIGHT_BLUE);
         repeatAdd(Property.UNIVERSAL,2);
 
-        // 16
+        // 13
         repeatAdd(Rent.BLACK_N_LIGHT_GREEN,2);
         repeatAdd(Rent.BLUE_N_GREEN,2);
         repeatAdd(Rent.BROWN_N_LIGHT_BLUE,2);
         repeatAdd(Rent.PINK_N_ORANGE,2);
         repeatAdd(Rent.RED_N_YELLOW,2);
-        repeatAdd(Rent.RED_N_YELLOW,3);
 
         repeatAdd(RentUniversal.RENT_UNIVERSAL,3);
 
