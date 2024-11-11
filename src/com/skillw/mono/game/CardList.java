@@ -12,8 +12,8 @@ import com.skillw.mono.util.CardCounter;
 public class CardList extends CardCounter{
 
     public static final int ACTION_START = 0;
-    public static final int ACTION_END = 7;
-    public static final int PROPERTY_START = 7;
+    public static final int ACTION_END = 6;
+    public static final int PROPERTY_START = 6;
     public static final int PROPERTY_END = 24;
     public static final int RENT_START = 24;
     public static final int RENT_END = 30;
@@ -26,8 +26,8 @@ public class CardList extends CardCounter{
             DebtCollector.DEBT_COLLECTOR,
             SlyDeal.SLY_DEAL,
             Birthday.BIRTHDAY,
-            Property.UNIVERSAL,
-            Property.RED,                                     // 7
+            Property.UNIVERSAL,                              // 6
+            Property.RED,
             Property.BLUE,
             Property.PINK,
             Property.GREEN,

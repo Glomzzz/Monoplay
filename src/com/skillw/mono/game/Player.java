@@ -39,4 +39,8 @@ public class Player {
         }
     }
 
+    public void recieveCards(CardList cards){
+        // todo
+    }
+
 }

@@ -18,36 +18,29 @@ public class PropertyList {
      * - 8 : Brown
      * - 9 : Light Green
      */
-    private final int[] properties;
+    private final Properties[] properties;
 
     public PropertyList() {
-        this.properties = new int[10];
+        this.properties = new Properties[]{
+            new Properties(Color.RED),
+            new Properties(Color.BLUE),
+            new Properties(Color.GREEN),
+            new Properties(Color.YELLOW),
+            new Properties(Color.BLACK),
+            new Properties(Color.ORANGE),
+            new Properties(Color.PINK),
+            new Properties(Color.LIGHT_BLUE),
+            new Properties(Color.BROWN),
+            new Properties(Color.LIGHT_GREEN)
+        };
     }
 
-    public int getNumOf(Color color) {
+    public void addProperty(Color[] colors,Color color){
+        this.properties[color.getId()].addProperty(colors);
+    }
+
+    public Properties getProperties(Color color){
         return this.properties[color.getId()];
-    }
-
-    public void addProperty(Color color){
-        this.properties[color.getId()] = this.properties[color.getId()] + 1;
-    }
-
-    public void takeProperty(Color color){
-        this.properties[color.getId()] = this.properties[color.getId()] - 1;
-    }
-
-    public int clearProperties(Color color){
-        int number = this.properties[color.getId()];
-        this.properties[color.getId()] = 0;
-        return number;
-    }
-
-    public int calculateWorthOf(Color color){
-        int number = this.properties[color.getId()];
-        if (number == 0)
-            return 0;
-        else
-            return color.getLevels()[number];
     }
 
     /**
@@ -57,7 +50,7 @@ public class PropertyList {
     public int calculateWorthOfAll(){
         int worth = 0;
         for (int i = 0; i < 10; i++) {
-            int number = this.properties[i];
+            int number = this.properties[i].getSize();
             if (number != 0)
                 worth +=  Color.UNIVERSAL[i].getLevels()[number];
         }

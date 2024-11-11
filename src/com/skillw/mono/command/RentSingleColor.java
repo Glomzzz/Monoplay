@@ -4,21 +4,14 @@ import com.skillw.mono.Color;
 import com.skillw.mono.game.Player;
 
 public class RentSingleColor extends Command {
-    private final Color color1;
-    private final Color color2;
+    private final Color[] colors;
 
-    public RentSingleColor(Player performer, Color color1, Color color2) {
+    public RentSingleColor(Player performer, Color[] colors) {
         super(RENT, performer);
-        this.color1 = color1;
-        this.color2 = color2;
+        this.colors = colors;
     }
 
-    public Color getColor1() {
-        return color1;
+    public Color[] getColors() {
+        return colors;
     }
-
-    public Color getColor2() {
-        return color2;
-    }
-
 }

@@ -61,13 +61,16 @@ import com.skillw.mono.game.PropertyList;
 
 public class Main {
     public static void main(String[] args) {
-        Interactor interactor = new Interactor();
 
+
+        Interactor interactor = new Interactor();
         interactor.displayHeader();
         String[] names = interactor.registerPlayers();
-
         GameState game = new GameState(names);
         game.init();
+        interactor.init(game);
+
+
         while (true){
             Player player = game.getCurrentPlayer();
             int actionRemain = 3;
@@ -101,10 +104,10 @@ public class Main {
                         card = interactor.selectRentCard(player,true);
                         break;
                     case 4:
-                        card = interactor.selectMoneyCard(player,true);
+                        card = interactor.selectAllCard(player,true).asMoney();
                         break;
                     case 5:
-
+                        interactor.displayCards();
                         break;
                     default:
                         System.out.println("Invalid choice, please try again.");
@@ -116,21 +119,26 @@ public class Main {
                         case Command.PAY_MONEY:
                         {
                             PayMoney payMoney = (PayMoney) command;
-                            Player target = interactor.selectPlayer(game,player);
-                            interactor.askToPayWith(target, player, payMoney.getAmount());
+                            Player target = interactor.selectPlayer(player, game);
+                            interactor.askToPay(target, player, payMoney.getAmount());
                             break;
                         }
                         case Command.DRAW_CARDS:
+                        {
                             DrawCards drawCards = (DrawCards) command;
                             for (int i = 0; i < drawCards.getAmount(); i++) {
                                 player.getCardList().draw();
                             }
+                        }
                             break;
                         case Command.SET_PROPERTY:
+                        {
                             BuildProperty buildProperty = (BuildProperty) command;
                             PropertyList propertyList = player.getPropertyList();
-                            Color color = interactor.chooseColor(player, buildProperty.getColors());
-                            propertyList.addProperty(color);
+                            Color[] colors = buildProperty.getColors();
+                            Color chosen = interactor.chooseColor(player, colors);
+                            propertyList.addProperty(colors, chosen);
+                        }
                             break;
                         case Command.SWAP_PROPERTY:
                             break;
@@ -139,20 +147,36 @@ public class Main {
                         case Command.TAKE_COMPLETE_PROPERTY:
                             break;
                         case Command.RENT:
+                        {
+                            RentSingleColor rentSingleColor = (RentSingleColor) command;
+                            Color color = interactor.chooseColor(player,rentSingleColor.getColors());
+                            Player target = interactor.selectPlayer(player, game);
+                            int amount = player.getPropertyList().getProperties(color).calculateWorth();
+                            interactor.askToPay(target, player, amount);
+                        }
                             break;
                         case Command.RENT_UNIVERSAL:
+                        {
+                            RentAllColor rentAllColor = (RentAllColor) command;
+                            Color color = interactor.chooseColor(player,rentAllColor.getColors());
+                            Player target = interactor.selectPlayer(player, game);
+                            int amount = player.getPropertyList().getProperties(color).calculateWorth();
+                            interactor.askToPay(target, player, amount);
+                        }
                             break;
                         case Command.DEPOSIT_IN_BANK:
                             break;
                         case Command.ALL_PAY_MONEY:
+                        {
                             AllPayMoney payMoney = (AllPayMoney) command;
                             Player performer = payMoney.getPerformer();
                             int amount = payMoney.getAmount();
                             for (int i = 0; i < game.getAllPlayers().length; i++) {
                                 if (game.getAllPlayers()[i] != performer) {
-                                    interactor.askToPayWith(game.getAllPlayers()[i], performer, amount);
+                                    interactor.askToPay(game.getAllPlayers()[i], performer, amount);
                                 }
                             }
+                        }
                             break;
                         default:
                             System.out.println("Invalid command!");

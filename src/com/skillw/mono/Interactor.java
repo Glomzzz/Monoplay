@@ -11,15 +11,26 @@ import java.util.Scanner;
 
 public class Interactor {
     private final Scanner input;
-    private final String itemFormat;
-    private final String propertyFormat;
-    private final Card GO_BACK = null;
+    private GameState game = null;
+    private static final String ITEM_FORMAT = "%d. %-25s    x%-2d    ~ $ %dM %n";
+    private static final String PROPERTY_HEAD = "    Properties: %n";
+    private static final String PROPERTY_FORMAT = "    |-  %-11s    ( %d / %d )    - $ %dM %n";
+    private static final String PROPERTIES_FORMAT = "        |-  %d. %s %n";
+    private static final String PROPERTY_EMPTY = "    |-  No properties owned! %n";
+    private static final String BANK_HEAD = "    Bank ( $ %d M ): %n";
+    private static final String MONEY_FORMAT = "        |-  %-11s    x%-2d %n";
+    private static final String BANK_EMPTY = "    |-  No money in bank! %n";
+    private static final Card GO_BACK = null;
 
     public Interactor(){
-        input = new Scanner(System.in);
-        itemFormat = "%d. %-25s    x%-2d    ~ $ %dM%n";
-        propertyFormat = "%d. %-11s    x%-2d/%-2d    - $ %dM%n";
+        this.input = new Scanner(System.in);
     }
+
+    public void init(GameState game){
+        this.game = game;
+    }
+
+
 
 
     public void displayHeader(){
@@ -34,26 +45,54 @@ public class Interactor {
         }
     }
 
-    private void displayPropertyList(PropertyList properties){
-        int index = 1;
+    private void displayPropertyList(PropertyList propertyList){
+        System.out.printf(PROPERTY_HEAD);
+        boolean empty = true;
         for (int i = 0; i < Color.UNIVERSAL.length; i++) {
             Color color = Color.UNIVERSAL[i];
-            int num = properties.getNumOf(color);
+            Properties properties = propertyList.getProperties(color);
+            int num = properties.getSize();
             if (num > 0) {
-                System.out.printf(propertyFormat, index++, color.getName(), num,color.getMaxLevel(), properties.calculateWorthOf(color));
+                empty = false;
+                System.out.printf(PROPERTY_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+                for (int j = 0; j < properties.getSize() ; j++) {
+                    Color[] colors = properties.getData()[j];
+                    if (colors == Color.UNIVERSAL) {
+                        System.out.printf(PROPERTIES_FORMAT, j+1, "Universal");
+                        continue;
+                    }
+                    String name = colors[0].getName();
+                    for (int k = 1; k < colors.length; k++) {
+                        name += " & " + colors[k].getName();
+                    }
+                    System.out.printf(PROPERTIES_FORMAT, j+1, name);
+                }
             }
         }
+        if (empty)  System.out.printf(PROPERTY_EMPTY);
     }
 
-    private void displayBank(Bank money){
-
+    private void displayBank(Bank bank) {
+        System.out.printf(BANK_HEAD, bank.calculateWorth());
+        boolean empty = true;
+        for (int i = 0; i < Bank.MONEYS.length; i++) {
+            Money money = Bank.MONEYS[i];
+            int num = bank.getNumOf(money);
+            if (num > 0) {
+                empty = false;
+                System.out.printf(MONEY_FORMAT,  money.getName(), num);
+            }
+        }
+        if (empty) System.out.printf(BANK_EMPTY);
     }
 
-    public void displayCards(GameState state){
-        Player[] players = state.getAllPlayers();
+    public void displayCards(){
+        Player[] players = game.getAllPlayers();
         for (int i=0; i<players.length; i++){
+            System.out.println(players[i].getName() + ":");
             displayPropertyList(players[i].getPropertyList());
             displayBank(players[i].getBank());
+            System.out.println();
         }
     }
 
@@ -109,8 +148,8 @@ public class Interactor {
 
 
 
-    public CardStack askToPayWith(Player from, Player to, int amount){
-        CardStack cardStack = new CardStack();
+    public void askToPay(Player from, Player to, int amount){
+        CardList with = new CardList(game);
         Bank bank = from.getBank();
         CardList cardList = from.getCardList();
         int bankWorth = bank.calculateWorth();
@@ -121,31 +160,38 @@ public class Interactor {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
                 for (int j = 0; j < num; j++) {
-                    cardStack.add(card);
+                    with.add(card);
                 }
             }
-            return cardStack;
-        }
-        System.out.println(from.getName() + " , you have to pay " + moneyOf(amount));
-        int paid = 0;
-        while (paid < amount){
-            if (bankWorth > 0){
-                System.out.println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
-                System.out.println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
-                Money money  = (Money) selectAllCard(bank,false);
-                bank.take(money);
-                cardStack.add(money);
-                paid += money.getWorth();
-            } else {
-                System.out.println("Your bank has no money left, you have to pay with cards.");
-                System.out.println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
-                Card card = selectAllCard(cardList,false);
-                cardList.take(card);
-                cardStack.add(card);
-                paid += card.getWorth();
+            for (int i = 0; i < Bank.MONEYS.length; i++) {
+                Money money = Bank.MONEYS[i];
+                int num = bank.clearOf(money);
+                for (int j = 0; j < num; j++) {
+                    with.add(money);
+                }
+            }
+        } else {
+            System.out.println(from.getName() + " , you have to pay " + moneyOf(amount));
+            int paid = 0;
+            while (paid < amount){
+                if (bankWorth > 0){
+                    System.out.println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
+                    System.out.println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
+                    Money money  = (Money) selectAllCard(bank,false);
+                    bank.take(money);
+                    with.add(money);
+                    paid += money.getWorth();
+                } else {
+                    System.out.println("Your bank has no money left, you have to pay with cards.");
+                    System.out.println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
+                    Card card = selectAllCard(cardList,false);
+                    cardList.take(card);
+                    with.add(card);
+                    paid += card.getWorth();
+                }
             }
         }
-        return cardStack;
+        to.recieveCards(with);
     }
 
     public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){
@@ -157,7 +203,7 @@ public class Interactor {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
                 Card card = CardList.CARDS[i];
-                System.out.printf(itemFormat, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+                System.out.printf(ITEM_FORMAT, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
         /**
@@ -219,7 +265,7 @@ public class Interactor {
         return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END);
     }
 
-    public Player selectPlayer(GameState state, Player by){
+    public Player selectPlayer(Player by, GameState state){
         Player[] players = state.getAllPlayers();
 
         int[] map = new int[players.length-1];
@@ -246,10 +292,12 @@ public class Interactor {
             System.out.println(i+1 + ". " + color.getName());
         }
         int option = readInt( player.getName() +", please select a color: ");
-        if (option < 1 || option >= colors.length){
+        if (option < 1 || option > colors.length){
             System.out.println("Invalid color index. Please choose again: ");
             return chooseColor(player,colors);
         }
         return colors[option-1];
     }
+
+
 }

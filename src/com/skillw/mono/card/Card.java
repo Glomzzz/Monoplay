@@ -19,7 +19,22 @@ public abstract class Card {
         if (this instanceof Money) {
             return (Money) this;
         }
-        return new Money(name, worth);
+        switch (worth){
+            case 1:
+                return Money.ONE;
+            case 2:
+                return Money.TWO;
+            case 3:
+                return Money.THREE;
+            case 4:
+                return Money.FOUR;
+            case 5:
+                return Money.FIVE;
+            case 10:
+                return Money.TEN;
+            default:
+                return null;
+        }
     }
 
     public int getWorth() {
