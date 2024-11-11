@@ -32,13 +32,18 @@ public class Interactor {
 
 
 
-
+    /**
+     * Display the game title
+     */
     public void displayHeader(){
         System.out.println("======================================");
         System.out.println("|         Welcome to Monopoly         ");
         System.out.println("======================================");
     }
 
+    /**
+     * Generata a huge empty gap
+     */
     public void emptyGap(){
         for(int i = 0; i < 30; i ++){
             System.out.println();
@@ -192,6 +197,20 @@ public class Interactor {
             }
         }
         to.recieveCards(with);
+    }
+
+
+    public void showCardStack(CardStack cards){
+        Card[] cardList = cards.getCards();
+        for (int i = 0; i < cardList.length; i++) {
+            Card card = cardList[i];
+            if (card != null) System.out.println(i+1 + ". " + card.getName());
+        }
+    }
+
+    public void depositMoney(Player player, Card money){
+        player.recieveCard(money);
+        System.out.println("Successfully deposited $"+money.getWorth());
     }
 
     public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){

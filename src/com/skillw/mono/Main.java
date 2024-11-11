@@ -167,6 +167,10 @@ public class Main {
                         }
                             break;
                         case Command.DEPOSIT_IN_BANK:
+                        {
+                            DepositInBank depositInBank = (DepositInBank) command;
+                            interactor.depositMoney(player, depositInBank.getMoney());
+                        }
                             break;
                         case Command.ALL_PAY_MONEY:
                         {
