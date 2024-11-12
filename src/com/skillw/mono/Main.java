@@ -81,6 +81,7 @@ public class Main {
             }
             System.out.println("======================================");
             while (actionRemain > 0){
+                System.out.println();
                 System.out.println(player.getName()+", this is your turn!");
                 System.out.println("You can perform " + actionRemain +  " actions now:");
                 System.out.println("1. Play an action card");
@@ -129,6 +130,7 @@ public class Main {
                             for (int i = 0; i < drawCards.getAmount(); i++) {
                                 player.getCardList().draw();
                             }
+                            System.out.println("REPORT: Successfully drawed "+drawCards.getAmount()+" cards");
                         }
                             break;
                         case Command.SET_PROPERTY:
@@ -138,6 +140,7 @@ public class Main {
                             Color[] colors = buildProperty.getColors();
                             Color chosen = interactor.chooseColor(player, colors);
                             propertyList.addProperty(colors, chosen);
+                            System.out.println("REPORT: Property successfully added on the table");
                         }
                             break;
                         case Command.SWAP_PROPERTY:
@@ -170,6 +173,7 @@ public class Main {
                         {
                             DepositInBank depositInBank = (DepositInBank) command;
                             interactor.depositMoney(player, depositInBank.getMoney());
+                            System.out.println("REPORT: Successfully deposited $"+depositInBank.getMoney().getName());
                         }
                             break;
                         case Command.ALL_PAY_MONEY:

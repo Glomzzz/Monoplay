@@ -14,6 +14,7 @@ public class Money extends PerformableCard {
     public static final Money FIVE = new Money(5);
     public static final Money TEN = new Money(10);
 
+    //=============== Constructor =================
     public Money(int worth) {
         super("$ " + worth + "M", worth);
     }
@@ -24,7 +25,7 @@ public class Money extends PerformableCard {
     /**
      * Store the money in the player's bank
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */

@@ -6,6 +6,7 @@ import com.skillw.mono.game.GameState;
 
 public abstract class PerformableCard extends Card {
 
+    //=============== Constructor =================
     public PerformableCard(String name, int worth) {
         super(name, worth);
     }
@@ -13,9 +14,9 @@ public abstract class PerformableCard extends Card {
     /**
      * Perform the card's action
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
-     * @return
+     * @return the command to be executed
      */
     public abstract Command action(GameState state, Player performer);
 }

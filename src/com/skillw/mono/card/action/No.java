@@ -5,12 +5,14 @@ import com.skillw.mono.card.Card;
 
 /**
  * When player has been asked to do something,
- * he can play this card to avoid the action.
+ * Game will ask the player if they want to avoid it,
+ * if the player has No card.
  */
 public class No extends Card {
 
     public static final No NO = new No();
 
+    //=============== Constructor =================
     private No() {
         super("Just Say NO!",4);
     }

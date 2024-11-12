@@ -16,6 +16,7 @@ public class Rent extends ActionCard {
 
     private final Color[] colors;
 
+    //=============== Constructor =================
     private Rent(String name,Color color1, Color color2, int worth){
         super(name, worth);
         this.colors = new Color[]{color1, color2};
@@ -25,7 +26,7 @@ public class Rent extends ActionCard {
     /**
      * Rent for the properties, collect rent from the other players
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */

@@ -11,10 +11,17 @@ public abstract class Card {
     //  per million
     private final int worth;
 
+    //=============== Constructor =================
     public Card(String name,int worth) {
         this.name = name;
         this.worth = worth;
     }
+
+    /**
+     * Find the card's worth
+     *
+     * @return the worth of the card
+     */
     public Money asMoney() {
         if (this instanceof Money) {
             return (Money) this;
@@ -37,10 +44,20 @@ public abstract class Card {
         }
     }
 
+    /**
+     * Get the worth of the card
+     *
+     * @return the worth of the card
+     */
     public int getWorth() {
         return worth;
     }
 
+    /**
+     * Get the name of the card
+     *
+     * @return the name of the card
+     */
     public String getName() {
         return name;
     }

@@ -9,6 +9,7 @@ public class ForcedDeal extends ActionCard {
 
     public static final ForcedDeal FORCED_DEAL = new ForcedDeal();
 
+    //=============== Constructor =================
     private ForcedDeal() {
         super("Forced Deal",3);
     }
@@ -16,7 +17,7 @@ public class ForcedDeal extends ActionCard {
     /**
      * Swap any property with any player
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */

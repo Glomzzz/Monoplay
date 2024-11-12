@@ -9,6 +9,7 @@ public class DebtCollector extends ActionCard {
 
     public static final DebtCollector DEBT_COLLECTOR = new DebtCollector();
 
+    //=============== Constructor =================
     private DebtCollector() {
         super("Debt Collector",3);
     }
@@ -16,7 +17,7 @@ public class DebtCollector extends ActionCard {
     /**
      * Ask any player for $ 5 M
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */

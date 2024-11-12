@@ -9,14 +9,15 @@ public class DealBreaker extends ActionCard {
 
     public static final DealBreaker DEAL_BREAKER = new DealBreaker();
 
+    //=============== Constructor =================
     private DealBreaker() {
         super("Deal Breaker",5);
     }
 
     /**
-     * Steal a complete set of properties from any player
+     * Steal a complete property set from any player
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */

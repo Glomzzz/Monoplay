@@ -7,12 +7,15 @@ import com.skillw.mono.game.GameState;
 
 
 public class Birthday extends ActionCard {
+
     public static final Birthday BIRTHDAY = new Birthday();
+
+    //=============== Constructor =================
     private Birthday() {
         super("Birthday",2);
     }
     /**
-     * Will receive $ 2 M  from each player
+     * Will collect $ 2 M  from each player
      *
      * @param state     the current state of the game
      * @param performer the player who is performing the action

@@ -8,7 +8,10 @@ import com.skillw.mono.card.Card;
  * if the player has Double The Rent card.
  */
 public class DoubleTheRent extends Card {
+
     public static final DoubleTheRent DOUBLE_THE_RENT = new DoubleTheRent();
+
+    //=============== Constructor =================
     private DoubleTheRent() {
         super("Double The Rent",1);
     }

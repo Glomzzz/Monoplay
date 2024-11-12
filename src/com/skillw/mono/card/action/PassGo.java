@@ -6,15 +6,18 @@ import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
 public class PassGo extends ActionCard {
+
     public static final PassGo PASS_GO = new PassGo();
+
+    //=============== Constructor =================
     private PassGo() {
         super("Pass GO",1);
     }
 
     /**
-     * Pass GO and draw 2 cards
+     * Draw 2 cards
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
