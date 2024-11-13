@@ -105,7 +105,8 @@ public class Main {
                         card = interactor.selectRentCard(player,true);
                         break;
                     case 4:
-                        card = interactor.selectAllCard(player,true).asMoney();
+                        Card selected = interactor.selectAllCard(player,true);
+                        if (selected != null) card = selected.asMoney();
                         break;
                     case 5:
                         interactor.displayCards();

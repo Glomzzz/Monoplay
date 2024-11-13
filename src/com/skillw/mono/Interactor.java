@@ -37,7 +37,7 @@ public class Interactor {
      */
     public void displayHeader(){
         System.out.println("======================================");
-        System.out.println("|         Welcome to Monopoly         ");
+        System.out.println("|         Welcome to Monopoly        |");
         System.out.println("======================================");
     }
 
