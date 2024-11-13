@@ -30,17 +30,15 @@ public class Property extends PerformableCard {
     public static final Property UNIVERSAL = new Property("Property Universal",Color.UNIVERSAL, 0);
 
     private final Color[] colors;
-
+    //=============== Constructor =================
     private Property(String name,Color color) {
         super(name,color.getLevels()[0]);
         this.colors = new Color[] {color};
     }
-
     private Property(String name,Color color1, Color color2, int worth) {
         super(name,worth);
         this.colors = new Color[] {color1, color2};
     }
-
     private Property(String name,Color[] colors, int worth) {
 
         super(name,worth);
@@ -50,7 +48,7 @@ public class Property extends PerformableCard {
     /**
      * Set the property to the player's property list
      *
-     * @param state     Game state
+     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
