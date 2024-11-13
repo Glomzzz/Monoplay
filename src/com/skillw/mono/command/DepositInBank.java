@@ -8,11 +8,17 @@ public class DepositInBank extends Command{
 
     private final Money money;
 
+    //=============== Constructor =================
     public DepositInBank(Player performer, Money card) {
         super(DEPOSIT_IN_BANK, performer);
         this.money = card;
     }
 
+    /**
+     * Get the money card
+     *
+     * @return the money card
+     */
     public Card getMoney() {
         return money;
     }

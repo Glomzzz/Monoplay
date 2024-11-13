@@ -41,6 +41,9 @@ public class Properties {
         return colors;
     }
 
+    public Color getColor() {
+        return color;
+    }
 
 
     public int calculateWorth(){

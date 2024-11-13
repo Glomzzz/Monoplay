@@ -8,10 +8,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" name="更改" comment="refactor: PropertyList contains the colors now">
+    <list default="true" id="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" name="更改" comment="fix: NPE when select card to deposit it in bank">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Interactor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/action/ForcedDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/CardStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/CardStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/game/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/game/Properties.java" afterDir="false" />
+    </list>
+    <list id="4da6dd6b-61fb-4438-baab-2b6899378e10" name="CWZ_Morro 进行的更改" comment="">
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/card/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/card/Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/AllPayMoney.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/AllPayMoney.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/BuildProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/DepositInBank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/DepositInBank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillw/mono/command/DrawCards.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +55,15 @@
     &quot;accountId&quot;: &quot;856fcb77-b161-442c-b0b8-01123367dd0a&quot;
   }
 }</component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/com/skillw/mono/Main.java">
+      <ranges>
+        <range start1="147" end1="147" start2="147" end2="170" changelist="03222beb-17c5-47d6-a0b3-e2f6d6ef509b" />
+        <range start1="149" end1="151" start2="172" end2="178" changelist="4da6dd6b-61fb-4438-baab-2b6899378e10" />
+        <range start1="153" end1="153" start2="180" end2="183" changelist="4da6dd6b-61fb-4438-baab-2b6899378e10" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
@@ -176,7 +198,7 @@
       <workItem from="1731236451056" duration="7604000" />
       <workItem from="1731320311146" duration="5717000" />
       <workItem from="1731416288822" duration="1926000" />
-      <workItem from="1731465570361" duration="112000" />
+      <workItem from="1731465570361" duration="4448000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <option name="closed" value="true" />
@@ -282,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731327053844</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix: NPE when select card to deposit it in bank">
+      <option name="closed" value="true" />
+      <created>1731465769443</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1731465769443</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -313,7 +343,20 @@
     <MESSAGE value="fix: better readInt" />
     <MESSAGE value="refactor: PropertyList contains the colors now" />
     <MESSAGE value="add comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="add comments" />
+    <MESSAGE value="fix: npe when select card to deposit it in bank" />
+    <MESSAGE value="fix: NPE when select card to deposit it in bank" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: NPE when select card to deposit it in bank" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/skillw/mono/card/Property.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

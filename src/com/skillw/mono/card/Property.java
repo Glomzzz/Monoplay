@@ -30,6 +30,7 @@ public class Property extends PerformableCard {
     public static final Property UNIVERSAL = new Property("Property Universal",Color.UNIVERSAL, 0);
 
     private final Color[] colors;
+
     //=============== Constructor =================
     private Property(String name,Color color) {
         super(name,color.getLevels()[0]);
@@ -56,6 +57,11 @@ public class Property extends PerformableCard {
         return new BuildProperty(performer, colors);
     }
 
+    /**
+     * Get colors of the property
+     *
+     * @return the array of colors
+     */
     public Color[] getColors() {
         return colors;
     }

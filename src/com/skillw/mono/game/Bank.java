@@ -9,7 +9,7 @@ import com.skillw.mono.util.CardCounter;
  */
 public class Bank extends CardCounter {
     public static final Money[] MONEYS = new Money[]{
-            Money.ONE,Money.TWO,Money.THREE, Money.FIVE, Money.TEN
+            Money.ONE,Money.TWO,Money.THREE,Money.FOUR, Money.FIVE, Money.TEN
     };
 
     public Bank() {
@@ -19,7 +19,7 @@ public class Bank extends CardCounter {
 
     public int calculateWorth(){
         int sum = 0;
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < MONEYS.length; i++) {
             sum += getNumOf(i) * MONEYS[i].getWorth();
         }
         return sum;

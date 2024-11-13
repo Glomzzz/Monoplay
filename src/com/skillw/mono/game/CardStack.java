@@ -58,7 +58,7 @@ public class CardStack {
         repeatAdd(PassGo.PASS_GO,10);
         repeatAdd(DoubleTheRent.DOUBLE_THE_RENT,2);
         repeatAdd(Birthday.BIRTHDAY,3);
-        repeatAdd(ForcedDeal.FORCED_DEAL,3);
+        repeatAdd(ForcedDeal.FORCED_DEAL,10);
         repeatAdd(SlyDeal.SLY_DEAL,3);
         repeatAdd(DebtCollector.DEBT_COLLECTOR,3);
         repeatAdd(No.NO,3);

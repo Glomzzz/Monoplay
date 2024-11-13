@@ -14,8 +14,10 @@ public class Interactor {
     private GameState game = null;
     private static final String ITEM_FORMAT = "%d. %-25s    x%-2d    ~ $ %dM %n";
     private static final String PROPERTY_HEAD = "    Properties: %n";
-    private static final String PROPERTY_FORMAT = "    |-  %-11s    ( %d / %d )    - $ %dM %n";
+    private static final String PROPERTY_FORMAT = "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
+    private static final String PROPERTY_NO_INDEX_FORMAT = "    |-  %-11s    ( %d / %d )    - $ %dM %n";
     private static final String PROPERTIES_FORMAT = "        |-  %d. %s %n";
+    private static final String PROPERTIES_NO_INDEX_FORMAT = "        |-    %s %n";
     private static final String PROPERTY_EMPTY = "    |-  No properties owned! %n";
     private static final String BANK_HEAD = "    Bank ( $ %d M ): %n";
     private static final String MONEY_FORMAT = "        |-  %-11s    x%-2d %n";
@@ -50,28 +52,33 @@ public class Interactor {
         }
     }
 
+    private void displayProperties(Properties properties,int index){
+        Color color = properties.getColor();
+        int num = properties.getSize();
+        if(index > 0){
+            System.out.printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Color[] colors = properties.getData()[j];
+                showColors(0,colors);
+            }
+        }else{
+            System.out.printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Color[] colors = properties.getData()[j];
+                showColors(j+1,colors);
+            }
+        }
+    }
+
     private void displayPropertyList(PropertyList propertyList){
         System.out.printf(PROPERTY_HEAD);
         boolean empty = true;
         for (int i = 0; i < Color.UNIVERSAL.length; i++) {
             Color color = Color.UNIVERSAL[i];
             Properties properties = propertyList.getProperties(color);
-            int num = properties.getSize();
-            if (num > 0) {
+            if (properties.getSize() > 0) {
                 empty = false;
-                System.out.printf(PROPERTY_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
-                for (int j = 0; j < properties.getSize() ; j++) {
-                    Color[] colors = properties.getData()[j];
-                    if (colors == Color.UNIVERSAL) {
-                        System.out.printf(PROPERTIES_FORMAT, j+1, "Universal");
-                        continue;
-                    }
-                    String name = colors[0].getName();
-                    for (int k = 1; k < colors.length; k++) {
-                        name += " & " + colors[k].getName();
-                    }
-                    System.out.printf(PROPERTIES_FORMAT, j+1, name);
-                }
+                displayProperties(properties,0);
             }
         }
         if (empty)  System.out.printf(PROPERTY_EMPTY);
@@ -151,8 +158,6 @@ public class Interactor {
         }
     }
 
-
-
     public void askToPay(Player from, Player to, int amount){
         CardList with = new CardList(game);
         Bank bank = from.getBank();
@@ -200,11 +205,11 @@ public class Interactor {
     }
 
 
-    public void showCardStack(CardStack cards){
-        Card[] cardList = cards.getCards();
-        for (int i = 0; i < cardList.length; i++) {
-            Card card = cardList[i];
-            if (card != null) System.out.println(i+1 + ". " + card.getName());
+    public void showCardStack(CardList cards){
+        System.out.println("Card Stack:");
+        for (int i = 0; i < cards.size(); i++) {
+            Card card = CardList.CARDS[i];
+            System.out.printf(ITEM_FORMAT, i+1, card.getName(), cards.getNumOf(i), card.getWorth());
         }
     }
 
@@ -215,7 +220,7 @@ public class Interactor {
 
     public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){
         int index = 1;
-        int[] map = new int[to - from];
+        int[] map = new int[to - from + 1];
         if (cancellable)
             System.out.printf("%d. %-25s%n", 0, "Go Back");
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
@@ -287,7 +292,7 @@ public class Interactor {
     public Player selectPlayer(Player by, GameState state){
         Player[] players = state.getAllPlayers();
 
-        int[] map = new int[players.length-1];
+        int[] map = new int[players.length];
         int index = 1;
         for (int i = 0, playersLength = players.length; i < playersLength; i++) {
             Player player = players[i];
@@ -318,5 +323,93 @@ public class Interactor {
         return colors[option-1];
     }
 
+    public static final byte ALL = 0;
+    public static final byte COMPLETED = 1;
+    public static final byte INCOMPLETE = 2;
+
+    /**
+     * Select a property from a player
+     * @param target which player is going to be select from
+     * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
+     * @return the selected properties
+     */
+    public Properties selectProperties(Player target,byte filter){
+        System.out.println("Which color do you want to select?");
+        int index = 1;
+        int[] map = new int[Color.UNIVERSAL.length+1];
+        for (int i = 0; i < Color.UNIVERSAL.length; i++) {
+            Properties properties = target.getPropertyList().getProperties(Color.UNIVERSAL[i]);
+            int maxLevel = Color.UNIVERSAL[i].getMaxLevel();
+            int level = properties.getSize();
+            boolean condition;
+            switch (filter){
+                case COMPLETED:  // only completed properties
+                    condition = level == maxLevel;
+                    break;
+                case INCOMPLETE:
+                    condition = level != maxLevel;
+                    break;
+                default:
+                    condition = true;
+            }
+            if (condition && level > 0) {
+                map[index] = i;
+                displayProperties(properties,index++);
+            }
+        }
+        // Empty
+        if (index == 1) {
+            return  null;
+        }
+        int option = readInt("Please select a color: ");
+        while (option < 1 || option >= index){
+            System.out.println("Invalid color index. Please choose again: ");
+            option = readInt("Please select a color: ");
+        }
+        return target.getPropertyList().getProperties(Color.UNIVERSAL[map[option]]);
+    }
+
+    public Color[] selectSinglePropertyFrom(Player target, byte filter){
+        Properties properties = selectProperties(target,filter);
+        if(properties == null) return null;
+        System.out.println("Which property do you want to select?");
+        int[] map = new int[properties.getSize()+1];
+        int index = 1;
+        for (int i = 0; i < properties.getSize(); i++) {
+            Color[] colors = properties.getData()[i];
+            map[index] = i;
+            showColors(index++,colors);
+        }
+        int option = readInt("Please select a property: ");
+        while (option < 1 || option >= index){
+            System.out.println("Invalid property index. Please choose again: ");
+            option = readInt("Please select a property: ");
+        }
+        return properties.take(map[option]);
+    }
+
+    private void showColors(int index, Color[] colors){
+        if (index > 0){
+            if (colors == Color.UNIVERSAL) {
+                System.out.printf(PROPERTIES_FORMAT, index, "Universal");
+                return;
+            }
+            String name = colors[0].getName();
+            for (int k = 1; k < colors.length; k++) {
+                name += " & " + colors[k].getName();
+            }
+            System.out.printf(PROPERTIES_FORMAT, index, name);
+        } else {
+            if (colors == Color.UNIVERSAL) {
+                System.out.printf(PROPERTIES_NO_INDEX_FORMAT, "Universal");
+                return;
+            }
+            String name = colors[0].getName();
+            for (int k = 1; k < colors.length; k++) {
+                name += " & " + colors[k].getName();
+            }
+            System.out.printf(PROPERTIES_NO_INDEX_FORMAT, name);
+        }
+    }
 
 }

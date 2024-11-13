@@ -3,6 +3,7 @@ package com.skillw.mono.command;
 import com.skillw.mono.game.Player;
 
 public abstract class Command {
+
     public final static int DRAW_CARDS = 0;
     public final static int PAY_MONEY = 1;
     public final static int ALL_PAY_MONEY = 2;
@@ -17,15 +18,26 @@ public abstract class Command {
     private final int id;
     private final Player performer;
 
+    //=============== Constructor =================
     public Command(int id, Player performer) {
         this.id = id;
         this.performer = performer;
     }
 
+    /**
+     * Get the id of the command
+     *
+     * @return the id of the command
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get the player who perform the command
+     *
+     * @return the player who perform the command
+     */
     public Player getPerformer() {
         return performer;
     }

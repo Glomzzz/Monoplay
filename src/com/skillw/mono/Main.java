@@ -145,12 +145,42 @@ public class Main {
                         }
                             break;
                         case Command.SWAP_PROPERTY:
+                        {
+                            Player targetPlayer = interactor.selectPlayer(player, game);
+                            Color[] self = interactor.selectSinglePropertyFrom(player, Interactor.INCOMPLETE);
+                            if (self == null) {
+                                System.out.println("You don't have any property to swap.");
+                                success = false;
+                                break;
+                            }
+                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                            if (target == null) {
+                                System.out.println(targetPlayer.getName() + " doesn't have any property to swap.");
+                                success = false;
+                                break;
+                            }
+                            {
+                                Color chosen = interactor.chooseColor(targetPlayer, self);
+                                targetPlayer.getPropertyList().addProperty(self, chosen);
+                            }
+                            {
+                                Color chosen = interactor.chooseColor(player, target);
+                                player.getPropertyList().addProperty(target, chosen);
+                            }
+                        }
                             break;
                         case Command.TAKE_PROPERTY:
-                            TakeProperty takeProperty = (TakeProperty) command;
-                            
+                        {
+                            Player targetPlayer = interactor.selectPlayer(player, game);
+                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                            Color chosen = interactor.chooseColor(player, target);
+                            player.getPropertyList().addProperty(target, chosen);
+                        }
                             break;
                         case Command.TAKE_COMPLETE_PROPERTY:
+                        {
+                            Player targetPlayer = interactor.selectPlayer(player, game);
+                        }
                             break;
                         case Command.RENT:
                         {

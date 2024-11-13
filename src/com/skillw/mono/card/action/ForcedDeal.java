@@ -16,6 +16,7 @@ public class ForcedDeal extends ActionCard {
 
     /**
      * Swap any property with any player
+     * Except the property is part of a full set
      *
      * @param state     Current game state
      * @param performer Player who performs the card
