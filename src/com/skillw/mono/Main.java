@@ -180,6 +180,18 @@ public class Main {
                         case Command.TAKE_COMPLETE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
+                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.COMPLETED);
+
+                            if (target == null || target.length == 0){
+                                System.out.println(targetPlayer.getName() + " doesn't have any completed property set.");
+                                success = true;
+                                break;
+                            }
+                            else {
+                                Color chosen = interactor.chooseColor(player, target);
+                                player.getPropertyList().addProperty(target, chosen);
+                            }
+
                         }
                             break;
                         case Command.RENT:
