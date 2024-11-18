@@ -16,8 +16,7 @@ public class Properties {
     }
 
     public boolean addProperty(Property property){
-        if (this.size == this.color.getMaxLevel())
-            return false;
+        if (isCompleted()) return false;
         this.data[this.size] = property;
         this.size++;
         return true;
@@ -55,6 +54,10 @@ public class Properties {
             return 0;
         else
             return color.getLevels()[size-1];
+    }
+
+    public boolean isCompleted(){
+        return size == color.getMaxLevel();
     }
 
 }

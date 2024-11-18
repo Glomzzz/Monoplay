@@ -168,10 +168,12 @@ public class Interactor {
     public void askToPay(Player from, Player to, int amount){
         CardList with = new CardList(game);
         Bank bank = from.getBank();
+        PropertyList propertyList = from.getPropertyList();
         CardList cardList = from.getCardList();
         int bankWorth = bank.calculateWorth();
+        int propertyWorth = propertyList.calculateWorthOfAll();
         int cardWorth = cardList.calculateWorth();
-        if (bankWorth + cardWorth < amount){
+        if (bankWorth + cardWorth + propertyWorth < amount){
             System.out.println(from.getName() + " don't have enough money & cards to pay, so " + to.getName() + " will take all cards from " + from.getName());
             for (int i = 0; i < cardList.size(); i++) {
                 Card card = CardList.CARDS[i];
@@ -187,6 +189,13 @@ public class Interactor {
                     with.add(money);
                 }
             }
+            for (int i = 0; i < Color.UNIVERSAL.length; i++) {
+                Properties properties = propertyList.getProperties(Color.UNIVERSAL[i]);
+                for (int j = 0; j < properties.getSize(); j++) {
+                    Property property = properties.take(j);
+                    setUpProperty(to,property);
+                }
+            }
         } else {
             System.out.println(from.getName() + " , you have to pay " + moneyOf(amount));
             int paid = 0;
@@ -198,7 +207,13 @@ public class Interactor {
                     bank.take(money);
                     with.add(money);
                     paid += money.getWorth();
-                } else {
+                } else if (propertyWorth > 0){
+                    System.out.println("You have " + moneyOf(propertyWorth) + " in properties, you have to pay with properties.");
+                    System.out.println("Which property will you pay with?   ( " + moneyOf(amount - paid) + " left )");
+                    Property property = selectSinglePropertyFrom(from,ALL);
+                    setUpProperty(to,property);
+                    paid += property.getWorth();
+                }else {
                     System.out.println("Your bank has no money left, you have to pay with cards.");
                     System.out.println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
                     Card card = selectAllCard(cardList,false);
@@ -415,5 +430,34 @@ public class Interactor {
             System.out.printf(PROPERTIES_NO_INDEX_FORMAT, name);
         }
     }
+
+    public void setUpProperty(Player player,Property property){
+        //filter completed colors
+        PropertyList propertyList = player.getPropertyList();
+        Color[] original = property.getColors();
+        Color[] filtered = new Color[original.length];
+        int index = 0;
+        for (int i = 0; i < original.length; i++) {
+            Properties properties = propertyList.getProperties(original[i]);
+            if (!properties.isCompleted()){
+                filtered[index++] = original[i];
+            }
+        }
+        Color[] result = new Color[index];
+        System.arraycopy(filtered, 0, result, 0, index);
+        Color chosen = chooseColor(player,result);
+        propertyList.addProperty(property, chosen);
+    }
+
+    public void waitForPlayer(){
+        System.out.println("Press enter to continue...");
+        input.nextLine();
+    }
+
+    public void alert(String message){
+        System.out.println(message);
+        waitForPlayer();
+    }
+
 
 }

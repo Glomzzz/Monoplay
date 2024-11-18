@@ -57,4 +57,14 @@ public class PropertyList {
         }
         return worth;
     }
+
+    public int getCompleteNum() {
+        int count = 0;
+        Properties[] properties1 = this.properties;
+        for (int i = 0; i < properties1.length; i++) {
+            Properties properties = properties1[i];
+            if (properties.isCompleted()) count++;
+        }
+        return count;
+    }
 }

@@ -55,5 +55,22 @@ public class GameState {
         this.turn++;
     }
 
+    public boolean hasWinner(){
+        for (Player player : this.players) {
+            if(player.getPropertyList().getCompleteNum() >= 3){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Player getWinner(){
+        for (Player player : this.players) {
+            if(player.getPropertyList().getCompleteNum() >= 3){
+                return player;
+            }
+        }
+        return null;
+    }
+
 
 }
