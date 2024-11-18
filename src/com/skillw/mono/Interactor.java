@@ -196,14 +196,6 @@ public class Interactor {
         to.recieveCards(with);
     }
 
-    public void showCardStack(CardList cards){
-        System.out.println("Card Stack:");
-        for (int i = 0; i < cards.size(); i++) {
-            Card card = CardList.CARDS[i];
-            System.out.printf(ITEM_FORMAT, i+1, card.getName(), cards.getNumOf(i), card.getWorth());
-        }
-    }
-
     //DEVELOPED BY: MORRO
     public void depositMoney(Player player, Card money){
         player.recieveCard(money);
@@ -264,10 +256,6 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     public PerformableCard selectRentCard(Player player,boolean cancellable){
         return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
-    }
-
-    public Money selectMoneyCard(Player player,boolean cancellable){
-        return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END, player);
     }
 
     //DEVELOPED BY: GLOM

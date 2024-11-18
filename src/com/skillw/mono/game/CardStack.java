@@ -58,15 +58,11 @@ public class CardStack {
         repeatAdd(PassGo.PASS_GO,10);
         repeatAdd(DoubleTheRent.DOUBLE_THE_RENT,2);
         repeatAdd(Birthday.BIRTHDAY,3);
-        repeatAdd(ForcedDeal.FORCED_DEAL,10);
+        repeatAdd(ForcedDeal.FORCED_DEAL,3);
         repeatAdd(SlyDeal.SLY_DEAL,3);
         repeatAdd(DebtCollector.DEBT_COLLECTOR,3);
         repeatAdd(No.NO,3);
         repeatAdd(DealBreaker.DEAL_BREAKER,2);
-    }
-
-    private CardStack(int capacity) {
-        this.cards = new Card[capacity];
     }
 
     private int nextTail(){
@@ -75,7 +71,6 @@ public class CardStack {
     private int nextHead(){
         return (head++) % cards.length;
     }
-
 
     public void add(Card card) {
         this.cards[nextTail()] = card;
@@ -101,8 +96,5 @@ public class CardStack {
         Card card = cards[head];
         cards[head] = null;
         return card;
-    }
-    public Card[] getCards() {
-        return cards;
     }
 }

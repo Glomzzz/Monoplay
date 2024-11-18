@@ -1,7 +1,7 @@
 package com.skillw.mono.card.action;
 
 import com.skillw.mono.command.Command;
-import com.skillw.mono.command.TakeProperty;
+import com.skillw.mono.command.TakeCompleteProperty;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
@@ -22,6 +22,6 @@ public class DealBreaker extends ActionCard {
      * @return the command to be executed
      */
     public Command action(GameState state, Player performer) {
-        return new TakeProperty(performer);
+        return new TakeCompleteProperty(performer);
     }
 }

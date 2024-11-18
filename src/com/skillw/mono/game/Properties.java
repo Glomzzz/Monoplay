@@ -30,10 +30,6 @@ public class Properties {
         return this.data;
     }
 
-    public void takeAndSwapWith(int index, Property another){
-        this.data[index] = another;
-    }
-
     public Property take(int index){
         Property colors = this.data[index];
         this.data[index] = null;

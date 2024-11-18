@@ -18,9 +18,6 @@ public class Money extends PerformableCard {
     public Money(int worth) {
         super("$ " + worth + "M", worth);
     }
-    public Money(String name, int worth) {
-        super(name, worth);
-    }
 
     /**
      * Store the money in the player's bank

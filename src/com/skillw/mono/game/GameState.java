@@ -16,10 +16,6 @@ public class GameState {
         }
     }
 
-    public int getTurn() {
-        return turn;
-    }
-
     public Player[] getAllPlayers() {
         return players;
     }
@@ -71,6 +67,4 @@ public class GameState {
         }
         return null;
     }
-
-
 }

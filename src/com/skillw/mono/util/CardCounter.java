@@ -3,9 +3,8 @@ package com.skillw.mono.util;
 import com.skillw.mono.card.Card;
 
 public abstract class CardCounter {
-    private int[] cards;
+    private final int[] cards;
     private int size = 0;
-
 
     public CardCounter(int size) {
         this.cards = new int[size];
@@ -17,14 +16,6 @@ public abstract class CardCounter {
         int index = getIndexOf(card);
         cards[index] = cards[index] + 1;
         size++;
-    }
-
-    public boolean hasCardOf(int index){
-        return cards[index] > 0;
-    }
-
-    public boolean hasCardOf(Card card){
-        return hasCardOf(getIndexOf(card));
     }
 
     public int getNumOf(int index){
