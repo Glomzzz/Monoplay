@@ -35,8 +35,8 @@ public class PropertyList {
         };
     }
 
-    public void addProperty(Color[] colors,Color color){
-        this.properties[color.getId()].addProperty(colors);
+    public boolean addProperty(Color[] colors,Color color){
+       return this.properties[color.getId()].addProperty(colors);
     }
 
     public Properties getProperties(Color color){

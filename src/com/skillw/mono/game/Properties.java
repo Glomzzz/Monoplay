@@ -14,9 +14,12 @@ public class Properties {
         this.size = 0;
     }
 
-    public void addProperty(Color[] colors){
+    public boolean addProperty(Color[] colors){
+        if (this.size == this.color.getMaxLevel())
+            return false;
         this.data[this.size] = colors;
         this.size++;
+        return true;
     }
 
     public int getSize(){

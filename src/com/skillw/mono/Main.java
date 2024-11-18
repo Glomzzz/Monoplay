@@ -5,6 +5,7 @@ import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.*;
 import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
+import com.skillw.mono.game.Properties;
 import com.skillw.mono.game.PropertyList;
 
 public class Main {
@@ -140,18 +141,23 @@ public class Main {
                         case Command.TAKE_COMPLETE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
-                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.COMPLETED);
+                            Properties target = interactor.selectProperties(targetPlayer, Interactor.COMPLETED);
 
-                            if (target.length == 0){
+                            if (target == null){
                                 System.out.println(targetPlayer.getName() + " doesn't have any completed property set."
                                 + "\nAn action will be deducted as a punishment for not paying attention!");
                             }
-                            else {
-                                Color chosen = interactor.chooseColor(player, target);
-                                for (int i = 0; i < target.length; i++){
+                            for (int i = 0; i < target.getData().length; i++) {
+                                Color[] colors = target.getData()[i];
+                                if (colors.length == 1){
+                                    if(!player.getPropertyList().addProperty(colors, colors[0])){
+                                        System.out.println("You have already owned this property complete set.");
 
+                                    }
+                                } else {
+                                    Color chosen = interactor.chooseColor(player, colors);
+                                    player.getPropertyList().addProperty(colors, chosen);
                                 }
-                                player.getPropertyList().addProperty(target, chosen);
                             }
                         }
                             break;
