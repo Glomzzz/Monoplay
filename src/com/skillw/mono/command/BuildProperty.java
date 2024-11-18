@@ -1,16 +1,16 @@
 package com.skillw.mono.command;
 
-import com.skillw.mono.Color;
+import com.skillw.mono.card.Property;
 import com.skillw.mono.game.Player;
 
 public class BuildProperty extends Command {
 
-    private final Color[] colors;
+    private final Property property;
 
     //=============== Constructor =================
-    public BuildProperty(Player performer,Color[] colors) {
+    public BuildProperty(Player performer, Property property) {
         super(SET_PROPERTY, performer);
-        this.colors = colors;
+        this.property = property;
     }
 
     /**
@@ -18,7 +18,7 @@ public class BuildProperty extends Command {
      *
      * @return the colors of the property
      */
-    public Color[] getColors() {
-        return colors;
+    public Property getProperty() {
+        return property;
     }
 }

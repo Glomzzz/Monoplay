@@ -54,7 +54,7 @@ public class Property extends PerformableCard {
      * @return the command to be executed
      */
     public Command action(GameState state, Player performer) {
-        return new BuildProperty(performer, colors);
+        return new BuildProperty(performer, this);
     }
 
     /**

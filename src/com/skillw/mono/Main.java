@@ -2,6 +2,7 @@ package com.skillw.mono;
 
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.PerformableCard;
+import com.skillw.mono.card.Property;
 import com.skillw.mono.command.*;
 import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
@@ -86,13 +87,13 @@ public class Main {
                         {
                             BuildProperty buildProperty = (BuildProperty) command;
                             PropertyList propertyList = player.getPropertyList();
-                            Color[] colors = buildProperty.getColors();
-                            if (colors.length == 1){
-                                propertyList.addProperty(colors, colors[0]);
+                            Property property = buildProperty.getProperty();
+                            if (property.getColors().length == 1){
+                                propertyList.addProperty(property, property.getColors()[0]);
                             }
                             else {
-                                Color chosen = interactor.chooseColor(player, colors);
-                                propertyList.addProperty(colors, chosen);
+                                Color chosen = interactor.chooseColor(player, property.getColors());
+                                propertyList.addProperty(property, chosen);
                             }
                             System.out.println("Property successfully added on the table");
                         }
@@ -100,14 +101,14 @@ public class Main {
                         case Command.SWAP_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
-                            Color[] self = interactor.selectSinglePropertyFrom(player, Interactor.INCOMPLETE);
+                            Property self = interactor.selectSinglePropertyFrom(player, Interactor.INCOMPLETE);
                             //Check if the current player have property on the table that is incomplete
                             if (self == null) {
                                 System.out.println("You don't have any property to swap.");
                                 success = false;
                                 break;
                             }
-                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                            Property target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
                             //Check if the target player have property on the table that is incomplete
                             if (target == null) {
                                 System.out.println(targetPlayer.getName() + " doesn't have any property to swap.");
@@ -115,11 +116,11 @@ public class Main {
                                 break;
                             }
                             {
-                                Color chosen = interactor.chooseColor(targetPlayer, self);
+                                Color chosen = interactor.chooseColor(targetPlayer, self.getColors());
                                 targetPlayer.getPropertyList().addProperty(self, chosen);
                             }
                             {
-                                Color chosen = interactor.chooseColor(player, target);
+                                Color chosen = interactor.chooseColor(player, target.getColors());
                                 player.getPropertyList().addProperty(target, chosen);
                             }
                         }
@@ -127,12 +128,13 @@ public class Main {
                         case Command.TAKE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
-                            Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
-                            if (target.length == 1){
-                                player.getPropertyList().addProperty(target, target[0]);
+                            Property target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                            Color[] colors = target.getColors();
+                            if (colors.length == 1){
+                                player.getPropertyList().addProperty(target, colors[0]);
                             }
                             else {
-                                Color chosen = interactor.chooseColor(player, target);
+                                Color chosen = interactor.chooseColor(player, colors);
                                 player.getPropertyList().addProperty(target, chosen);
                             }
 
@@ -146,17 +148,19 @@ public class Main {
                             if (target == null){
                                 System.out.println(targetPlayer.getName() + " doesn't have any completed property set."
                                 + "\nAn action will be deducted as a punishment for not paying attention!");
+                                break;
                             }
                             for (int i = 0; i < target.getData().length; i++) {
-                                Color[] colors = target.getData()[i];
+                                Property property = target.getData()[i];
+                                Color[] colors = property.getColors();
                                 if (colors.length == 1){
-                                    if(!player.getPropertyList().addProperty(colors, colors[0])){
+                                    if(!player.getPropertyList().addProperty(property, colors[0])){
                                         System.out.println("You have already owned this property complete set.");
 
                                     }
                                 } else {
                                     Color chosen = interactor.chooseColor(player, colors);
-                                    player.getPropertyList().addProperty(colors, chosen);
+                                    player.getPropertyList().addProperty(property, chosen);
                                 }
                             }
                         }

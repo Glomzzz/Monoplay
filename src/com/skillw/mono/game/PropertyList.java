@@ -1,6 +1,7 @@
 package com.skillw.mono.game;
 
 import com.skillw.mono.Color;
+import com.skillw.mono.card.Property;
 
 /**
  * This class represents the list of properties that a player has.
@@ -35,8 +36,8 @@ public class PropertyList {
         };
     }
 
-    public boolean addProperty(Color[] colors,Color color){
-       return this.properties[color.getId()].addProperty(colors);
+    public boolean addProperty(Property property, Color color){
+       return this.properties[color.getId()].addProperty(property);
     }
 
     public Properties getProperties(Color color){

@@ -1,23 +1,24 @@
 package com.skillw.mono.game;
 
 import com.skillw.mono.Color;
+import com.skillw.mono.card.Property;
 
 public class Properties {
     private final Color color;
     // Store the property card's colors
-    private final Color[][] data;
+    private final Property[] data;
     private int size;
 
     public Properties(Color color) {
         this.color = color;
-        this.data = new Color[color.getMaxLevel()][2];
+        this.data = new Property[color.getMaxLevel()];
         this.size = 0;
     }
 
-    public boolean addProperty(Color[] colors){
+    public boolean addProperty(Property property){
         if (this.size == this.color.getMaxLevel())
             return false;
-        this.data[this.size] = colors;
+        this.data[this.size] = property;
         this.size++;
         return true;
     }
@@ -26,16 +27,16 @@ public class Properties {
         return this.size;
     }
 
-    public Color[][] getData() {
+    public Property[] getData() {
         return this.data;
     }
 
-    public void takeAndSwapWith(int index, Color[] colors){
-        this.data[index] = colors;
+    public void takeAndSwapWith(int index, Property another){
+        this.data[index] = another;
     }
 
-    public Color[] take(int index){
-        Color[] colors = this.data[index];
+    public Property take(int index){
+        Property colors = this.data[index];
         this.data[index] = null;
         for (int i = index; i < size; i++) {
             this.data[i] = this.data[i + 1];

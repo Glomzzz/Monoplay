@@ -3,6 +3,7 @@ package com.skillw.mono;
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.Money;
 import com.skillw.mono.card.PerformableCard;
+import com.skillw.mono.card.Property;
 import com.skillw.mono.game.*;
 import com.skillw.mono.util.CardCounter;
 
@@ -60,14 +61,14 @@ public class Interactor {
         if(index > 0){
             System.out.printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
-                Color[] colors = properties.getData()[j];
-                showColors(0,colors);
+                Property property = properties.getData()[j];
+                showColors(0,property.getColors());
             }
         }else{
             System.out.printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
-                Color[] colors = properties.getData()[j];
-                showColors(j+1,colors);
+                Property property = properties.getData()[j];
+                showColors(j+1,property.getColors());
             }
         }
     }
@@ -370,18 +371,18 @@ public class Interactor {
      * Select a property from a player
      * @param target which player is going to be select from
      * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
-     * @return the selected properties
+     * @return the selected property
      */
-    public Color[] selectSinglePropertyFrom(Player target, byte filter){
+    public Property selectSinglePropertyFrom(Player target, byte filter){
         Properties properties = selectProperties(target,filter);
         if(properties == null) return null;
         System.out.println("Which property do you want to select?");
         int[] map = new int[properties.getSize()+1];
         int index = 1;
         for (int i = 0; i < properties.getSize(); i++) {
-            Color[] colors = properties.getData()[i];
+            Property property = properties.getData()[i];
             map[index] = i;
-            showColors(index++,colors);
+            showColors(index++,property.getColors());
         }
         int option = readInt("Please select a property: ");
         while (option < 1 || option >= index){
