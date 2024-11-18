@@ -155,8 +155,8 @@ public class Main {
                                 Color[] colors = property.getColors();
                                 if (colors.length == 1){
                                     if(!player.getPropertyList().addProperty(property, colors[0])){
-                                        System.out.println("You have already owned this property complete set.");
-
+                                        System.out.println("You have already owned a complete set of"+ colors[0].getName() +", you can't take this property card.");
+                                        game.getCardStack().add(property);
                                     }
                                 } else {
                                     Color chosen = interactor.chooseColor(player, colors);
