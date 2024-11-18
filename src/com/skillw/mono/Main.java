@@ -21,23 +21,24 @@ public class Main {
 
             while (!game.hasWinner()){
                 Player player = game.getCurrentPlayer();
+                interactor.setCurrentPlayer(player);
                 int actionRemain = 3;
                 interactor.emptyGap();
                 // Player draws 2 cards at the beginning of his/her turn
                 for (int i = 0; i < 2; i++) {
                     player.getCardList().draw();
                 }
-                System.out.println("======================================");
+                interactor.println("======================================");
                 while (actionRemain > 0 && !game.hasWinner()){
-                    System.out.println();
-                    System.out.println(player.getName()+", this is your turn!");
-                    System.out.println("You can perform " + actionRemain +  " actions now:");
-                    System.out.println("1. Play an action card");
-                    System.out.println("2. Set a property");
-                    System.out.println("3. Collect Rent");
-                    System.out.println("4. Store Money");
-                    System.out.println("5. View cards on the table (not count as an action)");
-                    System.out.println("6. End your turn");
+                    interactor.println("");
+                    interactor.println(player.getName()+", this is your turn!");
+                    interactor.println("You can perform " + actionRemain +  " actions now:");
+                    interactor.println("1. Play an action card");
+                    interactor.println("2. Set a property");
+                    interactor.println("3. Collect Rent");
+                    interactor.println("4. Store Money");
+                    interactor.println("5. View cards on the table (not count as an action)");
+                    interactor.println("6. End your turn");
                     int choice = interactor.readInt("Your choice: ");
 
                     if (choice == 6) break;
@@ -57,10 +58,10 @@ public class Main {
                             if (selected != null) card = selected.asMoney();
                             break;
                         case 5:
-                            interactor.displayCards();
+                            interactor.displayState();
                             break;
                         default:
-                            System.out.println("Invalid choice, please try again.");
+                            interactor.println("Invalid choice, please try again.");
                     }
                     if (card != null){
                         Command command = card.action(game,player);
@@ -86,42 +87,42 @@ public class Main {
                             {
                                 BuildProperty buildProperty = (BuildProperty) command;
                                 Property property = buildProperty.getProperty();
-                                interactor.setUpProperty(player,property);
+                                interactor.setProperty(player,property);
                                 interactor.alert("Property successfully added on the table");
                             }
                             break;
                             case Command.SWAP_PROPERTY:
                             {
                                 Player targetPlayer = interactor.selectPlayer(player, game);
-                                Property self = interactor.selectSinglePropertyFrom(player, Interactor.INCOMPLETE);
+                                Property self = interactor.selectSinglePropertyFrom(player,player, Interactor.INCOMPLETE);
                                 //Check if the current player have property on the table that is incomplete
                                 if (self == null) {
                                     interactor.alert("You don't have any property to swap.");
                                     success = false;
                                     break;
                                 }
-                                Property target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                                Property target = interactor.selectSinglePropertyFrom(targetPlayer,player, Interactor.INCOMPLETE);
                                 //Check if the target player have property on the table that is incomplete
                                 if (target == null) {
                                     interactor.alert(targetPlayer.getName() + " doesn't have any property to swap.");
                                     success = false;
                                     break;
                                 }
-                                interactor.setUpProperty(targetPlayer, self);
-                                interactor.setUpProperty(player, target);
+                                interactor.setProperty(targetPlayer, self);
+                                interactor.setProperty(player, target);
                             }
                             break;
                             case Command.TAKE_PROPERTY:
                             {
                                 Player targetPlayer = interactor.selectPlayer(player, game);
-                                Property target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
-                                interactor.setUpProperty(player, target);
+                                Property target = interactor.selectSinglePropertyFrom(targetPlayer,player, Interactor.INCOMPLETE);
+                                interactor.setProperty(player, target);
                             }
                             break;
                             case Command.TAKE_COMPLETE_PROPERTY:
                             {
                                 Player targetPlayer = interactor.selectPlayer(player, game);
-                                Properties target = interactor.selectProperties(targetPlayer, Interactor.COMPLETED);
+                                Properties target = interactor.selectProperties(targetPlayer,player, Interactor.COMPLETED);
 
                                 if (target == null){
                                     interactor.alert(targetPlayer.getName() + " doesn't have any completed property set."
@@ -137,7 +138,7 @@ public class Main {
                                             game.getCardStack().add(property);
                                         }
                                     } else {
-                                        interactor.setUpProperty(player, property);
+                                        interactor.setProperty(player, property);
                                     }
                                 }
                             }
@@ -192,9 +193,9 @@ public class Main {
                 // If the player has more than 5 cards, he/she has to discard cards
                 int needToDiscard = player.getCardList().size() - 5;
                 if (needToDiscard > 0){
-                    System.out.println("You have more than 5 cards, you have to discard " + needToDiscard + " cards.");
+                    interactor.println("You have more than 5 cards, you have to discard " + needToDiscard + " cards.");
                     while (needToDiscard > 0){
-                        System.out.println("Which card do you want to discard?   ( " + needToDiscard + " cards left )");
+                        interactor.println("Which card do you want to discard?   ( " + needToDiscard + " cards left )");
                         Card card = interactor.selectAllCard(player,false);
                         player.getCardList().consume(card);
                         needToDiscard--;

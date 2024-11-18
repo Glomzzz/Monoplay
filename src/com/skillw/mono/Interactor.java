@@ -11,8 +11,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Interactor {
-    private final Scanner input;
-    private GameState game = null;
     private static final String ITEM_FORMAT = "%d. %-25s    x%-2d    ~ $ %dM %n";
     private static final String PROPERTY_HEAD = "    Properties: %n";
     private static final String PROPERTY_FORMAT = "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
@@ -23,7 +21,13 @@ public class Interactor {
     private static final String BANK_HEAD = "    Bank ( $ %d M ): %n";
     private static final String MONEY_FORMAT = "        |-  %-11s    x%-2d %n";
     private static final String BANK_EMPTY = "    |-  No money in bank! %n";
+    private static final String MESSAGE_FORMAT = "%-9s>>    %s";
     private static final Card GO_BACK = null;
+
+
+    private final Scanner input;
+    private GameState game = null;
+    private Player currentPlayer = null;
 
     public Interactor(){
         this.input = new Scanner(System.in);
@@ -33,6 +37,19 @@ public class Interactor {
         this.game = game;
     }
 
+    public void print(String message){
+        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
+        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), message);
+    }
+
+    public void println(String message){
+        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
+        System.out.printf(MESSAGE_FORMAT + "%n", currentPlayer.getName(), message);
+    }
+    public void printf(String format, Object... args){
+        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
+        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), String.format(format,args));
+    }
 
     //DEVELOPED BY: MORRO
     /**
@@ -54,63 +71,13 @@ public class Interactor {
         }
     }
 
-    //DEVELOPED BY: GLOM
-    private void displayProperties(Properties properties,int index){
-        Color color = properties.getColor();
-        int num = properties.getSize();
-        if(index > 0){
-            System.out.printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
-            for (int j = 0; j < properties.getSize() ; j++) {
-                Property property = properties.getData()[j];
-                showColors(0,property.getColors());
-            }
-        }else{
-            System.out.printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
-            for (int j = 0; j < properties.getSize() ; j++) {
-                Property property = properties.getData()[j];
-                showColors(j+1,property.getColors());
-            }
-        }
-    }
-
-    //DEVELOPED BY: GLOM
-    private void displayPropertyList(PropertyList propertyList){
-        System.out.printf(PROPERTY_HEAD);
-        boolean empty = true;
-        for (int i = 0; i < Color.UNIVERSAL.length; i++) {
-            Color color = Color.UNIVERSAL[i];
-            Properties properties = propertyList.getProperties(color);
-            if (properties.getSize() > 0) {
-                empty = false;
-                displayProperties(properties,0);
-            }
-        }
-        if (empty)  System.out.printf(PROPERTY_EMPTY);
-    }
-
-    //DEVELOPED BY: GLOM
-    private void displayBank(Bank bank) {
-        System.out.printf(BANK_HEAD, bank.calculateWorth());
-        boolean empty = true;
-        for (int i = 0; i < Bank.MONEYS.length; i++) {
-            Money money = Bank.MONEYS[i];
-            int num = bank.getNumOf(money);
-            if (num > 0) {
-                empty = false;
-                System.out.printf(MONEY_FORMAT,  money.getName(), num);
-            }
-        }
-        if (empty) System.out.printf(BANK_EMPTY);
-    }
-
-    //DEVELOPED BY: GLOM
-    public void displayCards(){
+    public void displayState(){
         Player[] players = game.getAllPlayers();
         for (int i=0; i<players.length; i++){
-            System.out.println(players[i].getName() + ":");
+            println(players[i].getName() + ":");
             displayPropertyList(players[i].getPropertyList());
             displayBank(players[i].getBank());
-            System.out.println();
+            println("");
         }
     }
 
@@ -156,15 +123,16 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     public int readInt(String prompt){
         try {
-            System.out.print(prompt);
+            print(prompt);
             return input.nextInt();
         } catch (InputMismatchException e){
-            System.out.println("Invalid input, please enter a number!");
+            println("Invalid input, please enter a number!");
             input.nextLine();
             return readInt(prompt);
         }
     }
 
+    //DEVELOPED BY: MORRO
     public void askToPay(Player from, Player to, int amount){
         CardList with = new CardList(game);
         Bank bank = from.getBank();
@@ -174,7 +142,7 @@ public class Interactor {
         int propertyWorth = propertyList.calculateWorthOfAll();
         int cardWorth = cardList.calculateWorth();
         if (bankWorth + cardWorth + propertyWorth < amount){
-            System.out.println(from.getName() + " don't have enough money & cards to pay, so " + to.getName() + " will take all cards from " + from.getName());
+            println(from.getName() + " don't have enough money & cards to pay, so you will take all cards from " + from.getName());
             for (int i = 0; i < cardList.size(); i++) {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
@@ -193,35 +161,37 @@ public class Interactor {
                 Properties properties = propertyList.getProperties(Color.UNIVERSAL[i]);
                 for (int j = 0; j < properties.getSize(); j++) {
                     Property property = properties.take(j);
-                    setUpProperty(to,property);
+                    setProperty(to,property);
                 }
             }
         } else {
-            System.out.println(from.getName() + " , you have to pay " + moneyOf(amount));
+            currentPlayer = to;
+            println(from.getName() + " , you have to pay " + moneyOf(amount));
             int paid = 0;
             while (paid < amount){
                 if (bankWorth > 0){
-                    System.out.println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
-                    System.out.println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
-                    Money money  = (Money) selectAllCard(bank,false);
+                    println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
+                    println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
+                    Money money  = (Money) selectCardInBank(from,false);
                     bank.take(money);
                     with.add(money);
                     paid += money.getWorth();
                 } else if (propertyWorth > 0){
-                    System.out.println("You have " + moneyOf(propertyWorth) + " in properties, you have to pay with properties.");
-                    System.out.println("Which property will you pay with?   ( " + moneyOf(amount - paid) + " left )");
-                    Property property = selectSinglePropertyFrom(from,ALL);
-                    setUpProperty(to,property);
+                    println("You have " + moneyOf(propertyWorth) + " in properties, you have to pay with properties.");
+                    println("Which property will you pay with?   ( " + moneyOf(amount - paid) + " left )");
+                    Property property = selectSinglePropertyFrom(from,from,ALL);
+                    setProperty(to,property);
                     paid += property.getWorth();
                 }else {
-                    System.out.println("Your bank has no money left, you have to pay with cards.");
-                    System.out.println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
-                    Card card = selectAllCard(cardList,false);
+                    println("Your bank has no money left, you have to pay with cards.");
+                    println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
+                    Card card = selectAllCard(from,false);
                     cardList.take(card);
                     with.add(card);
                     paid += card.getWorth();
                 }
             }
+            currentPlayer = from;
         }
         to.recieveCards(with);
     }
@@ -233,67 +203,78 @@ public class Interactor {
             System.out.printf(ITEM_FORMAT, i+1, card.getName(), cards.getNumOf(i), card.getWorth());
         }
     }
+
     //DEVELOPED BY: MORRO
     public void depositMoney(Player player, Card money){
         player.recieveCard(money);
-        System.out.println("Successfully deposited $"+money.getWorth());
+        println("Successfully deposited $"+money.getWorth());
     }
 
     //DEVELOPED BY: GLOM
-    public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){
+    public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to,Player by){
+        Player original = currentPlayer;
+        currentPlayer = by;
         int index = 1;
         int[] map = new int[to - from + 1];
         if (cancellable)
-            System.out.printf("%d. %-25s%n", 0, "Go Back");
+            printf("%d. %-25s%n", 0, "Go Back");
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
                 Card card = CardList.CARDS[i];
-                System.out.printf(ITEM_FORMAT, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+                printf(ITEM_FORMAT, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
         if (index == 1) {
-            System.out.println("You have no this type card!");
+            println("You have no this type card!");
         }
         int option = readInt("Your choice: ");
         while (option < 0 || option >= index){
-            System.out.println("Invalid card index. Please choose again.");
+            println("Invalid card index. Please choose again.");
             option = readInt("Your choice: ");
         }
         if (option == 0){
             return GO_BACK;
         }
         int cardIndex = map[option];
+        currentPlayer = original;
         return  CardList.CARDS[cardIndex];
     }
 
     //DEVELOPED BY: GLOM
-    public Card selectAllCard(CardCounter cardList,boolean cancellable){
-        return selectCard(cardList,cancellable,0,cardList.size());
+    public Card selectCardInBank(Player player,boolean cancellable){
+        return selectCard(player.getBank(),cancellable,0,Bank.MONEYS.length, player);
     }
 
     //DEVELOPED BY: GLOM
     public Card selectAllCard(Player player,boolean cancellable){
-        return selectCard(player.getCardList(),cancellable,0,CardList.CARDS.length);
+        return selectCard(player.getCardList(),cancellable,0,CardList.CARDS.length, player);
     }
+
+    //DEVELOPED BY: MORRO
     public PerformableCard selectActionCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.ACTION_START,CardList.ACTION_END);
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.ACTION_START,CardList.ACTION_END, player);
     }
 
+    //DEVELOPED BY: MORRO
     public PerformableCard selectPropertyCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.PROPERTY_START,CardList.PROPERTY_END);
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.PROPERTY_START,CardList.PROPERTY_END, player);
     }
 
+    //DEVELOPED BY: MORRO
     public PerformableCard selectRentCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END);
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
     }
 
     public Money selectMoneyCard(Player player,boolean cancellable){
-        return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END);
+        return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END, player);
     }
 
     //DEVELOPED BY: GLOM
     public Player selectPlayer(Player by, GameState state){
+        Player original = currentPlayer;
+        currentPlayer = by;
+
         Player[] players = state.getAllPlayers();
 
         int[] map = new int[players.length];
@@ -302,14 +283,15 @@ public class Interactor {
             Player player = players[i];
             if (player != by) {
                 map[index] = i;
-                System.out.println(index++ + ". " + player.getName());
+                println(index++ + ". " + player.getName());
             }
         }
         int option = readInt("Please select a player: ");
         while (option < 1 || option >= index){
-            System.out.println("Invalid player index. Please choose again: ");
+            println("Invalid player index. Please choose again: ");
             option = readInt("Please select a player: ");
         }
+        currentPlayer = original;
         return players[map[option]];
     }
 
@@ -321,16 +303,19 @@ public class Interactor {
      * @return the color the player choose
      */
     public Color chooseColor(Player player,Color[] colors){
+        Player original = currentPlayer;
+        currentPlayer = player;
         //Show all the color options available
         for (int i = 0; i < colors.length; i++) {
             Color color = colors[i];
-            System.out.println(i+1 + ". " + color.getName());
+            println(i+1 + ". " + color.getName());
         }
         int option = readInt( player.getName() +", please select a color: ");
         if (option < 1 || option > colors.length){
-            System.out.println("Invalid color index. Please choose again: ");
+            println("Invalid color index. Please choose again: ");
             return chooseColor(player,colors);
         }
+        currentPlayer = original;
         return colors[option-1];
     }
 
@@ -345,8 +330,10 @@ public class Interactor {
      * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
      * @return the selected properties
      */
-    public Properties selectProperties(Player target,byte filter){
-        System.out.println("Which color do you want to select?");
+    public Properties selectProperties(Player target,Player by,byte filter){
+        Player original = currentPlayer;
+        currentPlayer = by;
+        println("Which color do you want to select?");
         int index = 1;
         int[] map = new int[Color.UNIVERSAL.length+1];
         for (int i = 0; i < Color.UNIVERSAL.length; i++) {
@@ -375,9 +362,10 @@ public class Interactor {
         }
         int option = readInt("Please select a color: ");
         while (option < 1 || option >= index){
-            System.out.println("Invalid color index. Please choose again: ");
+            println("Invalid color index. Please choose again: ");
             option = readInt("Please select a color: ");
         }
+        currentPlayer = original;
         return target.getPropertyList().getProperties(Color.UNIVERSAL[map[option]]);
     }
 
@@ -388,10 +376,12 @@ public class Interactor {
      * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
      * @return the selected property
      */
-    public Property selectSinglePropertyFrom(Player target, byte filter){
-        Properties properties = selectProperties(target,filter);
+    public Property selectSinglePropertyFrom(Player target,Player by, byte filter){
+        Properties properties = selectProperties(target,by,filter);
         if(properties == null) return null;
-        System.out.println("Which property do you want to select?");
+        Player original = currentPlayer;
+        currentPlayer = by;
+        println("Which property do you want to select?");
         int[] map = new int[properties.getSize()+1];
         int index = 1;
         for (int i = 0; i < properties.getSize(); i++) {
@@ -401,37 +391,38 @@ public class Interactor {
         }
         int option = readInt("Please select a property: ");
         while (option < 1 || option >= index){
-            System.out.println("Invalid property index. Please choose again: ");
+            println("Invalid property index. Please choose again: ");
             option = readInt("Please select a property: ");
         }
+        currentPlayer = original;
         return properties.take(map[option]);
     }
 
     private void showColors(int index, Color[] colors){
         if (index > 0){
             if (colors == Color.UNIVERSAL) {
-                System.out.printf(PROPERTIES_FORMAT, index, "Universal");
+                printf(PROPERTIES_FORMAT, index, "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            System.out.printf(PROPERTIES_FORMAT, index, name);
+            printf(PROPERTIES_FORMAT, index, name);
         } else {
             if (colors == Color.UNIVERSAL) {
-                System.out.printf(PROPERTIES_NO_INDEX_FORMAT, "Universal");
+                printf(PROPERTIES_NO_INDEX_FORMAT, "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            System.out.printf(PROPERTIES_NO_INDEX_FORMAT, name);
+            printf(PROPERTIES_NO_INDEX_FORMAT, name);
         }
     }
 
-    public void setUpProperty(Player player,Property property){
+    public void setProperty(Player player, Property property){
         //filter completed colors
         PropertyList propertyList = player.getPropertyList();
         Color[] original = property.getColors();
@@ -444,20 +435,73 @@ public class Interactor {
             }
         }
         Color[] result = new Color[index];
-        System.arraycopy(filtered, 0, result, 0, index);
+        for (int i = 0; i < index; i++) {
+            result[i] = filtered[i];
+        }
         Color chosen = chooseColor(player,result);
         propertyList.addProperty(property, chosen);
     }
 
     public void waitForPlayer(){
-        System.out.println("Press enter to continue...");
+        printf("Press enter to continue...");
+        input.nextLine();
         input.nextLine();
     }
 
     public void alert(String message){
-        System.out.println(message);
+        println(message);
         waitForPlayer();
     }
+    //DEVELOPED BY: GLOM
+    private void displayProperties(Properties properties,int index){
+        Color color = properties.getColor();
+        int num = properties.getSize();
+        if(index > 0){
+            printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Property property = properties.getData()[j];
+                showColors(0,property.getColors());
+            }
+        }else{
+            printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Property property = properties.getData()[j];
+                showColors(j+1,property.getColors());
+            }
+        }
+    }
 
+    //DEVELOPED BY: GLOM
+    private void displayPropertyList(PropertyList propertyList){
+        printf(PROPERTY_HEAD);
+        boolean empty = true;
+        for (int i = 0; i < Color.UNIVERSAL.length; i++) {
+            Color color = Color.UNIVERSAL[i];
+            Properties properties = propertyList.getProperties(color);
+            if (properties.getSize() > 0) {
+                empty = false;
+                displayProperties(properties,0);
+            }
+        }
+        if (empty)  printf(PROPERTY_EMPTY);
+    }
 
+    //DEVELOPED BY: GLOM
+    private void displayBank(Bank bank) {
+        printf(BANK_HEAD, bank.calculateWorth());
+        boolean empty = true;
+        for (int i = 0; i < Bank.MONEYS.length; i++) {
+            Money money = Bank.MONEYS[i];
+            int num = bank.getNumOf(money);
+            if (num > 0) {
+                empty = false;
+                printf(MONEY_FORMAT,  money.getName(), num);
+            }
+        }
+        if (empty) printf(BANK_EMPTY);
+    }
+
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
 }
