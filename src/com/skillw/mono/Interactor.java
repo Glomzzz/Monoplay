@@ -33,7 +33,7 @@ public class Interactor {
     }
 
 
-
+    //DEVELOPED BY: MORRO
     /**
      * Display the game title
      */
@@ -43,8 +43,9 @@ public class Interactor {
         System.out.println("======================================");
     }
 
+    //DEVELOPED BY: MORRO
     /**
-     * Generata a huge empty gap
+     * Generate a huge empty gap
      */
     public void emptyGap(){
         for(int i = 0; i < 30; i ++){
@@ -52,6 +53,7 @@ public class Interactor {
         }
     }
 
+    //DEVELOPED BY: GLOM
     private void displayProperties(Properties properties,int index){
         Color color = properties.getColor();
         int num = properties.getSize();
@@ -70,6 +72,7 @@ public class Interactor {
         }
     }
 
+    //DEVELOPED BY: GLOM
     private void displayPropertyList(PropertyList propertyList){
         System.out.printf(PROPERTY_HEAD);
         boolean empty = true;
@@ -84,6 +87,7 @@ public class Interactor {
         if (empty)  System.out.printf(PROPERTY_EMPTY);
     }
 
+    //DEVELOPED BY: GLOM
     private void displayBank(Bank bank) {
         System.out.printf(BANK_HEAD, bank.calculateWorth());
         boolean empty = true;
@@ -98,6 +102,7 @@ public class Interactor {
         if (empty) System.out.printf(BANK_EMPTY);
     }
 
+    //DEVELOPED BY: GLOM
     public void displayCards(){
         Player[] players = game.getAllPlayers();
         for (int i=0; i<players.length; i++){
@@ -112,13 +117,14 @@ public class Interactor {
         return "$ " + amount + "M";
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Register the players in the game
      * @return   - the array of players
      */
     public String[] registerPlayers(){
         System.out.println("Please enter players name, enter 'done' to finish.");
-        String[] names = new String[6];
+        String[] names = new String[5];
         int count = 0;
         while (count < 5){
             System.out.print("Player " + (count+1) + ": ");
@@ -146,7 +152,7 @@ public class Interactor {
         return result;
     }
 
-
+    //DEVELOPED BY: MORRO
     public int readInt(String prompt){
         try {
             System.out.print(prompt);
@@ -204,7 +210,6 @@ public class Interactor {
         to.recieveCards(with);
     }
 
-
     public void showCardStack(CardList cards){
         System.out.println("Card Stack:");
         for (int i = 0; i < cards.size(); i++) {
@@ -212,12 +217,13 @@ public class Interactor {
             System.out.printf(ITEM_FORMAT, i+1, card.getName(), cards.getNumOf(i), card.getWorth());
         }
     }
-
+    //DEVELOPED BY: MORRO
     public void depositMoney(Player player, Card money){
         player.recieveCard(money);
         System.out.println("Successfully deposited $"+money.getWorth());
     }
 
+    //DEVELOPED BY: GLOM
     public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to){
         int index = 1;
         int[] map = new int[to - from + 1];
@@ -230,26 +236,6 @@ public class Interactor {
                 System.out.printf(ITEM_FORMAT, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
-        /**
-         * What player sees:
-         *
-         * index
-         * ↓
-         * 1. xxx  1
-         * 2. yyy  2
-         * 3. aaa  3
-         */
-        /**
-         * What program sees:
-         *
-         * i     card number
-         * ↓      ↓
-         * 0. ccc 0
-         * 1. xxx 1
-         * 2. ddd 0
-         * 3. yyy 2
-         * 4. aaa 3
-         */
         if (index == 1) {
             System.out.println("You have no this type card!");
         }
@@ -265,11 +251,12 @@ public class Interactor {
         return  CardList.CARDS[cardIndex];
     }
 
-
+    //DEVELOPED BY: GLOM
     public Card selectAllCard(CardCounter cardList,boolean cancellable){
         return selectCard(cardList,cancellable,0,cardList.size());
     }
 
+    //DEVELOPED BY: GLOM
     public Card selectAllCard(Player player,boolean cancellable){
         return selectCard(player.getCardList(),cancellable,0,CardList.CARDS.length);
     }
@@ -289,6 +276,7 @@ public class Interactor {
         return  (Money)selectCard(player.getCardList(),cancellable,CardList.MONEY_START,CardList.MONEY_END);
     }
 
+    //DEVELOPED BY: GLOM
     public Player selectPlayer(Player by, GameState state){
         Player[] players = state.getAllPlayers();
 
@@ -309,8 +297,15 @@ public class Interactor {
         return players[map[option]];
     }
 
-
+    //DEVELOPED BY: MORRO
+    /**
+     * Select a property from a player
+     * @param player the player that'll be choosing the color
+     * @param colors the array of colors
+     * @return the color the player choose
+     */
     public Color chooseColor(Player player,Color[] colors){
+        //Show all the color options available
         for (int i = 0; i < colors.length; i++) {
             Color color = colors[i];
             System.out.println(i+1 + ". " + color.getName());
@@ -327,6 +322,7 @@ public class Interactor {
     public static final byte COMPLETED = 1;
     public static final byte INCOMPLETE = 2;
 
+    //DEVELOPED BY: GLOM
     /**
      * Select a property from a player
      * @param target which player is going to be select from
@@ -369,6 +365,13 @@ public class Interactor {
         return target.getPropertyList().getProperties(Color.UNIVERSAL[map[option]]);
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Select a property from a player
+     * @param target which player is going to be select from
+     * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
+     * @return the selected properties
+     */
     public Color[] selectSinglePropertyFrom(Player target, byte filter){
         Properties properties = selectProperties(target,filter);
         if(properties == null) return null;

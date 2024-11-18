@@ -7,61 +7,8 @@ import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.PropertyList;
 
-/**
- *
- * Kevin, this is your turn!
- * Kevin, You can perform 3 actions now:
- * 1. Perform an action
- * 2. Set a property
- * 3. Collect Rent
- * 4. Store Money
- * 5. View other player's card on the table
- * 6. End your turn
- * Your choice: 1
- * Here are the cards you can perform:
- * 0. Exit
- * 1. Birthday [1]
- * 2. Debt Collector [1]
- *
- * Your choice: 2
- * Who do you want to perform the card on?
- * 1. Morro
- * 2. Glom
- * Your choice: 2
- * You have chosen Glom.
- * Glom, you have to pay $ 5 M to Kevin.
- * Please select the cards you want to pay with (reamining $ 5 M):
- * 1. $ 2 M     x 2             - $ 2 M
- * 1
- * Please select the cards you want to pay with (reamining $ 3 M):
- * 1.$ 2 M      x 1            - $ 2 M
- * 1
- * Please select the cards you want to pay with (reamining $ 2 M):
- * 1. Property Red      x 1     - $ 2 M
- * 1
- * Glom has paid $ 5 M to Kevin.
- *
- * Kevin, You can perform 2 actions now:
- *  * 1. Perform an action
- *  * 2. Set a property
- *  * 3. Rent
- *  * 4. Store Money
- *  * 5. End your turn
- *  Your choice: .........
- *
- *
- *  //Display cards on the table
- *  Player: Morro
- *  Properties:
- *
- *  Moneys:
- *  1. $ 2 M    x 1 ~ $ 1M
- *  2.
- */
-
 public class Main {
     public static void main(String[] args) {
-
 
         Interactor interactor = new Interactor();
         interactor.displayHeader();
@@ -139,21 +86,28 @@ public class Main {
                             BuildProperty buildProperty = (BuildProperty) command;
                             PropertyList propertyList = player.getPropertyList();
                             Color[] colors = buildProperty.getColors();
-                            Color chosen = interactor.chooseColor(player, colors);
-                            propertyList.addProperty(colors, chosen);
-                            System.out.println("REPORT: Property successfully added on the table");
+                            if (colors.length == 1){
+                                propertyList.addProperty(colors, colors[0]);
+                            }
+                            else {
+                                Color chosen = interactor.chooseColor(player, colors);
+                                propertyList.addProperty(colors, chosen);
+                            }
+                            System.out.println("Property successfully added on the table");
                         }
                             break;
                         case Command.SWAP_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
                             Color[] self = interactor.selectSinglePropertyFrom(player, Interactor.INCOMPLETE);
+                            //Check if the current player have property on the table that is incomplete
                             if (self == null) {
                                 System.out.println("You don't have any property to swap.");
                                 success = false;
                                 break;
                             }
                             Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
+                            //Check if the target player have property on the table that is incomplete
                             if (target == null) {
                                 System.out.println(targetPlayer.getName() + " doesn't have any property to swap.");
                                 success = false;
@@ -173,8 +127,14 @@ public class Main {
                         {
                             Player targetPlayer = interactor.selectPlayer(player, game);
                             Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.INCOMPLETE);
-                            Color chosen = interactor.chooseColor(player, target);
-                            player.getPropertyList().addProperty(target, chosen);
+                            if (target.length == 1){
+                                player.getPropertyList().addProperty(target, target[0]);
+                            }
+                            else {
+                                Color chosen = interactor.chooseColor(player, target);
+                                player.getPropertyList().addProperty(target, chosen);
+                            }
+
                         }
                             break;
                         case Command.TAKE_COMPLETE_PROPERTY:
@@ -182,16 +142,17 @@ public class Main {
                             Player targetPlayer = interactor.selectPlayer(player, game);
                             Color[] target = interactor.selectSinglePropertyFrom(targetPlayer, Interactor.COMPLETED);
 
-                            if (target == null || target.length == 0){
-                                System.out.println(targetPlayer.getName() + " doesn't have any completed property set.");
-                                success = true;
-                                break;
+                            if (target.length == 0){
+                                System.out.println(targetPlayer.getName() + " doesn't have any completed property set."
+                                + "\nAn action will be deducted as a punishment for not paying attention!");
                             }
                             else {
                                 Color chosen = interactor.chooseColor(player, target);
+                                for (int i = 0; i < target.length; i++){
+
+                                }
                                 player.getPropertyList().addProperty(target, chosen);
                             }
-
                         }
                             break;
                         case Command.RENT:
