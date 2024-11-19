@@ -44,7 +44,8 @@ public class Main {
             for (int i = 0; i < 2; i++) {
                 interactor.drawCard(currPlayer);
             }
-            currPlayer.getCardList().add(Birthday.BIRTHDAY);
+
+
             boolean hasWinner = game.hasWinner();
             while (actionRemain > 0 && !hasWinner){
                 interactor.println("======================================");

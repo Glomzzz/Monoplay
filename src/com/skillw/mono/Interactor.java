@@ -41,9 +41,6 @@ public class Interactor {
     private GameState game = null;
     private Player currentPlayer = null;
 
-    private String currentName(){
-        return currentPlayer.getName();
-    }
     //DEVELOPED BY: MORRO
     public Interactor(){
         this.input = new Scanner(System.in);
@@ -522,11 +519,56 @@ public class Interactor {
         System.out.printf(MESSAGE_FORMAT + "%n", currentName(), message);
     }
 
+    public boolean doubleTheRent(Player player){
+        Player original = currentPlayer;
+        currentPlayer = player;
+        CardList cardList = player.getCardList();
+        int numOfDoubleRent = cardList.getNumOfDoubleRent();
+        if(numOfDoubleRent < 1) return false;
+        println("You have " + numOfDoubleRent + " of Double The Rent! , do you want to use it?");
+        println("1. Yes");
+        println("2. No");
+        int option = readInt("Your choice: ");
+        if(option == 1){
+            cardList.take(DoubleTheRent.DOUBLE_THE_RENT);
+            currentPlayer = original;
+            return true;
+        }
+        currentPlayer = original;
+        return false;
+    }
+
+    public boolean refuseByNo(Player player, String command){
+        Player original = currentPlayer;
+        currentPlayer = player;
+        CardList cardList = player.getCardList();
+        int numOfNo = cardList.getNumOfNo();
+        if(numOfNo < 1) {
+            currentPlayer = original;
+            return false;
+        }
+        println("You are being asked to " + command);
+        println("You have " + numOfNo + " of Just Say NO! , do you want to use it?");
+        println("1. Yes");
+        println("2. No");
+        int option = readInt("Your choice: ");
+        if(option == 1){
+            cardList.take(No.NO);
+            currentPlayer = original;
+            return true;
+        }
+        currentPlayer = original;
+        return false;
+    }
 
     //DEVELOPED BY: MORRO
     private void waitForPlayer(){
        print("Press enter to continue...");
        input.nextLine();
+    }
+
+    private String currentName(){
+        return currentPlayer.getName();
     }
 
     //DEVELOPED BY: GLOM
@@ -603,45 +645,7 @@ public class Interactor {
         if (empty) System.out.printf(BANK_EMPTY,currentName());
     }
 
-    public boolean doubleTheRent(Player player){
-        Player original = currentPlayer;
-        currentPlayer = player;
-        CardList cardList = player.getCardList();
-        int numOfDoubleRent = cardList.getNumOfDoubleRent();
-        if(numOfDoubleRent < 1) return false;
-        println("You have " + numOfDoubleRent + " of Double The Rent! , do you want to use it?");
-        println("1. Yes");
-        println("2. No");
-        int option = readInt("Your choice: ");
-        if(option == 1){
-            cardList.take(DoubleTheRent.DOUBLE_THE_RENT);
-            currentPlayer = original;
-            return true;
-        }
-        currentPlayer = original;
-        return false;
-    }
 
-    public boolean refuseByNo(Player player, String command){
-        Player original = currentPlayer;
-        currentPlayer = player;
-        CardList cardList = player.getCardList();
-        int numOfNo = cardList.getNumOfNo();
-        if(numOfNo < 1) {
-            currentPlayer = original;
-            return false;
-        }
-        println("You are being asked to " + command);
-        println("You have " + numOfNo + " of Just Say NO! , do you want to use it?");
-        println("1. Yes");
-        println("2. No");
-        int option = readInt("Your choice: ");
-        if(option == 1){
-            cardList.take(No.NO);
-            currentPlayer = original;
-            return true;
-        }
-        currentPlayer = original;
-        return false;
-    }
+
+
 }
