@@ -10,10 +10,12 @@ public class SlyDeal extends ActionCard {
     public static final SlyDeal SLY_DEAL = new SlyDeal();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private SlyDeal() {
         super("SlyDeal", 3);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Steal a property from any player
      * But can't steal a property that is part of a complete set

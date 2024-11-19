@@ -10,10 +10,12 @@ public class PassGo extends ActionCard {
     public static final PassGo PASS_GO = new PassGo();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private PassGo() {
         super("Pass GO",1);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Draw 2 cards
      *

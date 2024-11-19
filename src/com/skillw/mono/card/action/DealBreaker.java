@@ -10,10 +10,12 @@ public class DealBreaker extends ActionCard {
     public static final DealBreaker DEAL_BREAKER = new DealBreaker();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private DealBreaker() {
         super("Deal Breaker",5);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Steal a complete property set from any player
      *

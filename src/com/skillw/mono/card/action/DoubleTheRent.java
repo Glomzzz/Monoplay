@@ -12,6 +12,7 @@ public class DoubleTheRent extends Card {
     public static final DoubleTheRent DOUBLE_THE_RENT = new DoubleTheRent();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private DoubleTheRent() {
         super("Double The Rent",1);
     }

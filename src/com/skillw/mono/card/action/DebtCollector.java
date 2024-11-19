@@ -10,10 +10,12 @@ public class DebtCollector extends ActionCard {
     public static final DebtCollector DEBT_COLLECTOR = new DebtCollector();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private DebtCollector() {
         super("Debt Collector",3);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Ask any player for $ 5 M
      *

@@ -10,10 +10,12 @@ public class ForcedDeal extends ActionCard {
     public static final ForcedDeal FORCED_DEAL = new ForcedDeal();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private ForcedDeal() {
         super("Forced Deal",3);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Swap any property with any player
      * Except the property is part of a full set

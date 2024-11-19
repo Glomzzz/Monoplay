@@ -13,6 +13,7 @@ public class No extends Card {
     public static final No NO = new No();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private No() {
         super("Just Say NO!",4);
     }

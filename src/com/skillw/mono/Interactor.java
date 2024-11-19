@@ -137,6 +137,12 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
+    public void displayUniqueCardNum(Player player){
+        println("Double The Rent (" + player.getCardList().getNumOfDoubleRent() + ")");
+        println("JuSt SaY nO (" + player.getCardList().getNumOfNo());
+    }
+
+    //DEVELOPED BY: MORRO
     public void askToPay(Player from, Player to, int amount){
         Bank bank = from.getBank();
         PropertyList propertyList = from.getPropertyList();

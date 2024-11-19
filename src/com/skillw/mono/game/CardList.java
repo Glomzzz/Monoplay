@@ -111,4 +111,12 @@ public class CardList extends CardCounter{
     public void draw(){
         add(cardStack.draw());
     }
+
+    public int getNumOfNo(){
+        return getNumOf(36);
+    }
+
+    public int getNumOfDoubleRent(){
+        return getNumOf(37);
+    }
 }

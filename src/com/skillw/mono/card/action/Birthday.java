@@ -11,9 +11,12 @@ public class Birthday extends ActionCard {
     public static final Birthday BIRTHDAY = new Birthday();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private Birthday() {
         super("Birthday",2);
     }
+
+    //DEVELOPED BY: MORRO
     /**
      * Will collect $ 2 M  from each player
      *

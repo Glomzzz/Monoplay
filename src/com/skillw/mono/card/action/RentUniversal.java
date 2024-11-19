@@ -11,10 +11,12 @@ public class RentUniversal extends PerformableCard {
     public static final RentUniversal RENT_UNIVERSAL = new RentUniversal();
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     public RentUniversal() {
         super("Rent Universal", 3);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Rent for the properties, collect rent from the other players
      *

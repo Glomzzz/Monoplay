@@ -17,12 +17,13 @@ public class Rent extends ActionCard {
     private final Color[] colors;
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private Rent(String name,Color color1, Color color2, int worth){
         super(name, worth);
         this.colors = new Color[]{color1, color2};
     }
 
-
+    //DEVELOPED BY: MORRO
     /**
      * Rent for the properties, collect rent from the other players
      *
