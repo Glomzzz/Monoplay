@@ -76,6 +76,7 @@ public class Interactor {
             displayPropertyList(players[i].getPropertyList());
             displayBank(players[i].getBank());
             println("");
+            waitForPlayer();
         }
     }
 
@@ -184,12 +185,14 @@ public class Interactor {
                     bank.take(money);
                     to.recieveCard(money);
                     paid += money.getWorth();
+                    bankWorth = bank.calculateTotalWorth();
                 } else if (propertyWorth > 0){
                     println("You have " + moneyFormat(propertyWorth) + " in properties, you have to pay with properties.");
                     println("Which property will you pay with?   ( " + moneyFormat(amount - paid) + " left )");
                     Property property = selectSinglePropertyFrom(from,from,ALL);
                     setProperty(to,property);
                     paid += property.getWorth();
+                    propertyWorth = propertyList.calculateWorthOfAll();
                 }else {
                     println("Your bank has no money left, you have to pay with cards.");
                     println("Which card will you pay with?   ( "  + moneyFormat(amount - paid) + " left )");
