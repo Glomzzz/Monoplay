@@ -138,8 +138,7 @@ public class Interactor {
 
     //DEVELOPED BY: MORRO
     public void displayUniqueCardNum(Player player){
-        println("Double The Rent (" + player.getCardList().getNumOfDoubleRent() + ")");
-        println("JuSt SaY nO (" + player.getCardList().getNumOfNo());
+        println("Double The Rent (" + player.getCardList().getNumOfDoubleRent() + ")" + "  Just Say No (" + player.getCardList().getNumOfNo() + ")");
     }
 
     //DEVELOPED BY: MORRO
