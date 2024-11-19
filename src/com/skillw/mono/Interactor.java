@@ -76,6 +76,7 @@ public class Interactor {
             displayPropertyList(players[i].getPropertyList());
             displayBank(players[i].getBank());
             println("");
+            waitForPlayer();
         }
     }
 
