@@ -225,7 +225,7 @@ public class Main {
             if (hasWinner) break;
 
             // If the current player has more than 5 cards, he/she has to discard cards
-            int discard = currPlayer.getCardList().size() - 5;
+            int discard = currPlayer.getCardList().getSize() - 5;
             if (discard > 0){
                 interactor.println("You have more than 5 cards, you have to discard " + discard + " cards.");
                 while (discard > 0){

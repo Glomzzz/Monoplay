@@ -95,7 +95,7 @@ public class CardList extends CardCounter{
      */
     public int calculateTotalWorth(){
         int sum = 0;
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             sum += getNumOf(i) * CARDS[i].getWorth();
         }
         return sum;
