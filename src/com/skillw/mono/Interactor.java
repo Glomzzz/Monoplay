@@ -145,12 +145,13 @@ public class Interactor {
     private void recieve(Player player, Card card,Player from){
         Player temp = currentPlayer;
         currentPlayer = player;
-        println("You get a " + card.getName() + " from " + from.getName());
+        alert("You get a " + card.getName() + " from " + from.getName());
         if (card instanceof Property){
             setProperty(player,(Property) card);
         } else {
             player.recieveCard(card);
         }
+        currentPlayer = temp;
     }
 
     //DEVELOPED BY: MORRO
@@ -346,7 +347,13 @@ public class Interactor {
         if(properties == null) return null;
         Player original = currentPlayer;
         currentPlayer = by;
-        println("Which property do you want to select?");
+        String name;
+        if(target == by) {
+            name = "you";
+        } else {
+            name = target.getName();
+        }
+        println("Which property do you want to select from "+ name +" ?");
         int[] map = new int[properties.getSize()+1];
         int index = 1;
         for (int i = 0; i < properties.getSize(); i++) {
@@ -466,6 +473,10 @@ public class Interactor {
         //filter completed colors
         Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
         player.getPropertyList().addProperty(property, chosen);
+    }
+
+    public void drawCard(Player player){
+        alert("You draw a " + player.getCardList().draw().getName());
     }
 
     public void alert(String message){

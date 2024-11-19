@@ -25,8 +25,7 @@ public class Properties {
      */
     public boolean addProperty(Property property){
         if (isCompleted()) return false;
-        this.data[this.size] = property;
-        this.size++;
+        this.data[this.size++] = property;
         return true;
     }
 
@@ -58,13 +57,15 @@ public class Properties {
      * @return      the property
      */
     public Property take(int index){
-        Property colors = this.data[index];
+        Property property = this.data[index];
         this.data[index] = null;
+        size--;
+        // Shift the array, make sure there is no null in the middle
         for (int i = index; i < size; i++) {
             this.data[i] = this.data[i + 1];
         }
-        this.data[--size] = null;
-        return colors;
+        this.data[size] = null;
+        return property;
     }
 
     //DEVELOPED BY: GLOM

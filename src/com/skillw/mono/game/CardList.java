@@ -104,9 +104,13 @@ public class CardList extends CardCounter{
     //DEVELOPED BY: GLOM
     /**
      * Draw the card
+     *
+     * @return card drawn
      */
-    public void draw(){
-        add(cardStack.draw());
+    public Card draw(){
+        Card draw = cardStack.draw();
+        add(draw);
+        return draw;
     }
 
     //DEVELOPED BY: MORRO

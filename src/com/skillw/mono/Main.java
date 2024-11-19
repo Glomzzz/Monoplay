@@ -28,13 +28,14 @@ public class Main {
             int actionRemain = 3;
             interactor.emptyGap();
 
+            interactor.println("======================================");
             // Player draws 2 cards at the beginning of his/her turn
             for (int i = 0; i < 2; i++) {
-                currPlayer.getCardList().draw();
+                interactor.drawCard(currPlayer);
             }
-            interactor.println("======================================");
             boolean hasWinner = game.hasWinner();
             while (actionRemain > 0 && !hasWinner){
+                interactor.println("======================================");
                 interactor.setCurrentPlayer(currPlayer);
                 interactor.println("");
                 interactor.println(currPlayer.getName()+", this is your turn!");
@@ -79,9 +80,8 @@ public class Main {
                         {
                             DrawCards drawCards = (DrawCards) command;
                             for (int i = 0; i < drawCards.getAmount(); i++) {
-                                currPlayer.getCardList().draw();
+                                interactor.drawCard(currPlayer);
                             }
-                            interactor.alert("Successfully drawed "+drawCards.getAmount()+" cards");
                         }
                         break;
                         case Command.SET_PROPERTY:
