@@ -11,6 +11,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Interactor {
+
     private static final String ITEM_FORMAT = "%d. %-25s    x%-2d    ~ $ %dM %n";
     private static final String PROPERTY_HEAD = "    Properties: %n";
     private static final String PROPERTY_FORMAT = "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
@@ -22,8 +23,12 @@ public class Interactor {
     private static final String MONEY_FORMAT = "        |-  %-11s    x%-2d %n";
     private static final String BANK_EMPTY = "    |-  No money in bank! %n";
     private static final String MESSAGE_FORMAT = "%-9s>>    %s";
+
     private static final Card GO_BACK = null;
 
+    public static final byte ALL = 0;
+    public static final byte COMPLETED = 1;
+    public static final byte INCOMPLETE = 2;
 
     private final Scanner input;
     private GameState game = null;
@@ -35,20 +40,6 @@ public class Interactor {
 
     public void init(GameState game){
         this.game = game;
-    }
-
-    public void print(String message){
-        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
-        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), message);
-    }
-
-    public void println(String message){
-        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
-        System.out.printf(MESSAGE_FORMAT + "%n", currentPlayer.getName(), message);
-    }
-    public void printf(String format, Object... args){
-        if (currentPlayer == null) currentPlayer = game.getCurrentPlayer();
-        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), String.format(format,args));
     }
 
     //DEVELOPED BY: MORRO
@@ -71,6 +62,7 @@ public class Interactor {
         }
     }
 
+    //DEVELOPED BY: GLOM
     public void displayState(){
         Player[] players = game.getAllPlayers();
         for (int i=0; i<players.length; i++){
@@ -81,8 +73,26 @@ public class Interactor {
         }
     }
 
-    public String moneyOf(int amount){
+    //DEVELOPED BY: MORRO
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
+
+    //DEVELOPED BY: MORRO
+    public String moneyFormat(int amount){
         return "$ " + amount + "M";
+    }
+
+    //DEVELOPED BY: MORRO
+    public int readInt(String prompt){
+        try {
+            print(prompt);
+            return input.nextInt();
+        } catch (InputMismatchException e){
+            println("Invalid input, please enter a number!");
+            input.nextLine();
+            return readInt(prompt);
+        }
     }
 
     //DEVELOPED BY: MORRO
@@ -121,18 +131,6 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-    public int readInt(String prompt){
-        try {
-            print(prompt);
-            return input.nextInt();
-        } catch (InputMismatchException e){
-            println("Invalid input, please enter a number!");
-            input.nextLine();
-            return readInt(prompt);
-        }
-    }
-
-    //DEVELOPED BY: MORRO
     public void askToPay(Player from, Player to, int amount){
         CardList with = new CardList(game);
         Bank bank = from.getBank();
@@ -166,25 +164,25 @@ public class Interactor {
             }
         } else {
             currentPlayer = to;
-            println(from.getName() + " , you have to pay " + moneyOf(amount));
+            println(from.getName() + " , you have to pay " + moneyFormat(amount));
             int paid = 0;
             while (paid < amount){
                 if (bankWorth > 0){
-                    println("You have " + moneyOf(bankWorth) + " in bank, you have to pay with money in bank first.");
-                    println("How much money will you pay with money in bank?   ( " + moneyOf(amount - paid) + " left )");
+                    println("You have " + moneyFormat(bankWorth) + " in bank, you have to pay with money in bank first.");
+                    println("How much money will you pay with money in bank?   ( " + moneyFormat(amount - paid) + " left )");
                     Money money  = (Money) selectCardInBank(from,false);
                     bank.take(money);
                     with.add(money);
                     paid += money.getWorth();
                 } else if (propertyWorth > 0){
-                    println("You have " + moneyOf(propertyWorth) + " in properties, you have to pay with properties.");
-                    println("Which property will you pay with?   ( " + moneyOf(amount - paid) + " left )");
+                    println("You have " + moneyFormat(propertyWorth) + " in p   roperties, you have to pay with properties.");
+                    println("Which property will you pay with?   ( " + moneyFormat(amount - paid) + " left )");
                     Property property = selectSinglePropertyFrom(from,from,ALL);
                     setProperty(to,property);
                     paid += property.getWorth();
                 }else {
                     println("Your bank has no money left, you have to pay with cards.");
-                    println("Which card will you pay with?   ( "  + moneyOf(amount - paid) + " left )");
+                    println("Which card will you pay with?   ( "  + moneyFormat(amount - paid) + " left )");
                     Card card = selectAllCard(from,false);
                     cardList.take(card);
                     with.add(card);
@@ -243,21 +241,6 @@ public class Interactor {
         return selectCard(player.getCardList(),cancellable,0,CardList.CARDS.length, player);
     }
 
-    //DEVELOPED BY: MORRO
-    public PerformableCard selectActionCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.ACTION_START,CardList.ACTION_END, player);
-    }
-
-    //DEVELOPED BY: MORRO
-    public PerformableCard selectPropertyCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.PROPERTY_START,CardList.PROPERTY_END, player);
-    }
-
-    //DEVELOPED BY: MORRO
-    public PerformableCard selectRentCard(Player player,boolean cancellable){
-        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
-    }
-
     //DEVELOPED BY: GLOM
     public Player selectPlayer(Player by, GameState state){
         Player original = currentPlayer;
@@ -282,34 +265,6 @@ public class Interactor {
         currentPlayer = original;
         return players[map[option]];
     }
-
-    //DEVELOPED BY: MORRO
-    /**
-     * Select a property from a player
-     * @param player the player that'll be choosing the color
-     * @param colors the array of colors
-     * @return the color the player choose
-     */
-    public Color chooseColor(Player player,Color[] colors){
-        Player original = currentPlayer;
-        currentPlayer = player;
-        //Show all the color options available
-        for (int i = 0; i < colors.length; i++) {
-            Color color = colors[i];
-            println(i+1 + ". " + color.getName());
-        }
-        int option = readInt( player.getName() +", please select a color: ");
-        if (option < 1 || option > colors.length){
-            println("Invalid color index. Please choose again: ");
-            return chooseColor(player,colors);
-        }
-        currentPlayer = original;
-        return colors[option-1];
-    }
-
-    public static final byte ALL = 0;
-    public static final byte COMPLETED = 1;
-    public static final byte INCOMPLETE = 2;
 
     //DEVELOPED BY: GLOM
     /**
@@ -357,7 +312,7 @@ public class Interactor {
         return target.getPropertyList().getProperties(Color.UNIVERSAL[map[option]]);
     }
 
-    //DEVELOPED BY: MORRO
+    //DEVELOPED BY: GLOM
     /**
      * Select a property from a player
      * @param target which player is going to be select from
@@ -386,6 +341,114 @@ public class Interactor {
         return properties.take(map[option]);
     }
 
+    //DEVELOPED BY: MORRO
+    public PerformableCard selectActionCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.ACTION_START,CardList.ACTION_END, player);
+    }
+
+    //DEVELOPED BY: MORRO
+    public PerformableCard selectPropertyCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.PROPERTY_START,CardList.PROPERTY_END, player);
+    }
+
+    //DEVELOPED BY: MORRO
+    public PerformableCard selectRentCard(Player player,boolean cancellable){
+        return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
+    }
+
+    //DEVELOPED BY: MORRO
+    /**
+     * Ask player to choose a color
+     * @param player the player that'll be choosing the color
+     * @param colors the array of colors
+     * @return the color the player choose
+     */
+    public Color chooseColor(Player player,Color[] colors){
+        Player temp = currentPlayer;
+        /*
+         * Change current player for the player to know that it's other player's action
+         * If player is not current player
+         */
+        currentPlayer = player;
+
+        //Show all the color options available
+        for (int i = 0; i < colors.length; i++) {
+            Color color = colors[i];
+            println(i+1 + ". " + color.getName());
+        }
+        int option = readInt( player.getName() +", please select a color: ");
+        if (option < 1 || option > colors.length){
+            println("Invalid color index. Please choose again: ");
+            return chooseColor(player,colors);
+        }
+        currentPlayer = temp;
+        return colors[option-1];
+    }
+
+    //DEVELOPED BY: MORRO
+    public void setProperty(Player player, Property property){
+        //filter completed colors
+        PropertyList propertyList = player.getPropertyList();
+        Color[] colors = property.getColors();
+        Color[] filtered = new Color[colors.length];
+        int count = 0;
+        for (int i = 0; i < colors.length; i++) {
+            Properties properties = propertyList.getProperties(colors[i]);
+            if (!properties.isCompleted()){
+                filtered[count++] = colors[i];
+            }
+        }
+        Color[] result = new Color[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = filtered[i];
+        }
+        Color chosen = chooseColor(player,result);
+        propertyList.addProperty(property, chosen);
+    }
+
+    public void alert(String message){
+        println(message);
+        waitForPlayer();
+    }
+
+    public void print(String message){
+        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), message);
+    }
+
+    public void println(String message){
+        System.out.printf(MESSAGE_FORMAT + "%n", currentPlayer.getName(), message);
+    }
+    public void printf(String format, Object... args){/// ///////////////////////////////////////////////
+        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), String.format(format,args));
+    }
+
+    //DEVELOPED BY: MORRO
+    private void waitForPlayer(){
+        printf("Press enter to continue...");
+        input.nextLine();
+        input.nextLine();
+    }
+
+    //DEVELOPED BY: GLOM
+    private void displayProperties(Properties properties,int index){
+        Color color = properties.getColor();
+        int num = properties.getSize();
+        if(index > 0){
+            printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Property property = properties.getData()[j];
+                showColors(0,property.getColors());
+            }
+        }else{
+            printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            for (int j = 0; j < properties.getSize() ; j++) {
+                Property property = properties.getData()[j];
+                showColors(j+1,property.getColors());
+            }
+        }
+    }
+
+    //DEVELOPED BY: GLOM
     private void showColors(int index, Color[] colors){
         if (index > 0){
             if (colors == Color.UNIVERSAL) {
@@ -407,55 +470,6 @@ public class Interactor {
                 name += " & " + colors[k].getName();
             }
             printf(PROPERTIES_NO_INDEX_FORMAT, name);
-        }
-    }
-
-    public void setProperty(Player player, Property property){
-        //filter completed colors
-        PropertyList propertyList = player.getPropertyList();
-        Color[] original = property.getColors();
-        Color[] filtered = new Color[original.length];
-        int index = 0;
-        for (int i = 0; i < original.length; i++) {
-            Properties properties = propertyList.getProperties(original[i]);
-            if (!properties.isCompleted()){
-                filtered[index++] = original[i];
-            }
-        }
-        Color[] result = new Color[index];
-        for (int i = 0; i < index; i++) {
-            result[i] = filtered[i];
-        }
-        Color chosen = chooseColor(player,result);
-        propertyList.addProperty(property, chosen);
-    }
-
-    public void waitForPlayer(){
-        printf("Press enter to continue...");
-        input.nextLine();
-        input.nextLine();
-    }
-
-    public void alert(String message){
-        println(message);
-        waitForPlayer();
-    }
-    //DEVELOPED BY: GLOM
-    private void displayProperties(Properties properties,int index){
-        Color color = properties.getColor();
-        int num = properties.getSize();
-        if(index > 0){
-            printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
-            for (int j = 0; j < properties.getSize() ; j++) {
-                Property property = properties.getData()[j];
-                showColors(0,property.getColors());
-            }
-        }else{
-            printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
-            for (int j = 0; j < properties.getSize() ; j++) {
-                Property property = properties.getData()[j];
-                showColors(j+1,property.getColors());
-            }
         }
     }
 
@@ -487,9 +501,5 @@ public class Interactor {
             }
         }
         if (empty) printf(BANK_EMPTY);
-    }
-
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
     }
 }

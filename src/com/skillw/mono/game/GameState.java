@@ -12,7 +12,7 @@ public class GameState {
         this.players = new Player[players.length];
         this.cardStack = new CardStack();
         for (int i = 0; i < players.length; i++) {
-            this.players[i] = new Player(players[i],cardStack);
+            this.players[i] = new Player(players[i], this.cardStack);
         }
     }
 
@@ -53,16 +53,16 @@ public class GameState {
 
     public boolean hasWinner(){
         for (Player player : this.players) {
-            if(player.getPropertyList().getCompleteNum() >= 3){
+            if(player.getPropertyList().getCompletedNum() >= 3){
                 return true;
             }
         }
         return false;
     }
     public Player getWinner(){
-        for (Player player : this.players) {
-            if(player.getPropertyList().getCompleteNum() >= 3){
-                return player;
+        for (int i = 0; i < players.length; i++) {
+            if(players[i].getPropertyList().getCompletedNum() >= 3){
+                return players[i];
             }
         }
         return null;

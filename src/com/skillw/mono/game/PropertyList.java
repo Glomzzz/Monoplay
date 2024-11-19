@@ -58,7 +58,7 @@ public class PropertyList {
         return worth;
     }
 
-    public int getCompleteNum() {
+    public int getCompletedNum() {
         int count = 0;
         Properties[] properties1 = this.properties;
         for (int i = 0; i < properties1.length; i++) {
