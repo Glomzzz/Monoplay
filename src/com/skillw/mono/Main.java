@@ -49,7 +49,10 @@ public class Main {
             interactor.emptyGap();
             interactor.println("======================================");
             // Player draws 2 cards at the beginning of his/her turn
-            for (int i = 0; i < 2; i++) {
+            int numToDraw = 2;
+            // If a player runs out of cards, he will receive 5 cards
+            if (currPlayer.getCardList().getSize() == 0) numToDraw = 5;
+            for (int i = 0; i < numToDraw; i++) {
                 interactor.drawCard(currPlayer);
             }
             // Check if there is a winner
