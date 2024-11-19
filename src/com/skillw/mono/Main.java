@@ -33,7 +33,8 @@ public class Main {
                 currPlayer.getCardList().draw();
             }
             interactor.println("======================================");
-            while (actionRemain > 0 && !game.hasWinner()){
+            boolean hasWinner = game.hasWinner();
+            while (actionRemain > 0 && !hasWinner){
                 interactor.println("");
                 interactor.println(currPlayer.getName()+", this is your turn!");
 
@@ -218,8 +219,9 @@ public class Main {
                         actionRemain--;
                     }
                 }
+                hasWinner = game.hasWinner();
             }
-            if (game.hasWinner()) break;
+            if (hasWinner) break;
 
             // If the current player has more than 5 cards, he/she has to discard cards
             int discard = currPlayer.getCardList().size() - 5;
@@ -232,6 +234,7 @@ public class Main {
                     discard--;
                 }
             }
+            interactor.alert("End of turn for " + currPlayer.getName());
             game.nextTurn(); //Next turn
         }
         Player winner = game.getWinner();
