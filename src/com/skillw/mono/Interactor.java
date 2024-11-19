@@ -135,7 +135,6 @@ public class Interactor {
 
     //DEVELOPED BY: MORRO
     public void askToPay(Player from, Player to, int amount){
-        CardList with = new CardList(game);
         Bank bank = from.getBank();
         PropertyList propertyList = from.getPropertyList();
         CardList cardList = from.getCardList();
@@ -148,14 +147,14 @@ public class Interactor {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
                 for (int j = 0; j < num; j++) {
-                    with.add(card);
+                    to.recieveCard(card);
                 }
             }
             for (int i = 0; i < Bank.MONEYS.length; i++) {
                 Money money = Bank.MONEYS[i];
                 int num = bank.clearOf(money);
                 for (int j = 0; j < num; j++) {
-                    with.add(money);
+                    to.recieveCard(money);
                 }
             }
             for (int i = 0; i < Color.UNIVERSAL.length; i++) {
@@ -175,7 +174,7 @@ public class Interactor {
                     println("How much money will you pay with money in bank?   ( " + moneyFormat(amount - paid) + " left )");
                     Money money  = (Money) selectCardInBank(from,false);
                     bank.take(money);
-                    with.add(money);
+                    to.recieveCard(money);
                     paid += money.getWorth();
                 } else if (propertyWorth > 0){
                     println("You have " + moneyFormat(propertyWorth) + " in p   roperties, you have to pay with properties.");
@@ -188,13 +187,12 @@ public class Interactor {
                     println("Which card will you pay with?   ( "  + moneyFormat(amount - paid) + " left )");
                     Card card = selectAllCard(from,false);
                     cardList.take(card);
-                    with.add(card);
+                    to.recieveCard(card);
                     paid += card.getWorth();
                 }
             }
             currentPlayer = from;
         }
-        to.recieveCards(with);
     }
 
     //DEVELOPED BY: MORRO
