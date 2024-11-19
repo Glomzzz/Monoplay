@@ -438,10 +438,15 @@ public class Interactor {
         for (int i = 0; i < result.length; i++) {
             Color color = result[i];
             print(i+1 + ". " + color.getName());
+            Properties properties = player.getPropertyList().getProperties(color);
+
             if (filter == COLOR_FILTER_OWNED){
-                Properties properties = player.getPropertyList().getProperties(color);
-                System.out.printf("  ( $" + properties.calculateTotalWorth() + "M )");
+                System.out.print("  ( $" + properties.calculateTotalWorth() + "M )");
+            } else {
+                System.out.print("  ( " + properties.getSize() + " / " + color.getMaxLevel() + " )  => ");
+                System.out.print("( " + (properties.getSize() + 1) + " / " + color.getMaxLevel() + " ) ");
             }
+
             System.out.println();
         }
         int option = readInt( player.getName() +", please select a color: ");
