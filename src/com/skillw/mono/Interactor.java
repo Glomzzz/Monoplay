@@ -174,7 +174,7 @@ public class Interactor {
             }
         } else {
             currentPlayer = from;
-            println(from.getName() + " , you have to pay " + moneyFormat(amount));
+            println(from.getName() + " , you have to pay " + moneyFormat(amount) + " to " + to.getName());
             int paid = 0;
             while (paid < amount){
                 if (bankWorth > 0){
