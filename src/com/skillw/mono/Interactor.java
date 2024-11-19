@@ -31,9 +31,9 @@ public class Interactor {
     private static final String COLOR_MONEY_FORMAT = PREFIX + "%d. %10s   ( $%d M )";
     private static final String MESSAGE_FORMAT = PREFIX + "%s";
 
-    public static final byte ALL = 0;
-    public static final byte COMPLETED = 1;
-    public static final byte INCOMPLETE = 2;
+    public static final byte PROPERTIES_FILTER_ALL = 0;
+    public static final byte PROPERTIES_FILTER_COMPLETED = 1;
+    public static final byte PROPERTIES_FILTER_INCOMPLETE = 2;
 
     public final static byte COLOR_FILTER_ALL = 0;
     public final static byte COLOR_FILTER_OWNED = 1;
@@ -230,7 +230,7 @@ public class Interactor {
         // If the card is a property
         if (card instanceof Property){
             // Ask the player to set the property
-            setProperty(player,(Property) card);
+            setPropertyOrSave(player,(Property) card);
         } else {
             player.recieveCard(card);
         }
@@ -299,7 +299,7 @@ public class Interactor {
                 } else if (propertyWorth > 0){
                     println("You have " + moneyFormat(propertyWorth) + " in properties, you have to pay with properties.");
                     println("Which property will you pay with? Choose wisely *wink*  ( " + moneyFormat(amount - paid) + " left )");
-                    Property property = selectSinglePropertyFrom(from,from,ALL);
+                    Property property = selectSinglePropertyFrom(from,from, PROPERTIES_FILTER_ALL);
                     recieve(to,property,from);
                     paid += property.getWorth();
                     propertyWorth = propertyList.calculateWorthOfAll();
@@ -460,10 +460,10 @@ public class Interactor {
             boolean condition;
             // Filter the properties
             switch (filter){
-                case COMPLETED:  // only completed properties
+                case PROPERTIES_FILTER_COMPLETED:  // only completed properties
                     condition = level == maxLevel;
                     break;
-                case INCOMPLETE: // only incomplete properties
+                case PROPERTIES_FILTER_INCOMPLETE: // only incomplete properties
                     condition = level != maxLevel;
                     break;
                 default: // all properties
@@ -614,7 +614,6 @@ public class Interactor {
             }
         }
 
-        int minOption = 0;
         if (filter == COLOR_FILTER_INCOMPLETE){
             println("To set a property:");
         }
@@ -633,7 +632,7 @@ public class Interactor {
         }
         int option = readInt( player.getName() +", please select a color: ");
 
-        if (option < minOption || option > result.length){
+        if (option < 0 || option > result.length){
             println("Invalid color index. Please choose again: ");
             prefixPlayer = temp;
             return chooseColor(player,result, COLOR_FILTER_ALL);
@@ -645,7 +644,9 @@ public class Interactor {
 
     //DEVELOPED BY: MORRO
     /**
-     * Display the bank of the player
+     * Set property for the player if there's space
+     * <p>
+     * Otherwise, drop the property on the table (card stack, not player's hand)
      *
      * @param player the player
      * @param property the property
@@ -666,12 +667,13 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Ask the player to set the property
+     * Otherwise, put the property in the card list (player's hand)
      *
      * @param player the player
      * @param property the property
      * @return if the property is successfully set
      */
-    public boolean setProperty(Player player, Property property){
+    public boolean setPropertyOrSave(Player player, Property property){
         //filter completed colors
         Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETE);
         // If the player doesn't choose any color

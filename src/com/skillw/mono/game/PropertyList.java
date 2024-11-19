@@ -45,10 +45,9 @@ public class PropertyList {
      *
      * @param property the property to be added
      * @param color the chosen color
-     * @return if the property is successfully added
      */
-    public boolean addProperty(Property property, Color color){
-       return this.properties[color.getId()].addProperty(property);
+    public void addProperty(Property property, Color color){
+       this.properties[color.getId()].addProperty(property);
     }
 
     //DEVELOPED BY: MORRO
@@ -69,7 +68,7 @@ public class PropertyList {
      */
     public int calculateWorthOfAll(){
         int worth = 0;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Color.UNIVERSAL.length; i++) {
             int number = this.properties[i].getSize();
             if (number != 0)
                 worth +=  Color.UNIVERSAL[i].getLevels()[number-1];

@@ -4,7 +4,6 @@ import com.skillw.mono.Color;
 import com.skillw.mono.command.BuildProperty;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.GameState;
 
 public class Property extends PerformableCard {
 
@@ -52,11 +51,10 @@ public class Property extends PerformableCard {
     /**
      * Set the property to the player's property list
      *
-     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
-    public Command action(GameState state, Player performer) {
+    public Command action(Player performer) {
         return new BuildProperty(performer, this);
     }
 

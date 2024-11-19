@@ -61,7 +61,7 @@ public class CardList extends CardCounter{
             DoubleTheRent.DOUBLE_THE_RENT
     };
 
-    private CardStack cardStack;
+    private final CardStack cardStack;
 
     //=============== Constructor =================
     //DEVELOPED BY: MORRO

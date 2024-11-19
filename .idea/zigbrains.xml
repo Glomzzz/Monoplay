@@ -3,4 +3,7 @@
   <component name="ZLSSettings">
     <option name="zlsPath" value="C:\Users\glom\scoop\apps\zig\0.13.0\zls.exe" />
   </component>
+  <component name="ZigProjectSettings">
+    <option name="toolchainPath" value="C:\Users\glom\scoop\apps\zig\0.13.0" />
+  </component>
 </project>

@@ -21,12 +21,10 @@ public class Properties {
      * Add a property card
      *
      * @param property     the property card
-     * @return             if the card is successfully added
      */
-    public boolean addProperty(Property property){
-        if (isCompleted()) return false;
+    public void addProperty(Property property){
+        if (isCompleted()) return;
         this.data[this.size++] = property;
-        return true;
     }
 
     //DEVELOPED BY: GLOM

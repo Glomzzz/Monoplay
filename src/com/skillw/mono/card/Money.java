@@ -3,7 +3,6 @@ package com.skillw.mono.card;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.DepositInBank;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.GameState;
 
 public class Money extends PerformableCard {
 
@@ -24,11 +23,10 @@ public class Money extends PerformableCard {
     /**
      * Store the money in the player's bank
      *
-     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
-    public Command action(GameState state, Player performer) {
+    public Command action(Player performer) {
         return new DepositInBank(performer, this);
     }
 }

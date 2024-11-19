@@ -4,7 +4,6 @@ import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.SwapProperty;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.GameState;
 
 public class ForcedDeal extends PerformableCard {
 
@@ -21,11 +20,10 @@ public class ForcedDeal extends PerformableCard {
      * Swap any property with any player
      * Except the property is part of a full set
      *
-     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
-    public Command action(GameState state, Player performer) {
+    public Command action(Player performer) {
         return new SwapProperty(performer);
     }
 }

@@ -4,7 +4,6 @@ import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.DrawCards;
 import com.skillw.mono.game.Player;
-import com.skillw.mono.game.GameState;
 
 public class PassGo extends PerformableCard {
 
@@ -20,11 +19,10 @@ public class PassGo extends PerformableCard {
     /**
      * Draw 2 cards
      *
-     * @param state     Current game state
      * @param performer Player who performs the card
      * @return the command to be executed
      */
-    public Command action(GameState state, Player performer) {
+    public Command action(Player performer) {
         return new DrawCards(performer,2);
     }
 }

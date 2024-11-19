@@ -22,7 +22,7 @@ public class Main {
         GameState game;
 
         interactor.displayHeader(); //Display the title of the game
-        String[] names = interactor.registerPlayers();
+        String[] names = interactor.registerPlayers(); //Add players
         game = new GameState(names);
         game.init();
         interactor.init(game);
@@ -40,14 +40,13 @@ public class Main {
         // A variable to decrease times to check if there is a winner
         boolean hasWinner = false;
         // The main loop of the game
-        while (!hasWinner) {
+        while (true) {
             Player currPlayer = game.getCurrentPlayer();
             interactor.setPrefixPlayer(currPlayer); //set current player
 
             // The number of actions the player can perform in a turn
             int actionRemain = 3;
             interactor.emptyGap();
-
             interactor.println("======================================");
             // Player draws 2 cards at the beginning of his/her turn
             for (int i = 0; i < 2; i++) {
@@ -73,20 +72,20 @@ public class Main {
                 // Select a card to perform
                 PerformableCard card = null;
                 switch (choice){
-                    case 1:
+                    case 1: //Display action card(s)
                         card = interactor.selectActionCard(currPlayer,true);
                         break;
-                    case 2:
+                    case 2: //Display property card(s)
                         card = interactor.selectPropertyCard(currPlayer,true);
                         break;
-                    case 3:
+                    case 3: //Display rent card(s)
                         card = interactor.selectRentCard(currPlayer,true);
                         break;
-                    case 4:
+                    case 4: //Display all card(s) since all of them can be money
                         Card selected = interactor.selectAllCard(currPlayer,true);
                         if (selected != null) card = selected.asMoney();
                         break;
-                    case 5:
+                    case 5: //Display the cards on the table
                         interactor.displayState();
                         break;
                     default:
@@ -94,7 +93,7 @@ public class Main {
                 }
                 // Perform the action if a card is selected
                 if (card != null){
-                    Command command = card.action(game,currPlayer);
+                    Command command = card.action(currPlayer);
                     // is the command being performed successfully
                     boolean success = true;
                     switch (command.getId()){
@@ -110,7 +109,7 @@ public class Main {
                         {
                             BuildProperty buildProperty = (BuildProperty) command;
                             Property property = buildProperty.getProperty();
-                            success = interactor.setProperty(currPlayer,property);
+                            success = interactor.setPropertyOrSave(currPlayer,property);
                         }
                         break;
                         case Command.DEPOSIT_IN_BANK:
@@ -147,17 +146,21 @@ public class Main {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
                             // Ask the target if he wants to say No
                             if (interactor.refuseByNo(targetPlayer,"swap your property with " + currPlayer.getName() + "'s ")) break;
-                            Property self = interactor.selectSinglePropertyFrom(currPlayer,currPlayer, Interactor.INCOMPLETE);
+                            Property self = interactor.selectSinglePropertyFrom(currPlayer,currPlayer, Interactor.PROPERTIES_FILTER_INCOMPLETE);
                             //Check if the current currPlayer have property on the table that is incomplete
                             if (self == null) {
                                 interactor.alert("You don't have any property to swap.");
+                                // If the current player doesn't have any property to swap, the action is not performed
+                                // The action remain will not be decreased
                                 success = false;
                                 break;
                             }
-                            Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.INCOMPLETE);
+                            Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.PROPERTIES_FILTER_INCOMPLETE);
                             //Check if the target currPlayer have property on the table that is incomplete
                             if (target == null) {
                                 interactor.alert(targetPlayer.getName() + " doesn't have any property to swap.");
+                                // If the target player doesn't have any property to swap, the action is not performed
+                                // The action remain will not be decreased
                                 success = false;
                                 break;
                             }
@@ -168,9 +171,9 @@ public class Main {
                         case Command.TAKE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
-                            // Ask the target if he wants to say No
+                            // Ask the target if he/she wants to say No if they have No Card
                             if (interactor.refuseByNo(targetPlayer,"give your property to " + currPlayer.getName())) break;
-                            Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.INCOMPLETE);
+                            Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.PROPERTIES_FILTER_INCOMPLETE);
                             if (target == null){
                                 interactor.println(targetPlayer.getName() + " doesn't have any property to give !");
                                 interactor.alert("An action will be deducted as a punishment for not paying attention!");
@@ -182,9 +185,9 @@ public class Main {
                         case Command.TAKE_COMPLETE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
-                            // Ask the target if he wants to say No
+                            // Ask the target if he/she wants to say No if they have No Card
                             if (interactor.refuseByNo(targetPlayer,"give your complete set to " + currPlayer.getName())) break;
-                            Properties target = interactor.selectProperties(targetPlayer,currPlayer, Interactor.COMPLETED);
+                            Properties target = interactor.selectProperties(targetPlayer,currPlayer, Interactor.PROPERTIES_FILTER_COMPLETED);
                             if (target == null){
                                 interactor.println(targetPlayer.getName() + " doesn't have any complete set to give !");
                                 interactor.alert("An action will be deducted as a punishment for not paying attention!");
@@ -207,6 +210,8 @@ public class Main {
                             Color color = interactor.chooseColor(currPlayer,rentSingleColor.getColors(),COLOR_FILTER_OWNED);
                             if (color == null){
                                 interactor.alert("You didn't choose any color.");
+                                // If the player didn't choose any color, the action is not performed
+                                // The action remain will not be decreased
                                 success = false;
                                 break;
                             }
@@ -234,6 +239,8 @@ public class Main {
                             Color color = interactor.chooseColor(currPlayer,rentAllColor.getColors(),COLOR_FILTER_OWNED);
                             if (color == null){
                                 interactor.alert("You didn't choose any color.");
+                                // If the player didn't choose any color, the action is not performed
+                                // The action remain will not be decreased
                                 success = false;
                                 break;
                             }

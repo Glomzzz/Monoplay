@@ -4,7 +4,7 @@ import com.skillw.mono.game.Player;
 
 public class DrawCards extends Command{
 
-    private int amount;
+    private final int amount;
 
     //=============== Constructor =================
     public DrawCards(Player performer,int amount) {

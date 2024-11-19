@@ -15,7 +15,7 @@ public class RentAllColor extends Command {
     /**
      * Get the colors of the rent card
      *
-     * @return colors
+     * @return colors of the rent card
      */
     public Color[] getColors() {
         return Color.UNIVERSAL;
