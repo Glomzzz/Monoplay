@@ -65,27 +65,13 @@ public class GameState {
 
     //DEVELOPED BY: MORRO
     /**
-     * Check if there is a winner
-     *
-     * @return if there is a winner
-     */
-    public boolean hasWinner(){
-        for (int i = 0; i < players.length; i++) {
-            if(players[i].getPropertyList().getCompletedNum() >= 3){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //DEVELOPED BY: MORRO
-    /**
      * Get the player who won
      *
      * @return the player
      */
     public Player getWinner(){
         for (int i = 0; i < players.length; i++) {
+            // If the player has completed 3 properties
             if(players[i].getPropertyList().getCompletedNum() >= 3){
                 return players[i];
             }

@@ -38,7 +38,7 @@ public class Main {
             }
         }
         // A variable to decrease times to check if there is a winner
-        boolean hasWinner = false;
+        Player winner = null;
         // The main loop of the game
         while (true) {
             Player currPlayer = game.getCurrentPlayer();
@@ -53,7 +53,7 @@ public class Main {
                 interactor.drawCard(currPlayer);
             }
             // Check if there is a winner
-            while (actionRemain > 0 && !hasWinner){
+            while (actionRemain > 0 && winner == null){
                 interactor.println("======================================");
                 interactor.setPrefixPlayer(currPlayer);
                 interactor.println("");
@@ -267,9 +267,9 @@ public class Main {
                     }
                 }
                 // Check if there is a winner
-                hasWinner = game.hasWinner();
+                winner = game.getWinner();
             }
-            if (hasWinner) break;
+            if (winner != null) break;
 
             // If the current player has more than 5 cards, he/she has to discard cards
             int discard = currPlayer.getCardList().getSize() - 5;
@@ -285,7 +285,6 @@ public class Main {
             interactor.alert("End of turn for " + currPlayer.getName());
             game.nextTurn(); //Next turn
         }
-        Player winner = game.getWinner();
         interactor.alert("THE WINNER ISSS " + winner.getName() + "!!!! XDD");
         interactor.displayState();
         interactor.exit();
