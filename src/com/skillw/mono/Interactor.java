@@ -206,7 +206,6 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     public void depositMoney(Player player, Card money){
         player.recieveCard(money);
-        println("Successfully deposited $"+money.getWorth());
     }
 
     //DEVELOPED BY: GLOM
@@ -427,7 +426,7 @@ public class Interactor {
             print(i+1 + ". " + color.getName());
             if (filter == COLOR_FILTER_OWNED){
                 Properties properties = player.getPropertyList().getProperties(color);
-                System.out.printf("  ( " + properties.calculateWorth() + " )");
+                System.out.printf("  ( $" + properties.calculateWorth() + "M )");
             }
             System.out.println();
         }
@@ -551,7 +550,9 @@ public class Interactor {
         int numOfDoubleRent = cardList.getNumOfDoubleRent();
         if(numOfDoubleRent < 1) return false;
         println("You have " + numOfDoubleRent + " of Double The Rent! , do you want to use it?");
-        int option = readInt("1. Yes  /   2. No");
+        println("1. Yes");
+        println("2. No");
+        int option = readInt("Your choice: ");
         if(option == 1){
             cardList.take(DoubleTheRent.DOUBLE_THE_RENT);
             currentPlayer = original;
@@ -569,7 +570,9 @@ public class Interactor {
         if(numOfNo < 1) return false;
         println("You are being asked to " + command);
         println("You have " + numOfNo + " of Just Say NO! , do you want to use it?");
-        int option = readInt("1. Yes  /   2. No");
+        println("1. Yes");
+        println("2. No");
+        int option = readInt("Your choice: ");
         if(option == 1){
             cardList.take(No.NO);
             currentPlayer = original;
