@@ -11,6 +11,7 @@ public abstract class CardCounter {
     }
 
     public abstract int getIndexOf(Card card);
+    public abstract Card getCardOf(int index);
 
     public void add(Card card) {
         int index = getIndexOf(card);

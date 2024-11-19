@@ -81,6 +81,10 @@ public class CardList extends CardCounter{
         return -1; 
     }
 
+    public Card getCardOf(int index) {
+        return CARDS[index];
+    }
+
     /**
      * Perform the card's action
      *

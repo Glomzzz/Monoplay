@@ -14,6 +14,7 @@ public class Bank extends CardCounter {
     };
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     public Bank() {
         super(MONEYS.length);
     }
@@ -43,5 +44,9 @@ public class Bank extends CardCounter {
             }
         }
         return -1;
+    }
+
+    public Card getCardOf(int index) {
+        return MONEYS[index];
     }
 }
