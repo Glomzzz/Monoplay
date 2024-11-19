@@ -15,6 +15,11 @@ public class Properties {
         this.size = 0;
     }
 
+    /**
+     * Receive card to the player
+     *
+     * @param property     the card player will receive
+     */
     public boolean addProperty(Property property){
         if (isCompleted()) return false;
         this.data[this.size] = property;

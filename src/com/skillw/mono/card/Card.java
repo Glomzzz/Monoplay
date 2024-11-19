@@ -1,15 +1,9 @@
 package com.skillw.mono.card;
 
-
-
 public abstract class Card {
 
-    /**
-     * Card's name
-     */
-    private final String name;
-    //  per million
-    private final int worth;
+    private final String name;  // Card's name
+    private final int worth;    //  per million
 
     //=============== Constructor =================
     public Card(String name,int worth) {

@@ -13,9 +13,9 @@ public class DrawCards extends Command{
     }
 
     /**
-     * Get the amount of card to be drawed
+     * Get the amount of card to be drawn
      *
-     * @return the amount of card to be drawed
+     * @return the amount of card to be drawn
      */
     public int getAmount() {
         return amount;
