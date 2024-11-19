@@ -31,15 +31,13 @@ public class Interactor {
     private static final String COLOR_MONEY_FORMAT = PREFIX + "%d. %10s   ( $%d M )";
     private static final String MESSAGE_FORMAT = PREFIX + "%s";
 
-
     public static final byte ALL = 0;
     public static final byte COMPLETED = 1;
     public static final byte INCOMPLETE = 2;
 
     public final static byte COLOR_FILTER_ALL = 0;
     public final static byte COLOR_FILTER_OWNED = 1;
-    public final static byte COLOR_FILTER_INCOMPLETED = 2;
-
+    public final static byte COLOR_FILTER_INCOMPLETE = 2;
 
     private static final int MAX_PLAYER = 5;
 
@@ -51,12 +49,18 @@ public class Interactor {
     public Interactor(){
         this.input = new Scanner(System.in);
     }
+    
     //DEVELOPED BY: GLOM
+    /**
+     * Initialize the game
+     * 
+     * @param game the game
+     */
     public void init(GameState game){
         this.game = game;
     }
+    
     //DEVELOPED BY: GLOM
-
     /**
      * Close the input stream
      */
@@ -102,6 +106,7 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Set the current player, which determines the prefix of the message
+     *
      * @param player the player to be set as current player
      */
     public void setPrefixPlayer(Player player) {
@@ -111,7 +116,9 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Money format
+     *
      * @param amount the amount of money
+     *
      * @return the formatted money
      */
     public String moneyFormat(int amount){
@@ -119,10 +126,8 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-
     /**
      * Read an integer from the input stream
-     * <p>
      * Use recursion to handle invalid input
      *
      * @param prompt the message to be displayed
@@ -145,6 +150,7 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Register the players in the game
+     *
      * @return   - the array of players
      */
     public String[] registerPlayers(){
@@ -186,6 +192,7 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Display the number of special cards
+     *
      * @param player the player to be displayed
      */
     public void displaySpecialCardNum(Player player){
@@ -195,11 +202,12 @@ public class Interactor {
     //DEVELOPED BY: GLOM
     /**
      * Display the number of special cards
+     *
      * @param player the player to be displayed
      * @param card the card to be displayed
      * @param from the start index
      */
-    private void recieve(Player player, Card card,Player from){
+    private void recieve(Player player, Card card, Player from){
         Player temp = prefixPlayer;
         prefixPlayer = player;
         alert("You get a " + card.getName() + " from " + from.getName());
@@ -216,6 +224,7 @@ public class Interactor {
     //DEVELOPED BY: MORRO
     /**
      * Ask a player to pay another player
+     *
      * @param from the player who will pay
      * @param to the player who will receive the payment
      * @param amount the amount of money to be paid
@@ -224,10 +233,12 @@ public class Interactor {
         Bank bank = from.getBank();
         PropertyList propertyList = from.getPropertyList();
         CardList cardList = from.getCardList();
+
         int bankWorth = bank.calculateTotalWorth();
         int propertyWorth = propertyList.calculateWorthOfAll();
         int cardWorth = cardList.calculateTotalWorth();
-        // If the player hasn't enough money
+
+        // If the player don't have enough money
         if (bankWorth + cardWorth + propertyWorth < amount){
             // Take all the cards, properties, money from the player
             println(from.getName() + " don't have enough money & cards to pay, so you will take all cards from " + from.getName());
@@ -258,26 +269,28 @@ public class Interactor {
             println(from.getName() + " , you have to pay " + moneyFormat(amount) + " to " + to.getName());
             int paid = 0;
             while (paid < amount){
-                // First, if the player has enough money in bank
+                // take money from the bank first
                 if (bankWorth > 0){
                     println("You have " + moneyFormat(bankWorth) + " in bank, you have to pay with money in bank first.");
-                    println("How much money will you pay with money in bank?   ( " + moneyFormat(amount - paid) + " left )");
+                    println("How much money will you pay with money in bank? *stare*  ( " + moneyFormat(amount - paid) + " left )");
                     Money money  = (Money) selectCardInBank(from,false);
                     bank.take(money);
                     recieve(to,money,from);
                     paid += money.getWorth();
                     bankWorth = bank.calculateTotalWorth();
-                // Then, if the player has enough money in properties
+
+                // if the bank is insufficient, the game will ask from property
                 } else if (propertyWorth > 0){
                     println("You have " + moneyFormat(propertyWorth) + " in properties, you have to pay with properties.");
-                    println("Which property will you pay with?   ( " + moneyFormat(amount - paid) + " left )");
+                    println("Which property will you pay with? Choose wisely *wink*  ( " + moneyFormat(amount - paid) + " left )");
                     Property property = selectSinglePropertyFrom(from,from,ALL);
                     recieve(to,property,from);
                     paid += property.getWorth();
                     propertyWorth = propertyList.calculateWorthOfAll();
-                // Finally, the player has enough money in cards
+
+                // if the property is also not enough, the game will ask for the cards on hand
                 }else {
-                    println("Your bank has no money left, you have to pay with cards.");
+                    println("Your bank has no money left(kekw), you have to pay with cards.");
                     println("Which card will you pay with?   ( "  + moneyFormat(amount - paid) + " left )");
                     Card card = selectAllCard(from,false);
                     cardList.take(card);
@@ -290,11 +303,27 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
+    /**
+     * Deposit money in bank
+     *
+     * @param player they player depositing
+     * @param money the card to deposit
+     */
     public void depositMoney(Player player, Card money){
         player.recieveCard(money);
     }
 
     //DEVELOPED BY: GLOM
+    /**
+     * Select a card
+     *
+     * @param cardList the card on hand
+     * @param cancellable if there's "go back" option
+     * @param from starting id of the card (including)
+     * @param to ending id of the card (excluding)
+     * @param by the player
+     * @return the selected card
+     */
     public Card selectCard(CardCounter cardList, boolean cancellable, int from, int to,Player by){
         Player original = prefixPlayer;
         prefixPlayer = by;
@@ -332,9 +361,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Select a card from the bank
+     *
      * @param player the player who is going to select the card & whose bank is going to be selected from
      * @param cancellable whether the player can cancel the selection
      * @return the selected card
@@ -344,9 +373,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Select a card from the card list
+     *
      * @param player the player who is going to select the card & whose card list is going to be selected from
      * @param cancellable whether the player can cancel the selection
      * @return the selected card
@@ -356,9 +385,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Select a player from the game state
+     *
      * @param by the player who is going to select the player
      * @param state the game state
      * @return the selected player
@@ -391,6 +420,7 @@ public class Interactor {
     //DEVELOPED BY: GLOM
     /**
      * Select a property from a player
+     *
      * @param target which player is going to be select from
      * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
      * @return the selected properties
@@ -440,6 +470,7 @@ public class Interactor {
     //DEVELOPED BY: GLOM
     /**
      * Select a property from a player
+     *
      * @param target which player is going to be select from
      * @param filter 0: all properties, 1: only completed properties，2: only incomplete properties
      * @return the selected property
@@ -478,7 +509,8 @@ public class Interactor {
 
     //DEVELOPED BY: MORRO
     /**
-     * Select a action card from a player's card list (by the player itself)
+     * Select an action card from a player's card list (by the player itself)
+     *
      * @param player the player who is going to select the property & whose property is going to be selected from
      * @param cancellable whether the player can cancel the selection
      * @return the selected property
@@ -488,9 +520,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-
     /**
      * Select a property card from a player's card list (by the player itself)
+     *
      * @param player the player who is going to select the property & whose property is going to be selected from
      * @param cancellable whether the player can cancel the selection
      * @return the selected property
@@ -500,9 +532,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-
     /**
      * Select a rent card from a player's card list (by the player itself)
+     *
      * @param player the player who is going to select the property & whose property is going to be selected from
      * @param cancellable whether the player can cancel the selection
      * @return the selected property
@@ -511,12 +543,10 @@ public class Interactor {
         return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
     }
 
-
-
-
     //DEVELOPED BY: MORRO
     /**
      * Ask player to choose a color
+     *
      * @param player the player that'll be choosing the color
      * @param colors the array of colors
      * @return the color the player choose
@@ -536,7 +566,7 @@ public class Interactor {
             Color[] filtered = new Color[colors.length];
             int count = 0;
             switch (filter){
-                case COLOR_FILTER_INCOMPLETED: // Only the incompleted colors
+                case COLOR_FILTER_INCOMPLETE: // Only the incomplete colors
                     for (int i = 0; i < colors.length; i++) {
                         Properties properties = propertyList.getProperties(colors[i]);
                         if (!properties.isCompleted()) {
@@ -563,10 +593,10 @@ public class Interactor {
         }
 
         int minOption = 0;
-        if (filter == COLOR_FILTER_INCOMPLETED){
+        if (filter == COLOR_FILTER_INCOMPLETE){
             println("To set a property:");
         }
-        println("0. Put it in your card list (Go Back)");
+        println("0. Put the card back on hand (Go Back)");
 
         //Show all the color options available
         for (int i = 0; i < result.length; i++) {
@@ -592,17 +622,17 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-
     /**
      * Display the bank of the player
+     *
      * @param player the player
      * @param property the property
      */
     public void setPropertyOrDrop(Player player, Property property){
-        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
+        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETE);
         // If the player doesn't choose any color
         if(chosen == null){
-            // Put the property in the card stack (drop)
+            // Put the property on the table (card stack)
             game.getCardStack().add(property);
             alert("You drop a " + property.getName() + ".");
             return;
@@ -612,16 +642,16 @@ public class Interactor {
     }
 
     //DEVELOPED BY: MORRO
-
     /**
      * Ask the player to set the property
+     *
      * @param player the player
      * @param property the property
      * @return if the property is successfully set
      */
     public boolean setProperty(Player player, Property property){
         //filter completed colors
-        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
+        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETE);
         // If the player doesn't choose any color
         if(chosen == null){
             // Put the property in the card list (player's hand)
@@ -634,9 +664,11 @@ public class Interactor {
         alert(property.getName()  +" successfully setted as " + chosen.getName() + ", ( "+properties.getSize() + " / " + chosen.getMaxLevel() + " )");
         return true;
     }
+
     //DEVELOPED BY: GLOM
     /**
      * Draw a card from the card stack
+     *
      * @param player the player who is going to draw the card
      */
     public void drawCard(Player player){
@@ -645,29 +677,32 @@ public class Interactor {
         alert("You draw a " + player.getCardList().draw().getName());
         prefixPlayer = temp;
     }
-    //DEVELOPED BY: GLOM
 
+    //DEVELOPED BY: GLOM
     /**
      * Display a message to the player, and wait for the player to press enter
+     *
      * @param message the message to be displayed
      */
     public void alert(String message){
         println(message);
         waitForPlayer();
     }
-    //DEVELOPED BY: GLOM
 
+    //DEVELOPED BY: GLOM
     /**
      * Display a message to the player
+     *
      * @param message the message to be displayed
      */
     public void print(String message){
         System.out.printf(MESSAGE_FORMAT, prefix(), message);
     }
-    //DEVELOPED BY: GLOM
 
+    //DEVELOPED BY: GLOM
     /**
      * Display a message to the player with a new line
+     *
      * @param message the message to be displayed
      */
     public void println(String message){
@@ -675,9 +710,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Ask the player if they want to double the rent
+     *
      * @param player the player
      * @return if the player want to double the rent
      */
@@ -703,10 +738,11 @@ public class Interactor {
         prefixPlayer = original;
         return false;
     }
-    //DEVELOPED BY: GLOM
 
+    //DEVELOPED BY: GLOM
     /**
      * Ask the player if they want to no the action
+     *
      * @param player the player
      * @param command the command
      * @return if the player want to refuse the action
@@ -736,7 +772,6 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Wait for the player to press enter
      */
@@ -747,6 +782,7 @@ public class Interactor {
 
     /**
      * Get the prefix of the message  (the prefix player's name)
+     *
      * @return the prefix
      */
     private String prefix(){
@@ -754,9 +790,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Display the properties
+     *
      * @param properties the properties
      * @param index the index to be displayed
      */
@@ -779,9 +815,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Show the colors
+     *
      * @param index the index
      * @param colors the colors
      */
@@ -810,9 +846,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Display the property list
+     *
      * @param propertyList the property list
      */
     private void displayPropertyList(PropertyList propertyList){
@@ -830,9 +866,9 @@ public class Interactor {
     }
 
     //DEVELOPED BY: GLOM
-
     /**
      * Display the bank
+     *
      * @param bank the bank
      */
     private void displayBank(Bank bank) {
