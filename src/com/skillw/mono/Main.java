@@ -11,6 +11,11 @@ import com.skillw.mono.game.Properties;
 import static com.skillw.mono.Interactor.COLOR_FILTER_OWNED;
 
 public class Main {
+    /**
+     * The main method of the game
+     *
+     * @param args The arguments of the main method
+     */
     public static void main(String[] args) {
 
         Interactor interactor = new Interactor();
@@ -32,10 +37,14 @@ public class Main {
               interactor.drawCard( allPlayers[i]);
             }
         }
-        boolean hasWinner = game.hasWinner();
-        while (!hasWinner){
+        // A variable to decrease times to check if there is a winner
+        boolean hasWinner = false;
+        // The main loop of the game
+        while (!hasWinner) {
             Player currPlayer = game.getCurrentPlayer();
-            interactor.setPrefixPlayer(currPlayer);
+            interactor.setPrefixPlayer(currPlayer); //set current player
+
+            // The number of actions the player can perform in a turn
             int actionRemain = 3;
             interactor.emptyGap();
 
@@ -44,13 +53,12 @@ public class Main {
             for (int i = 0; i < 2; i++) {
                 interactor.drawCard(currPlayer);
             }
-            hasWinner = game.hasWinner();
+            // Check if there is a winner
             while (actionRemain > 0 && !hasWinner){
                 interactor.println("======================================");
                 interactor.setPrefixPlayer(currPlayer);
                 interactor.println("");
                 interactor.println(currPlayer.getName()+", this is your turn!");
-
                 interactor.displaySpecialCardNum(currPlayer);
                 interactor.println("You can perform " + actionRemain +  " actions now:");
                 interactor.println("1. Play an action card");
@@ -84,9 +92,10 @@ public class Main {
                     default:
                         interactor.println("Invalid choice, please try again.");
                 }
-                // Perform the action
+                // Perform the action if a card is selected
                 if (card != null){
                     Command command = card.action(game,currPlayer);
+                    // is the command being performed successfully
                     boolean success = true;
                     switch (command.getId()){
                         case Command.DRAW_CARDS:
@@ -108,13 +117,13 @@ public class Main {
                         {
                             DepositInBank depositInBank = (DepositInBank) command;
                             interactor.depositMoney(currPlayer, depositInBank.getMoney());
-                            interactor.alert("REPORT: Successfully deposited "+depositInBank.getMoney().getName());
                         }
                         break;
                         case Command.PAY_MONEY:
                         {
                             PayMoney payMoney = (PayMoney) command;
                             Player target = interactor.selectPlayer(currPlayer, game);
+                            // Ask the target if he/she wants to say No if they have No Card
                             if (interactor.refuseByNo(target,"pay "+ interactor.moneyFormat(payMoney.getAmount())+ " to " + currPlayer.getName())) break;
                             interactor.askToPay(target, currPlayer, payMoney.getAmount());
                             break;
@@ -125,6 +134,7 @@ public class Main {
                             int amount = payMoney.getAmount();
                             for (int i = 0; i < allPlayers.length; i++) {
                                 Player player = allPlayers[i];
+                                // Ask the target if he/she wants to say No if they have No Card
                                 boolean refused = interactor.refuseByNo(player,"pay "+ interactor.moneyFormat(payMoney.getAmount()) + " to " + currPlayer.getName());
                                 if (player != currPlayer && !refused) {
                                     interactor.askToPay(player, currPlayer, amount);
@@ -135,6 +145,7 @@ public class Main {
                         case Command.SWAP_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
+                            // Ask the target if he wants to say No
                             if (interactor.refuseByNo(targetPlayer,"swap your property with " + currPlayer.getName() + "'s ")) break;
                             Property self = interactor.selectSinglePropertyFrom(currPlayer,currPlayer, Interactor.INCOMPLETE);
                             //Check if the current currPlayer have property on the table that is incomplete
@@ -184,20 +195,9 @@ public class Main {
                             // Add the properties to the current player's property list
                             for (int i = 0; i < target.getData().length; i++) {
                                 Property property = target.getData()[i];
-                                Color[] colors = property.getColors();
-                                // If the property has only one color
-                                if (colors.length == 1){
-                                    // Check if the current player has already completed the set
-                                    if(!currPlayer.getPropertyList().addProperty(property, colors[0])){
-                                        interactor.println("You have already completed the set for "+ colors[0].getName()+ ", you can't take "+property.getName()+".");
-                                        interactor.alert("The card will be putted in the cards on the table");
-                                        // Put the card on the table ( cardStack )
-                                        game.getCardStack().add(property);
-                                    }
-                                } else {
-                                    // Otherwise, the property has two colors
-                                    interactor.setPropertyOrDrop(currPlayer, property);
-                                }
+                                // Set the property to the current player,
+                                // if the current player already has all complete set of each of this property colors, drop it
+                                interactor.setPropertyOrDrop(currPlayer, property);
                             }
                         }
                         break;
@@ -214,6 +214,7 @@ public class Main {
                             // Ask the player if he wants to double the rent
                             if (actionRemain > 1 && interactor.doubleTheRent(currPlayer)) {
                                 amount *= 2;
+                                // Double The Rent also counted as an action
                                 actionRemain--;
                             }
                             Player performer = rentSingleColor.getPerformer();
@@ -241,6 +242,7 @@ public class Main {
                             // Ask the player if he wants to double the rent
                             if (actionRemain > 1 && interactor.doubleTheRent(currPlayer)) {
                                 amount *= 2;
+                                // Double The Rent also counted as an action
                                 actionRemain--;
                             }
                             // Ask the target if he wants to say No
@@ -251,6 +253,7 @@ public class Main {
                         default:
                             interactor.alert("Invalid command!");
                     }
+                    // If the command is performed successfully, decrease the action remain and consume the card.
                     if (success){
                         currPlayer.getCardList().consume(card);
                         actionRemain--;

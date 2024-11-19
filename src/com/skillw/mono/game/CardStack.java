@@ -11,7 +11,7 @@ import com.skillw.mono.card.special.No;
 /**
  * Cards on the table
  * <p>
- * We used a cycle array to store the cards
+ * We used a circular array to store the cards
  * which will draw from the head and add to the tail
  */
 public class CardStack {
@@ -106,6 +106,18 @@ public class CardStack {
 
     //DEVELOPED BY: GLOM
     /**
+     * Draw a card
+     * @return the card drawn
+     */
+    public Card draw(){
+        int head = nextHead();
+        Card card = cards[head];
+        cards[head] = null;
+        return card;
+    }
+
+    //DEVELOPED BY: GLOM
+    /**
      * Add card repeatedly
      *
      * @param card  the card to be added
@@ -128,18 +140,5 @@ public class CardStack {
             cards[i] = cards[randomIndex];
             cards[randomIndex] = temp;
         }
-    }
-
-    //DEVELOPED BY: GLOM
-
-    /**
-     * Draw a card
-     * @return the card drawn
-     */
-    public Card draw(){
-        int head = nextHead();
-        Card card = cards[head];
-        cards[head] = null;
-        return card;
     }
 }

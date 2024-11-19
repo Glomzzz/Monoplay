@@ -16,9 +16,9 @@ public class BuildProperty extends Command {
 
     //DEVELOPED BY: GLOM
     /**
-     * Get the colors that the property contain
+     * Get the property to be built
      *
-     * @return the colors of the property
+     * @return the property to be built
      */
     public Property getProperty() {
         return property;

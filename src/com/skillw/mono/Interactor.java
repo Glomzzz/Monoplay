@@ -43,23 +43,35 @@ public class Interactor {
 
     private final Scanner input;
     private GameState game = null;
+    /**
+     * The player that determines the prefix of the message
+     * <p>
+     * You'll see the code like this:
+     *         Player original = prefixPlayer;
+     *         prefixPlayer = player
+     *         ...
+     *         prefixPlayer = original;
+     * <p>
+     * This is to ensure that the prefixPlayer is not changed after the method is called
+     *
+     */
     private Player prefixPlayer = null;
 
     //DEVELOPED BY: MORRO
     public Interactor(){
         this.input = new Scanner(System.in);
     }
-    
+
     //DEVELOPED BY: GLOM
     /**
      * Initialize the game
-     * 
+     *
      * @param game the game
      */
     public void init(GameState game){
         this.game = game;
     }
-    
+
     //DEVELOPED BY: GLOM
     /**
      * Close the input stream
@@ -95,9 +107,10 @@ public class Interactor {
     public void displayState(){
         Player[] players = game.getAllPlayers();
         for (int i=0; i<players.length; i++){
-            println(players[i].getName() + ":");
-            displayPropertyList(players[i].getPropertyList());
-            displayBank(players[i].getBank());
+            Player player = players[i];
+            println(player.getName() + ":");
+            displayPropertyList(player.getPropertyList());
+            displayBank(player.getBank());
             println("");
             waitForPlayer();
         }
@@ -137,10 +150,12 @@ public class Interactor {
         try {
             print(prompt);
             int result = input.nextInt();
+            // Consume the newline character
             input.nextLine();
             return result;
         } catch (InputMismatchException e){
             println("Invalid input, please enter a number!");
+            // Consume the newline character
             input.nextLine();
             // Recursion
             return readInt(prompt);
@@ -162,6 +177,7 @@ public class Interactor {
         while (count < MAX_PLAYER){
             System.out.print("Player " + (count+1) + ": ");
             String name = input.next();
+            // Consume the newline character
             input.nextLine();
             if (name.equals("done")){
                 if (count < 2){
@@ -214,7 +230,7 @@ public class Interactor {
         // If the card is a property
         if (card instanceof Property){
             // Ask the player to set the property
-            setPropertyOrDrop(player,(Property) card);
+            setProperty(player,(Property) card);
         } else {
             player.recieveCard(card);
         }
@@ -310,7 +326,13 @@ public class Interactor {
      * @param money the card to deposit
      */
     public void depositMoney(Player player, Card money){
+        Player original = prefixPlayer;
+        prefixPlayer = player;
+
         player.recieveCard(money);
+        alert("Deposited "+money.getName() + " to your bank.");
+
+        prefixPlayer = original;
     }
 
     //DEVELOPED BY: GLOM
