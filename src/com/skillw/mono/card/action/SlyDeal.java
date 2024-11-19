@@ -9,6 +9,7 @@ public class SlyDeal extends ActionCard {
 
     public static final SlyDeal SLY_DEAL = new SlyDeal();
 
+    //=============== Constructor =================
     private SlyDeal() {
         super("SlyDeal", 3);
     }

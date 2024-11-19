@@ -60,11 +60,18 @@ public class CardList extends CardCounter{
 
     private CardStack cardStack;
 
+    //=============== Constructor =================
     public CardList(CardStack cardStack) {
         super(CARDS.length);
         this.cardStack = cardStack;
     }
 
+    /**
+     * Perform the card's action
+     *
+     * @param card     the card
+     * @return the command to be executed
+     */
     public int getIndexOf(Card card) {
         for (int i = 0; i < CARDS.length; i++) {
             if (CARDS[i].equals(card)) {
@@ -74,12 +81,23 @@ public class CardList extends CardCounter{
         return -1; 
     }
 
+    /**
+     * Perform the card's action
+     *
+     * @param card     the card
+     * @return the command to be executed
+     */
     public void consume(Card card){
         take(card);
         cardStack.add(card);
     }
 
-    public int calculateWorth(){
+    /**
+     * Get the total worth of the cards on hand
+     *
+     * @return the command to be executed
+     */
+    public int calculateTotalWorth(){
         int sum = 0;
         for (int i = 0; i < size(); i++) {
             sum += getNumOf(i) * CARDS[i].getWorth();
@@ -87,9 +105,10 @@ public class CardList extends CardCounter{
         return sum;
     }
 
-
+    /**
+     * Draw the card
+     */
     public void draw(){
         add(cardStack.draw());
     }
-
 }

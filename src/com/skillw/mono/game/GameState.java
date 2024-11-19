@@ -3,10 +3,11 @@ package com.skillw.mono.game;
 
 public class GameState {
     private int turn;
-    private Player[] players;
-    private CardStack cardStack;
+    private final Player[] players;
+    private final CardStack cardStack;
 
-
+    //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public GameState(String[] players) {
         this.turn = 0;
         this.players = new Player[players.length];
@@ -16,6 +17,12 @@ public class GameState {
         }
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get all players
+     *
+     * @return an array with all the players
+     */
     public Player[] getAllPlayers() {
         return players;
     }
@@ -37,22 +44,40 @@ public class GameState {
         }
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the cardStack
+     *
+     * @return the cardStack
+     */
     public CardStack getCardStack() {
         return cardStack;
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the current player on the game
+     *
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return this.players[this.turn % this.players.length];
     }
 
+    //DEVELOPED BY: MORRO
     /**
-     * Every player has a turn, where they can do 3 actions at most
+     * Move onto the next turn
      */
     public void nextTurn() {
         this.turn++;
     }
 
     //DEVELOPED BY: MORRO
+    /**
+     * Check if there is a winner
+     *
+     * @return if there is a winner
+     */
     public boolean hasWinner(){
         for (int i = 0; i < players.length; i++) {
             if(players[i].getPropertyList().getCompletedNum() >= 3){
@@ -63,6 +88,11 @@ public class GameState {
     }
 
     //DEVELOPED BY: MORRO
+    /**
+     * Get the player who won
+     *
+     * @return the player
+     */
     public Player getWinner(){
         for (int i = 0; i < players.length; i++) {
             if(players[i].getPropertyList().getCompletedNum() >= 3){

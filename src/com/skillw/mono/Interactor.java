@@ -37,6 +37,7 @@ public class Interactor {
     private GameState game = null;
     private Player currentPlayer = null;
 
+    //DEVELOPED BY: MORRO
     public Interactor(){
         this.input = new Scanner(System.in);
     }
@@ -138,9 +139,9 @@ public class Interactor {
         Bank bank = from.getBank();
         PropertyList propertyList = from.getPropertyList();
         CardList cardList = from.getCardList();
-        int bankWorth = bank.calculateWorth();
+        int bankWorth = bank.calculateTotalWorth();
         int propertyWorth = propertyList.calculateWorthOfAll();
-        int cardWorth = cardList.calculateWorth();
+        int cardWorth = cardList.calculateTotalWorth();
         if (bankWorth + cardWorth + propertyWorth < amount){
             println(from.getName() + " don't have enough money & cards to pay, so you will take all cards from " + from.getName());
             for (int i = 0; i < cardList.size(); i++) {
@@ -518,7 +519,7 @@ public class Interactor {
 
     //DEVELOPED BY: GLOM
     private void displayBank(Bank bank) {
-        System.out.printf(BANK_HEAD,currentPlayer.getName(), bank.calculateWorth());
+        System.out.printf(BANK_HEAD,currentPlayer.getName(), bank.calculateTotalWorth());
         boolean empty = true;
         for (int i = 0; i < Bank.MONEYS.length; i++) {
             Money money = Bank.MONEYS[i];

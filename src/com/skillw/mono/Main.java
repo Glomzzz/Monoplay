@@ -138,7 +138,9 @@ public class Main {
                                 Color[] colors = property.getColors();
                                 if (colors.length == 1){
                                     if(!currPlayer.getPropertyList().addProperty(property, colors[0])){
-                                        interactor.alert("You have already owned a complete set of"+ colors[0].getName() +", you can't take this property card.");
+                                        interactor.alert("You have already completed the set for"+ colors[0].getName()+
+                                                        ", you can't take this property card."+
+                                                        "\n The card will be putted in the cards on the table");
                                         game.getCardStack().add(property);
                                     }
                                 } else {
