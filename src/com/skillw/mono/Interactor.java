@@ -424,7 +424,12 @@ public class Interactor {
         //Show all the color options available
         for (int i = 0; i < result.length; i++) {
             Color color = result[i];
-            println(i+1 + ". " + color.getName());
+            print(i+1 + ". " + color.getName());
+            if (filter == COLOR_FILTER_OWNED){
+                Properties properties = player.getPropertyList().getProperties(color);
+                System.out.printf("  ( " + properties.calculateWorth() + " )");
+            }
+            System.out.println();
         }
         int option = readInt( player.getName() +", please select a color: ");
 
