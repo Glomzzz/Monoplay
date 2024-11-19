@@ -90,4 +90,13 @@ public class PropertyList {
         }
         return count;
     }
+
+    // DEVELOPED BY: MORRO
+    /**
+     * Clear the color of the properties
+     * @param color the color to be cleared
+     */
+    public void clearColor(Color color) {
+        this.properties[color.getId()] = new Properties(color);
+    }
 }

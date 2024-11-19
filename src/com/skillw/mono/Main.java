@@ -3,6 +3,7 @@ package com.skillw.mono;
 import com.skillw.mono.card.Card;
 import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.card.Property;
+import com.skillw.mono.card.action.Birthday;
 import com.skillw.mono.command.*;
 import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
@@ -43,6 +44,7 @@ public class Main {
             for (int i = 0; i < 2; i++) {
                 interactor.drawCard(currPlayer);
             }
+            currPlayer.getCardList().add(Birthday.BIRTHDAY);
             boolean hasWinner = game.hasWinner();
             while (actionRemain > 0 && !hasWinner){
                 interactor.println("======================================");
@@ -98,8 +100,7 @@ public class Main {
                         {
                             BuildProperty buildProperty = (BuildProperty) command;
                             Property property = buildProperty.getProperty();
-                            interactor.setProperty(currPlayer,property);
-                            interactor.alert(property.getName()  +" successfully added on the table");
+                            success = interactor.setProperty(currPlayer,property);
                         }
                         break;
                         case Command.DEPOSIT_IN_BANK:
@@ -120,12 +121,12 @@ public class Main {
                         case Command.ALL_PAY_MONEY:
                         {
                             AllPayMoney payMoney = (AllPayMoney) command;
-                            Player performer = payMoney.getPerformer();
                             int amount = payMoney.getAmount();
                             for (int i = 0; i < allPlayers.length; i++) {
                                 Player player = allPlayers[i];
-                                if (player != performer && !interactor.refuseByNo(player,"pay $"+payMoney.getAmount() + " M to " + currPlayer.getName())) {
-                                    interactor.askToPay(player, performer, amount);
+                                boolean refused = interactor.refuseByNo(player,"pay $"+payMoney.getAmount() + " M to " + currPlayer.getName());
+                                if (player != currPlayer && !refused) {
+                                    interactor.askToPay(player, currPlayer, amount);
                                 }
                             }
                         }
@@ -158,8 +159,8 @@ public class Main {
                             if (interactor.refuseByNo(targetPlayer,"give your property to " + currPlayer.getName())) break;
                             Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.INCOMPLETE);
                             if (target == null){
-                                interactor.alert(targetPlayer.getName() + " doesn't have any property to give."
-                                        + "\nAn action will be deducted as a punishment for not paying attention!");
+                                interactor.println(targetPlayer.getName() + " doesn't have any property to give !");
+                                interactor.alert("An action will be deducted as a punishment for not paying attention!");
                                 break;
                             }
                             interactor.setProperty(currPlayer, target);
@@ -172,18 +173,18 @@ public class Main {
                             Properties target = interactor.selectProperties(targetPlayer,currPlayer, Interactor.COMPLETED);
 
                             if (target == null){
-                                interactor.alert(targetPlayer.getName() + " doesn't have any completed property set."
-                                        + "\nAn action will be deducted as a punishment for not paying attention!");
+                                interactor.println(targetPlayer.getName() + " doesn't have any complete set to give !");
+                                interactor.alert("An action will be deducted as a punishment for not paying attention!");
                                 break;
                             }
+                            targetPlayer.getPropertyList().clearColor(target.getColor());
                             for (int i = 0; i < target.getData().length; i++) {
                                 Property property = target.getData()[i];
                                 Color[] colors = property.getColors();
                                 if (colors.length == 1){
                                     if(!currPlayer.getPropertyList().addProperty(property, colors[0])){
-                                        interactor.alert("You have already completed the set for"+ colors[0].getName()+
-                                                        ", you can't take this property card."+
-                                                        "\n The card will be putted in the cards on the table");
+                                        interactor.println("You have already completed the set for "+ colors[0].getName()+ ", you can't take "+property.getName()+".");
+                                        interactor.alert("The card will be putted in the cards on the table");
                                         game.getCardStack().add(property);
                                     }
                                 } else {
@@ -262,5 +263,7 @@ public class Main {
         }
         Player winner = game.getWinner();
         interactor.alert("THE WINNER ISSS " + winner.getName() + "!!!! XDD");
+        interactor.displayState();
+        interactor.exit();
     }
 }

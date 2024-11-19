@@ -84,7 +84,8 @@ public class CardStack {
      * @param card  the card to be added
      */
     public void add(Card card) {
-        this.cards[nextTail()] = card;
+        int index = nextTail();
+        this.cards[index] = card;
     }
 
     //DEVELOPED BY: GLOM

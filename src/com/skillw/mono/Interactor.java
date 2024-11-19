@@ -27,6 +27,8 @@ public class Interactor {
     private static final String BANK_HEAD = PREFIX + "    Bank ( $ %d M ): %n";
     private static final String MONEY_FORMAT = PREFIX + "        |-  %-11s    x%-2d %n";
     private static final String BANK_EMPTY = PREFIX + "    |-  No money in bank! %n";
+    private static final String COLOR_LEVEL_FORMAT = PREFIX + "%d. %10s   ( %d / %d )   =>   ( %d / %d )";
+    private static final String COLOR_MONEY_FORMAT = PREFIX + "%d. %10s   ( $%d M )";
     private static final String MESSAGE_FORMAT = PREFIX + "%s";
 
     private static final Card GO_BACK = null;
@@ -39,6 +41,9 @@ public class Interactor {
     private GameState game = null;
     private Player currentPlayer = null;
 
+    private String currentName(){
+        return currentPlayer.getName();
+    }
     //DEVELOPED BY: MORRO
     public Interactor(){
         this.input = new Scanner(System.in);
@@ -48,6 +53,9 @@ public class Interactor {
         this.game = game;
     }
 
+    public void exit(){
+        input.close();
+    }
     //DEVELOPED BY: MORRO
     /**
      * Display the game title
@@ -94,7 +102,9 @@ public class Interactor {
     public int readInt(String prompt){
         try {
             print(prompt);
-            return input.nextInt();
+            int result = input.nextInt();
+            input.nextLine();
+            return result;
         } catch (InputMismatchException e){
             println("Invalid input, please enter a number!");
             input.nextLine();
@@ -114,6 +124,7 @@ public class Interactor {
         while (count < 5){
             System.out.print("Player " + (count+1) + ": ");
             String name = input.next();
+            input.nextLine();
             if (name.equals("done")){
                 if (count < 2){
                     System.out.println("At least 2 players are needed to start the game.");
@@ -164,7 +175,7 @@ public class Interactor {
         int cardWorth = cardList.calculateTotalWorth();
         if (bankWorth + cardWorth + propertyWorth < amount){
             println(from.getName() + " don't have enough money & cards to pay, so you will take all cards from " + from.getName());
-            for (int i = 0; i < cardList.getSize(); i++) {
+            for (int i = 0; i < CardList.CARDS.length; i++) {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
                 for (int j = 0; j < num; j++) {
@@ -230,12 +241,12 @@ public class Interactor {
         int index = 1;
         int[] map = new int[to - from + 1];
         if (cancellable)
-            System.out.printf(CARD_FORMAT,currentPlayer.getName(), 0, "Go Back");
+            System.out.printf(CARD_FORMAT,currentName(), 0, "Go Back");
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
                 Card card = cardList.getCardOf(i);
-                System.out.printf(ITEM_FORMAT,currentPlayer.getName(), index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+                System.out.printf(ITEM_FORMAT,currentName(), index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
         if (index == 1) {
@@ -437,20 +448,20 @@ public class Interactor {
         }
 
         int minOption = 0;
-        println("0. Go Back");
+        if (filter == COLOR_FILTER_INCOMPLETED){
+            println("To set a property:");
+        }
+        println("0. Put it in your card list (Go Back)");
+
         //Show all the color options available
         for (int i = 0; i < result.length; i++) {
             Color color = result[i];
-            print(i+1 + ". " + color.getName());
             Properties properties = player.getPropertyList().getProperties(color);
-
             if (filter == COLOR_FILTER_OWNED){
-                System.out.print("  ( $" + properties.calculateTotalWorth() + "M )");
+                System.out.printf(COLOR_MONEY_FORMAT,currentName(),i+1,color.getName(),properties.calculateTotalWorth());
             } else {
-                System.out.print("  ( " + properties.getSize() + " / " + color.getMaxLevel() + " )  => ");
-                System.out.print("( " + (properties.getSize() + 1) + " / " + color.getMaxLevel() + " ) ");
+                System.out.printf(COLOR_LEVEL_FORMAT,currentName(),i+1,color.getName(),properties.getSize(),color.getMaxLevel(),properties.getSize()+1,color.getMaxLevel());
             }
-
             System.out.println();
         }
         int option = readInt( player.getName() +", please select a color: ");
@@ -465,15 +476,30 @@ public class Interactor {
         return result[option-1];
     }
 
+    public void setPropertyOrDrop(Player player, Property property){
+        //filter completed colors
+        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
+        if(chosen == null){
+            game.getCardStack().add(property);
+            alert("You drop a " + property.getName() + ".");
+            return;
+        }
+        player.getPropertyList().addProperty(property, chosen);
+    }
+
     //DEVELOPED BY: MORRO
-    public void setProperty(Player player, Property property){
+    public boolean setProperty(Player player, Property property){
         //filter completed colors
         Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
         if(chosen == null){
             player.getCardList().add(property);
-            return;
+            return false;
         }
-        player.getPropertyList().addProperty(property, chosen);
+        Properties properties =  player.getPropertyList().getProperties(chosen);
+        properties.addProperty(property);
+
+        alert(property.getName()  +" successfully setted as " + chosen.getName() + ", ( "+properties.getSize() + " / " + chosen.getMaxLevel() + " )");
+        return true;
     }
 
     public void drawCard(Player player){
@@ -489,19 +515,18 @@ public class Interactor {
     }
 
     public void print(String message){
-        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), message);
+        System.out.printf(MESSAGE_FORMAT, currentName(), message);
     }
 
     public void println(String message){
-        System.out.printf(MESSAGE_FORMAT + "%n", currentPlayer.getName(), message);
+        System.out.printf(MESSAGE_FORMAT + "%n", currentName(), message);
     }
 
 
     //DEVELOPED BY: MORRO
     private void waitForPlayer(){
        print("Press enter to continue...");
-        input.nextLine();
-        input.nextLine();
+       input.nextLine();
     }
 
     //DEVELOPED BY: GLOM
@@ -509,13 +534,13 @@ public class Interactor {
         Color color = properties.getColor();
         int num = properties.getSize();
         if(index > 0){
-            System.out.printf(PROPERTY_FORMAT,currentPlayer.getName(), index, color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
+            System.out.printf(PROPERTY_FORMAT,currentName(), index, color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(0,property.getColors());
             }
         }else{
-            System.out.printf(PROPERTY_NO_INDEX_FORMAT,currentPlayer.getName(), color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
+            System.out.printf(PROPERTY_NO_INDEX_FORMAT,currentName(), color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(j+1,property.getColors());
@@ -527,30 +552,30 @@ public class Interactor {
     private void showColors(int index, Color[] colors){
         if (index > 0){
             if (colors == Color.UNIVERSAL) {
-                System.out.printf(PROPERTIES_FORMAT,currentPlayer.getName(), index, "Universal");
+                System.out.printf(PROPERTIES_FORMAT,currentName(), index, "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            System.out.printf(PROPERTIES_FORMAT,currentPlayer.getName(), index, name);
+            System.out.printf(PROPERTIES_FORMAT,currentName(), index, name);
         } else {
             if (colors == Color.UNIVERSAL) {
-                System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentPlayer.getName(), "Universal");
+                System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentName(), "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentPlayer.getName(), name);
+            System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentName(), name);
         }
     }
 
     //DEVELOPED BY: GLOM
     private void displayPropertyList(PropertyList propertyList){
-        System.out.printf(PROPERTY_HEAD,currentPlayer.getName());
+        System.out.printf(PROPERTY_HEAD,currentName());
         boolean empty = true;
         for (int i = 0; i < Color.UNIVERSAL.length; i++) {
             Color color = Color.UNIVERSAL[i];
@@ -560,22 +585,22 @@ public class Interactor {
                 displayProperties(properties,0);
             }
         }
-        if (empty)  System.out.printf(PROPERTY_EMPTY,currentPlayer.getName());
+        if (empty)  System.out.printf(PROPERTY_EMPTY,currentName());
     }
 
     //DEVELOPED BY: GLOM
     private void displayBank(Bank bank) {
-        System.out.printf(BANK_HEAD,currentPlayer.getName(), bank.calculateTotalWorth());
+        System.out.printf(BANK_HEAD,currentName(), bank.calculateTotalWorth());
         boolean empty = true;
         for (int i = 0; i < Bank.MONEYS.length; i++) {
             Money money = Bank.MONEYS[i];
             int num = bank.getNumOf(money);
             if (num > 0) {
                 empty = false;
-                System.out.printf(MONEY_FORMAT,currentPlayer.getName(),  money.getName(), num);
+                System.out.printf(MONEY_FORMAT,currentName(),  money.getName(), num);
             }
         }
-        if (empty) System.out.printf(BANK_EMPTY,currentPlayer.getName());
+        if (empty) System.out.printf(BANK_EMPTY,currentName());
     }
 
     public boolean doubleTheRent(Player player){
@@ -602,7 +627,10 @@ public class Interactor {
         currentPlayer = player;
         CardList cardList = player.getCardList();
         int numOfNo = cardList.getNumOfNo();
-        if(numOfNo < 1) return false;
+        if(numOfNo < 1) {
+            currentPlayer = original;
+            return false;
+        }
         println("You are being asked to " + command);
         println("You have " + numOfNo + " of Just Say NO! , do you want to use it?");
         println("1. Yes");
