@@ -9,11 +9,14 @@ import com.skillw.mono.card.action.*;
  * Cards on the table
  */
 public class CardStack {
+
     private final Card[] cards;
     private int head = 0; // ++ draw from here
     private int tail = 0; // ++ add to here
     private static final int SIZE = 101;
 
+    //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public CardStack() {
         this.cards = new Card[SIZE];
         // 20
@@ -65,23 +68,42 @@ public class CardStack {
         repeatAdd(DealBreaker.DEAL_BREAKER,2);
     }
 
+    //DEVELOPED BY: GLOM
     private int nextTail(){
         return (tail++) % cards.length;
     }
+    //DEVELOPED BY: GLOM
     private int nextHead(){
         return (head++) % cards.length;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Add card once
+     *
+     * @param card  the card to be added
+     */
     public void add(Card card) {
         this.cards[nextTail()] = card;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Add card repeatedly
+     *
+     * @param card  the card to be added
+     * @param times number of times to add the card
+     */
     public void repeatAdd(Card card, int times){
         for(int i = 0; i < times; i++){
             add(card);
         }
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * shuffle the card
+     */
     public void shuffle(){
         for(int i = 0; i < SIZE; i++){
             int randomIndex = (int)(Math.random() * SIZE);
@@ -91,6 +113,7 @@ public class CardStack {
         }
     }
 
+    //DEVELOPED BY: GLOM
     public Card draw(){
         int head = nextHead();
         Card card = cards[head];

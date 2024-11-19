@@ -61,11 +61,13 @@ public class CardList extends CardCounter{
     private CardStack cardStack;
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     public CardList(CardStack cardStack) {
         super(CARDS.length);
         this.cardStack = cardStack;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Perform the card's action
      *
@@ -85,17 +87,7 @@ public class CardList extends CardCounter{
         return CARDS[index];
     }
 
-    /**
-     * Perform the card's action
-     *
-     * @param card     the card
-     * @return the command to be executed
-     */
-    public void consume(Card card){
-        take(card);
-        cardStack.add(card);
-    }
-
+    //DEVELOPED BY: MORRO
     /**
      * Get the total worth of the cards on hand
      *
@@ -109,6 +101,7 @@ public class CardList extends CardCounter{
         return sum;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Draw the card
      */
@@ -116,10 +109,34 @@ public class CardList extends CardCounter{
         add(cardStack.draw());
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Perform the card's action
+     *
+     * @param card     the card
+     * @return the command to be executed
+     */
+    public void consume(Card card){
+        take(card);
+        cardStack.add(card);
+    }
+
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the number of No
+     *
+     * @return the number of No
+     */
     public int getNumOfNo(){
         return getNumOf(36);
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the number of Double The Rent
+     *
+     * @return the number of DoubleTheRent
+     */
     public int getNumOfDoubleRent(){
         return getNumOf(37);
     }

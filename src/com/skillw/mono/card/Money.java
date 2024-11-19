@@ -15,10 +15,12 @@ public class Money extends PerformableCard {
     public static final Money TEN = new Money(10);
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     public Money(int worth) {
         super("$ " + worth + "M", worth);
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Store the money in the player's bank
      *

@@ -18,6 +18,8 @@ public class Bank extends CardCounter {
     public Bank() {
         super(MONEYS.length);
     }
+
+    //DEVELOPED BY: MORRO
     /**
      * Calculate the sum of the money in bank
      *
@@ -31,11 +33,12 @@ public class Bank extends CardCounter {
         return sum;
     }
 
+    //DEVELOPED BY: GLOM
     /**
-     * Get the card's
+     * Get the card's index
      *
      * @param card  card
-     * @return      the command to be executed
+     * @return      the card's index
      */
     public int getIndexOf(Card card) {
         for (int i = 0; i < MONEYS.length; i++) {

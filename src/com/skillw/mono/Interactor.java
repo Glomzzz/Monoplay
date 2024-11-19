@@ -426,7 +426,7 @@ public class Interactor {
             print(i+1 + ". " + color.getName());
             if (filter == COLOR_FILTER_OWNED){
                 Properties properties = player.getPropertyList().getProperties(color);
-                System.out.printf("  ( $" + properties.calculateWorth() + "M )");
+                System.out.printf("  ( $" + properties.calculateTotalWorth() + "M )");
             }
             System.out.println();
         }
@@ -474,13 +474,13 @@ public class Interactor {
         Color color = properties.getColor();
         int num = properties.getSize();
         if(index > 0){
-            System.out.printf(PROPERTY_FORMAT,currentPlayer.getName(), index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            System.out.printf(PROPERTY_FORMAT,currentPlayer.getName(), index, color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(0,property.getColors());
             }
         }else{
-            System.out.printf(PROPERTY_NO_INDEX_FORMAT,currentPlayer.getName(), color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            System.out.printf(PROPERTY_NO_INDEX_FORMAT,currentPlayer.getName(), color.getName(), num, color.getMaxLevel(),properties.calculateTotalWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(j+1,property.getColors());

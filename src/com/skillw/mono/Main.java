@@ -165,7 +165,7 @@ public class Main {
                                 success = false;
                                 break;
                             }
-                            int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
+                            int amount = currPlayer.getPropertyList().getProperties(color).calculateTotalWorth();
                             if (interactor.doubleTheRent(currPlayer)) amount *= 2;
                             Player performer = rentSingleColor.getPerformer();
                             for (int i = 0; i < game.getAllPlayers().length; i++) {
@@ -186,7 +186,7 @@ public class Main {
                                 break;
                             }
                             Player target = interactor.selectPlayer(currPlayer, game);
-                            int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
+                            int amount = currPlayer.getPropertyList().getProperties(color).calculateTotalWorth();
                             if (interactor.doubleTheRent(currPlayer)) amount *= 2;
                             if (interactor.refuseByNo(target,"pay $"+amount + " M to " + currPlayer.getName())) break;
                             interactor.askToPay(target, currPlayer, amount);

@@ -6,11 +6,13 @@ public abstract class Card {
     private final int worth;    //  per million
 
     //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     public Card(String name,int worth) {
         this.name = name;
         this.worth = worth;
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Find the card's worth
      *
@@ -38,6 +40,7 @@ public abstract class Card {
         }
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Get the worth of the card
      *
@@ -47,6 +50,7 @@ public abstract class Card {
         return worth;
     }
 
+    //DEVELOPED BY: MORRO
     /**
      * Get the name of the card
      *

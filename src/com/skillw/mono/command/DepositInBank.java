@@ -9,11 +9,13 @@ public class DepositInBank extends Command{
     private final Money money;
 
     //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public DepositInBank(Player performer, Money card) {
         super(DEPOSIT_IN_BANK, performer);
         this.money = card;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the money card
      *

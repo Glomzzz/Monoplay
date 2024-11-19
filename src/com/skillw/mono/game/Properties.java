@@ -5,20 +5,23 @@ import com.skillw.mono.card.Property;
 
 public class Properties {
     private final Color color;
-    // Store the property card's colors
-    private final Property[] data;
+    private final Property[] data;  // Store the property cards
     private int size;
 
+    //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public Properties(Color color) {
         this.color = color;
         this.data = new Property[color.getMaxLevel()];
         this.size = 0;
     }
 
+    //DEVELOPED BY: GLOM
     /**
-     * Receive card to the player
+     * Add a property card
      *
-     * @param property     the card player will receive
+     * @param property     the property card
+     * @return             if the card is successfully added
      */
     public boolean addProperty(Property property){
         if (isCompleted()) return false;
@@ -27,14 +30,33 @@ public class Properties {
         return true;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the size
+     *
+     * @return  the size
+     */
     public int getSize(){
         return this.size;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the properties
+     *
+     * @return  the properties
+     */
     public Property[] getData() {
         return this.data;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the property
+     *
+     * @param index the property's index
+     * @return      the property
+     */
     public Property take(int index){
         Property colors = this.data[index];
         this.data[index] = null;
@@ -45,18 +67,36 @@ public class Properties {
         return colors;
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the color
+     *
+     * @return the color
+     */
     public Color getColor() {
         return color;
     }
 
 
-    public int calculateWorth(){
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the total worth
+     *
+     * @return the total worth
+     */
+    public int calculateTotalWorth(){
         if (size == 0)
             return 0;
         else
             return color.getLevels()[size-1];
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Check if Properties is complete
+     *
+     * @return if it's complete
+     */
     public boolean isCompleted(){
         return size == color.getMaxLevel();
     }

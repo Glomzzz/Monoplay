@@ -19,11 +19,13 @@ public abstract class Command {
     private final Player performer;
 
     //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public Command(int id, Player performer) {
         this.id = id;
         this.performer = performer;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the id of the command
      *
@@ -33,6 +35,7 @@ public abstract class Command {
         return id;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the player who perform the command
      *

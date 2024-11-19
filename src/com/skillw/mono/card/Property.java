@@ -32,19 +32,23 @@ public class Property extends PerformableCard {
     private final Color[] colors;
 
     //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     private Property(String name,Color color) {
         super(name,color.getLevels()[0]);
         this.colors = new Color[] {color};
     }
+    //DEVELOPED BY: GLOM
     private Property(String name,Color color1, Color color2, int worth) {
         super(name,worth);
         this.colors = new Color[] {color1, color2};
     }
+    //DEVELOPED BY: GLOM
     private Property(String name,Color[] colors, int worth) {
         super(name,worth);
         this.colors = colors;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Set the property to the player's property list
      *
@@ -56,6 +60,7 @@ public class Property extends PerformableCard {
         return new BuildProperty(performer, this);
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get colors of the property
      *

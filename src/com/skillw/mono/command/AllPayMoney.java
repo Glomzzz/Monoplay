@@ -7,11 +7,13 @@ public class AllPayMoney extends Command {
     private final int amount;
 
     //=============== Constructor =================
+    //DEVELOPED BY: GLOM
     public AllPayMoney(Player performer, int amount) {
         super(ALL_PAY_MONEY, performer);
         this.amount = amount;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the amount players have to pay
      *
