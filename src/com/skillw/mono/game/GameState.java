@@ -26,12 +26,13 @@ public class GameState {
      */
     public void init(){
         cardStack.shuffle();
-        /**
-         * Draw 5 cards for each player at the beginning
+        /*
+         * Draw 3 cards for each player at the beginning
+         * (+2 will be added when it's their turn)
          */
-        for (Player player : this.players) {
-            for (int i = 0; i < 3; i++) {
-                player.getCardList().add(cardStack.draw());
+        for (int i = 0; i < players.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                players[i].getCardList().add(cardStack.draw());
             }
         }
     }
@@ -52,8 +53,8 @@ public class GameState {
     }
 
     public boolean hasWinner(){
-        for (Player player : this.players) {
-            if(player.getPropertyList().getCompletedNum() >= 3){
+        for (int i = 0; i < players.length; i++) {
+            if(players[i].getPropertyList().getCompletedNum() >= 3){
                 return true;
             }
         }
