@@ -1,12 +1,13 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.AllPayMoney;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
 
-public class Birthday extends ActionCard {
+public class Birthday extends PerformableCard {
 
     public static final Birthday BIRTHDAY = new Birthday();
 

@@ -1,11 +1,12 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.DrawCards;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class PassGo extends ActionCard {
+public class PassGo extends PerformableCard {
 
     public static final PassGo PASS_GO = new PassGo();
 

@@ -1,12 +1,13 @@
 package com.skillw.mono.card.action;
 
 import com.skillw.mono.Color;
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.RentSingleColor;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class Rent extends ActionCard {
+public class Rent extends PerformableCard {
 
     public static final Rent BROWN_N_LIGHT_BLUE = new Rent("Rent Brown & Light Blue",Color.BROWN, Color.LIGHT_BLUE, 1);
     public static final Rent BLACK_N_LIGHT_GREEN = new Rent("Rent Black & Light Green",Color.BLACK, Color.LIGHT_GREEN, 1);

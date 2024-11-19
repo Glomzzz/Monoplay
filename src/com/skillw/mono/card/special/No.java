@@ -1,4 +1,4 @@
-package com.skillw.mono.card.action;
+package com.skillw.mono.card.special;
 
 import com.skillw.mono.card.Card;
 

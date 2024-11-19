@@ -1,11 +1,12 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.PayMoney;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class DebtCollector extends ActionCard {
+public class DebtCollector extends PerformableCard {
 
     public static final DebtCollector DEBT_COLLECTOR = new DebtCollector();
 

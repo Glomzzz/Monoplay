@@ -1,11 +1,12 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.TakeCompleteProperty;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class DealBreaker extends ActionCard {
+public class DealBreaker extends PerformableCard {
 
     public static final DealBreaker DEAL_BREAKER = new DealBreaker();
 

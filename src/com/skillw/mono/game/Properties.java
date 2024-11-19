@@ -85,7 +85,7 @@ public class Properties {
      *
      * @return the total worth
      */
-    public int calculateTotalWorth(){
+    public int calculateWorth(){
         if (size == 0)
             return 0;
         else

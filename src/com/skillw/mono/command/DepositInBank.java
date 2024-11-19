@@ -21,7 +21,7 @@ public class DepositInBank extends Command{
      *
      * @return the money card
      */
-    public Card getMoney() {
+    public Money getMoney() {
         return money;
     }
 }

@@ -1,11 +1,12 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.SwapProperty;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class ForcedDeal extends ActionCard {
+public class ForcedDeal extends PerformableCard {
 
     public static final ForcedDeal FORCED_DEAL = new ForcedDeal();
 

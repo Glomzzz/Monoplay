@@ -49,6 +49,13 @@ public class Bank extends CardCounter {
         return -1;
     }
 
+    //DEVELOPED BY: GLOM
+
+    /**
+     * Get the card of the index
+     * @param index index of the card
+     * @return the card
+     */
     public Card getCardOf(int index) {
         return MONEYS[index];
     }

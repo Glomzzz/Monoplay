@@ -1,11 +1,12 @@
 package com.skillw.mono.card.action;
 
+import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.command.Command;
 import com.skillw.mono.command.TakeProperty;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.GameState;
 
-public class SlyDeal extends ActionCard {
+public class SlyDeal extends PerformableCard {
 
     public static final SlyDeal SLY_DEAL = new SlyDeal();
 

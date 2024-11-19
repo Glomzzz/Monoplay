@@ -4,6 +4,9 @@ import com.skillw.mono.card.Card;
 import com.skillw.mono.card.Money;
 import com.skillw.mono.card.Property;
 import com.skillw.mono.card.action.*;
+import com.skillw.mono.card.action.DealBreaker;
+import com.skillw.mono.card.special.DoubleTheRent;
+import com.skillw.mono.card.special.No;
 import com.skillw.mono.util.CardCounter;
 
 /**
@@ -83,6 +86,12 @@ public class CardList extends CardCounter{
         return -1; 
     }
 
+    //DEVELOPED BY: GLOM
+    /**
+     * Get the card of the index
+     * @param index index of the card
+     * @return the card
+     */
     public Card getCardOf(int index) {
         return CARDS[index];
     }
@@ -118,7 +127,6 @@ public class CardList extends CardCounter{
      * Perform the card's action
      *
      * @param card     the card
-     * @return the command to be executed
      */
     public void consume(Card card){
         take(card);
@@ -141,7 +149,7 @@ public class CardList extends CardCounter{
      *
      * @return the number of DoubleTheRent
      */
-    public int getNumOfDoubleRent(){
+    public int getNumOfDoubleTheRent(){
         return getNumOf(37);
     }
 }
