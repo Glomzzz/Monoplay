@@ -173,7 +173,7 @@ public class Interactor {
                 }
             }
         } else {
-            currentPlayer = to;
+            currentPlayer = from;
             println(from.getName() + " , you have to pay " + moneyFormat(amount));
             int paid = 0;
             while (paid < amount){
@@ -199,7 +199,7 @@ public class Interactor {
                     paid += card.getWorth();
                 }
             }
-            currentPlayer = from;
+            currentPlayer = to;
         }
     }
 
