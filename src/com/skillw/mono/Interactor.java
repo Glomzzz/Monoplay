@@ -12,17 +12,20 @@ import java.util.Scanner;
 
 public class Interactor {
 
-    private static final String ITEM_FORMAT = "%d. %-25s    x%-2d    ~ $ %dM %n";
-    private static final String PROPERTY_HEAD = "    Properties: %n";
-    private static final String PROPERTY_FORMAT = "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
-    private static final String PROPERTY_NO_INDEX_FORMAT = "    |-  %-11s    ( %d / %d )    - $ %dM %n";
-    private static final String PROPERTIES_FORMAT = "        |-  %d. %s %n";
-    private static final String PROPERTIES_NO_INDEX_FORMAT = "        |-    %s %n";
-    private static final String PROPERTY_EMPTY = "    |-  No properties owned! %n";
-    private static final String BANK_HEAD = "    Bank ( $ %d M ): %n";
-    private static final String MONEY_FORMAT = "        |-  %-11s    x%-2d %n";
-    private static final String BANK_EMPTY = "    |-  No money in bank! %n";
-    private static final String MESSAGE_FORMAT = "%-9s>>    %s";
+    private static final String PREFIX = "%-9s>>    ";
+
+    private static final String CARD_FORMAT = PREFIX + "%d. %-25s%n";
+    private static final String ITEM_FORMAT = PREFIX + "%d. %-25s    x%-2d    ~ $ %dM %n";
+    private static final String PROPERTY_HEAD = PREFIX + "    Properties: %n";
+    private static final String PROPERTY_FORMAT = PREFIX + "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
+    private static final String PROPERTY_NO_INDEX_FORMAT = PREFIX + "    |-  %-11s    ( %d / %d )    - $ %dM %n";
+    private static final String PROPERTIES_FORMAT = PREFIX + "        |-  %d. %s %n";
+    private static final String PROPERTIES_NO_INDEX_FORMAT = PREFIX + "        |-    %s %n";
+    private static final String PROPERTY_EMPTY = PREFIX + "    |-  No properties owned! %n";
+    private static final String BANK_HEAD = PREFIX + "    Bank ( $ %d M ): %n";
+    private static final String MONEY_FORMAT = PREFIX + "        |-  %-11s    x%-2d %n";
+    private static final String BANK_EMPTY = PREFIX + "    |-  No money in bank! %n";
+    private static final String MESSAGE_FORMAT = PREFIX + "%s";
 
     private static final Card GO_BACK = null;
 
@@ -207,12 +210,12 @@ public class Interactor {
         int index = 1;
         int[] map = new int[to - from + 1];
         if (cancellable)
-            printf("%d. %-25s%n", 0, "Go Back");
+            System.out.printf(CARD_FORMAT,currentPlayer.getName(), 0, "Go Back");
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
                 Card card = CardList.CARDS[i];
-                printf(ITEM_FORMAT, index++, card.getName(), cardList.getNumOf(i), card.getWorth());
+                System.out.printf(ITEM_FORMAT,currentPlayer.getName(), index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
         if (index == 1) {
@@ -418,13 +421,11 @@ public class Interactor {
     public void println(String message){
         System.out.printf(MESSAGE_FORMAT + "%n", currentPlayer.getName(), message);
     }
-    public void printf(String format, Object... args){/// ///////////////////////////////////////////////
-        System.out.printf(MESSAGE_FORMAT, currentPlayer.getName(), String.format(format,args));
-    }
+
 
     //DEVELOPED BY: MORRO
     private void waitForPlayer(){
-        printf("Press enter to continue...");
+       print("Press enter to continue...");
         input.nextLine();
         input.nextLine();
     }
@@ -434,13 +435,13 @@ public class Interactor {
         Color color = properties.getColor();
         int num = properties.getSize();
         if(index > 0){
-            printf(PROPERTY_FORMAT, index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            System.out.printf(PROPERTY_FORMAT,currentPlayer.getName(), index, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(0,property.getColors());
             }
         }else{
-            printf(PROPERTY_NO_INDEX_FORMAT, color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
+            System.out.printf(PROPERTY_NO_INDEX_FORMAT,currentPlayer.getName(), color.getName(), num, color.getMaxLevel(),properties.calculateWorth());
             for (int j = 0; j < properties.getSize() ; j++) {
                 Property property = properties.getData()[j];
                 showColors(j+1,property.getColors());
@@ -452,30 +453,30 @@ public class Interactor {
     private void showColors(int index, Color[] colors){
         if (index > 0){
             if (colors == Color.UNIVERSAL) {
-                printf(PROPERTIES_FORMAT, index, "Universal");
+                System.out.printf(PROPERTIES_FORMAT,currentPlayer.getName(), index, "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            printf(PROPERTIES_FORMAT, index, name);
+            System.out.printf(PROPERTIES_FORMAT,currentPlayer.getName(), index, name);
         } else {
             if (colors == Color.UNIVERSAL) {
-                printf(PROPERTIES_NO_INDEX_FORMAT, "Universal");
+                System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentPlayer.getName(), "Universal");
                 return;
             }
             String name = colors[0].getName();
             for (int k = 1; k < colors.length; k++) {
                 name += " & " + colors[k].getName();
             }
-            printf(PROPERTIES_NO_INDEX_FORMAT, name);
+            System.out.printf(PROPERTIES_NO_INDEX_FORMAT,currentPlayer.getName(), name);
         }
     }
 
     //DEVELOPED BY: GLOM
     private void displayPropertyList(PropertyList propertyList){
-        printf(PROPERTY_HEAD);
+        System.out.printf(PROPERTY_HEAD,currentPlayer.getName());
         boolean empty = true;
         for (int i = 0; i < Color.UNIVERSAL.length; i++) {
             Color color = Color.UNIVERSAL[i];
@@ -485,21 +486,21 @@ public class Interactor {
                 displayProperties(properties,0);
             }
         }
-        if (empty)  printf(PROPERTY_EMPTY);
+        if (empty)  System.out.printf(PROPERTY_EMPTY,currentPlayer.getName());
     }
 
     //DEVELOPED BY: GLOM
     private void displayBank(Bank bank) {
-        printf(BANK_HEAD, bank.calculateWorth());
+        System.out.printf(BANK_HEAD,currentPlayer.getName(), bank.calculateWorth());
         boolean empty = true;
         for (int i = 0; i < Bank.MONEYS.length; i++) {
             Money money = Bank.MONEYS[i];
             int num = bank.getNumOf(money);
             if (num > 0) {
                 empty = false;
-                printf(MONEY_FORMAT,  money.getName(), num);
+                System.out.printf(MONEY_FORMAT,currentPlayer.getName(),  money.getName(), num);
             }
         }
-        if (empty) printf(BANK_EMPTY);
+        if (empty) System.out.printf(BANK_EMPTY,currentPlayer.getName());
     }
 }
