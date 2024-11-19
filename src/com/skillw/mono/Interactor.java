@@ -185,7 +185,7 @@ public class Interactor {
                     to.recieveCard(money);
                     paid += money.getWorth();
                 } else if (propertyWorth > 0){
-                    println("You have " + moneyFormat(propertyWorth) + " in p   roperties, you have to pay with properties.");
+                    println("You have " + moneyFormat(propertyWorth) + " in properties, you have to pay with properties.");
                     println("Which property will you pay with?   ( " + moneyFormat(amount - paid) + " left )");
                     Property property = selectSinglePropertyFrom(from,from,ALL);
                     setProperty(to,property);
