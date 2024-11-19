@@ -61,7 +61,7 @@ public class PropertyList {
         for (int i = 0; i < 10; i++) {
             int number = this.properties[i].getSize();
             if (number != 0)
-                worth +=  Color.UNIVERSAL[i].getLevels()[number];
+                worth +=  Color.UNIVERSAL[i].getLevels()[number-1];
         }
         return worth;
     }
