@@ -236,7 +236,7 @@ public class Interactor {
         }
         int cardIndex = map[option];
         currentPlayer = original;
-        return  CardList.CARDS[cardIndex];
+        return  cardList.getCardOf(cardIndex);
     }
 
     //DEVELOPED BY: GLOM
