@@ -4,6 +4,8 @@ import com.skillw.mono.card.Card;
 import com.skillw.mono.card.Money;
 import com.skillw.mono.card.PerformableCard;
 import com.skillw.mono.card.Property;
+import com.skillw.mono.card.action.DoubleTheRent;
+import com.skillw.mono.card.action.No;
 import com.skillw.mono.game.*;
 import com.skillw.mono.util.CardCounter;
 
@@ -529,5 +531,40 @@ public class Interactor {
             }
         }
         if (empty) System.out.printf(BANK_EMPTY,currentPlayer.getName());
+    }
+
+    public boolean doubleTheRent(Player player){
+        Player original = currentPlayer;
+        currentPlayer = player;
+        CardList cardList = player.getCardList();
+        int numOfDoubleRent = cardList.getNumOfDoubleRent();
+        if(numOfDoubleRent < 1) return false;
+        println("You have " + numOfDoubleRent + " of Double The Rent! , do you want to use it?");
+        int option = readInt("1. Yes  /   2. No");
+        if(option == 1){
+            cardList.take(DoubleTheRent.DOUBLE_THE_RENT);
+            currentPlayer = original;
+            return true;
+        }
+        currentPlayer = original;
+        return false;
+    }
+
+    public boolean refuseByNo(Player player, String command){
+        Player original = currentPlayer;
+        currentPlayer = player;
+        CardList cardList = player.getCardList();
+        int numOfNo = cardList.getNumOfNo();
+        if(numOfNo < 1) return false;
+        println("You are being asked to " + command);
+        println("You have " + numOfNo + " of Just Say NO! , do you want to use it?");
+        int option = readInt("1. Yes  /   2. No");
+        if(option == 1){
+            cardList.take(No.NO);
+            currentPlayer = original;
+            return true;
+        }
+        currentPlayer = original;
+        return false;
     }
 }

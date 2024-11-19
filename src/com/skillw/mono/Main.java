@@ -36,6 +36,8 @@ public class Main {
             while (actionRemain > 0 && !game.hasWinner()){
                 interactor.println("");
                 interactor.println(currPlayer.getName()+", this is your turn!");
+
+                interactor.displayUniqueCardNum(currPlayer);
                 interactor.println("You can perform " + actionRemain +  " actions now:");
                 interactor.println("1. Play an action card");
                 interactor.println("2. Set a property");
@@ -71,13 +73,6 @@ public class Main {
                     Command command = card.action(game,currPlayer);
                     boolean success = true;
                     switch (command.getId()){
-                        case Command.PAY_MONEY:
-                        {
-                            PayMoney payMoney = (PayMoney) command;
-                            Player target = interactor.selectPlayer(currPlayer, game);
-                            interactor.askToPay(target, currPlayer, payMoney.getAmount());
-                            break;
-                        }
                         case Command.DRAW_CARDS:
                         {
                             DrawCards drawCards = (DrawCards) command;
@@ -95,9 +90,18 @@ public class Main {
                             interactor.alert("Property successfully added on the table");
                         }
                         break;
+                        case Command.PAY_MONEY:
+                        {
+                            PayMoney payMoney = (PayMoney) command;
+                            Player target = interactor.selectPlayer(currPlayer, game);
+                            if (interactor.refuseByNo(target,"pay $"+payMoney.getAmount() + " M to " + currPlayer.getName())) break;
+                            interactor.askToPay(target, currPlayer, payMoney.getAmount());
+                            break;
+                        }
                         case Command.SWAP_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
+                            if (interactor.refuseByNo(targetPlayer,"swap your property with " + currPlayer.getName() + "'s ")) break;
                             Property self = interactor.selectSinglePropertyFrom(currPlayer,currPlayer, Interactor.INCOMPLETE);
                             //Check if the current currPlayer have property on the table that is incomplete
                             if (self == null) {
@@ -119,6 +123,7 @@ public class Main {
                         case Command.TAKE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
+                            if (interactor.refuseByNo(targetPlayer,"give your property to " + currPlayer.getName())) break;
                             Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.INCOMPLETE);
                             interactor.setProperty(currPlayer, target);
                         }
@@ -126,6 +131,7 @@ public class Main {
                         case Command.TAKE_COMPLETE_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
+                            if (interactor.refuseByNo(targetPlayer,"give your complete set to " + currPlayer.getName())) break;
                             Properties target = interactor.selectProperties(targetPlayer,currPlayer, Interactor.COMPLETED);
 
                             if (target == null){
@@ -157,11 +163,12 @@ public class Main {
                                 break;
                             }
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
-
+                            if (interactor.doubleTheRent(currPlayer)) amount *= 2;
                             Player performer = rentSingleColor.getPerformer();
                             for (int i = 0; i < game.getAllPlayers().length; i++) {
-                                if (game.getAllPlayers()[i] != performer) {
-                                    interactor.askToPay(game.getAllPlayers()[i], performer, amount);
+                                Player target = game.getAllPlayers()[i];
+                                if (target != performer && !interactor.refuseByNo(target,"pay $"+amount + " M to " + currPlayer.getName())) {
+                                    interactor.askToPay(target, performer, amount);
                                 }
                             }
                         }
@@ -177,6 +184,8 @@ public class Main {
                             }
                             Player target = interactor.selectPlayer(currPlayer, game);
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
+                            if (interactor.doubleTheRent(currPlayer)) amount *= 2;
+                            if (interactor.refuseByNo(target,"pay $"+amount + " M to " + currPlayer.getName())) break;
                             interactor.askToPay(target, currPlayer, amount);
                         }
                         break;
