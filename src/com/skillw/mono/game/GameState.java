@@ -33,15 +33,6 @@ public class GameState {
      */
     public void init(){
         cardStack.shuffle();
-        /*
-         * Draw 3 cards for each player at the beginning
-         * (+2 will be added when it's their turn)
-         */
-        for (int i = 0; i < players.length; i++) {
-            for (int j = 0; j < 3; j++) {
-                players[i].getCardList().add(cardStack.draw());
-            }
-        }
     }
 
     //DEVELOPED BY: MORRO

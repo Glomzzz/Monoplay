@@ -436,11 +436,8 @@ public class Interactor {
             }
         }
 
-        int minOption = 1;
-        if (filter != COLOR_FILTER_INCOMPLETED){
-            minOption = 0;
-            println("0. Go Back");
-        }
+        int minOption = 0;
+        println("0. Go Back");
         //Show all the color options available
         for (int i = 0; i < result.length; i++) {
             Color color = result[i];
@@ -472,11 +469,18 @@ public class Interactor {
     public void setProperty(Player player, Property property){
         //filter completed colors
         Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
+        if(chosen == null){
+            player.getCardList().add(property);
+            return;
+        }
         player.getPropertyList().addProperty(property, chosen);
     }
 
     public void drawCard(Player player){
+        Player temp = currentPlayer;
+        currentPlayer = player;
         alert("You draw a " + player.getCardList().draw().getName());
+        currentPlayer = temp;
     }
 
     public void alert(String message){

@@ -22,6 +22,16 @@ public class Main {
         game.init();
         interactor.init(game);
 
+        /*
+         * Draw 3 cards for each player at the beginning
+         * (+2 will be added when it's their turn)
+         */
+        Player[] allPlayers = game.getAllPlayers();
+        for (int i = 0; i < allPlayers.length; i++) {
+            for (int j = 0; j < 3; j++) {
+              interactor.drawCard( allPlayers[i]);
+            }
+        }
         while (!game.hasWinner()){
             Player currPlayer = game.getCurrentPlayer();
             interactor.setCurrentPlayer(currPlayer);
@@ -92,6 +102,13 @@ public class Main {
                             interactor.alert(property.getName()  +" successfully added on the table");
                         }
                         break;
+                        case Command.DEPOSIT_IN_BANK:
+                        {
+                            DepositInBank depositInBank = (DepositInBank) command;
+                            interactor.depositMoney(currPlayer, depositInBank.getMoney());
+                            interactor.alert("REPORT: Successfully deposited "+depositInBank.getMoney().getName());
+                        }
+                        break;
                         case Command.PAY_MONEY:
                         {
                             PayMoney payMoney = (PayMoney) command;
@@ -100,6 +117,19 @@ public class Main {
                             interactor.askToPay(target, currPlayer, payMoney.getAmount());
                             break;
                         }
+                        case Command.ALL_PAY_MONEY:
+                        {
+                            AllPayMoney payMoney = (AllPayMoney) command;
+                            Player performer = payMoney.getPerformer();
+                            int amount = payMoney.getAmount();
+                            for (int i = 0; i < allPlayers.length; i++) {
+                                Player player = allPlayers[i];
+                                if (player != performer && !interactor.refuseByNo(player,"pay $"+payMoney.getAmount() + " M to " + currPlayer.getName())) {
+                                    interactor.askToPay(player, performer, amount);
+                                }
+                            }
+                        }
+                        break;
                         case Command.SWAP_PROPERTY:
                         {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
@@ -127,6 +157,11 @@ public class Main {
                             Player targetPlayer = interactor.selectPlayer(currPlayer, game);
                             if (interactor.refuseByNo(targetPlayer,"give your property to " + currPlayer.getName())) break;
                             Property target = interactor.selectSinglePropertyFrom(targetPlayer,currPlayer, Interactor.INCOMPLETE);
+                            if (target == null){
+                                interactor.alert(targetPlayer.getName() + " doesn't have any property to give."
+                                        + "\nAn action will be deducted as a punishment for not paying attention!");
+                                break;
+                            }
                             interactor.setProperty(currPlayer, target);
                         }
                         break;
@@ -167,10 +202,13 @@ public class Main {
                                 break;
                             }
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateTotalWorth();
-                            if (interactor.doubleTheRent(currPlayer)) amount *= 2;
+                            if (actionRemain > 1 && interactor.doubleTheRent(currPlayer)) {
+                                amount *= 2;
+                                actionRemain--;
+                            }
                             Player performer = rentSingleColor.getPerformer();
-                            for (int i = 0; i < game.getAllPlayers().length; i++) {
-                                Player target = game.getAllPlayers()[i];
+                            for (int i = 0; i < allPlayers.length; i++) {
+                                Player target = allPlayers[i];
                                 if (target != performer && !interactor.refuseByNo(target,"pay $"+amount + " M to " + currPlayer.getName())) {
                                     interactor.askToPay(target, performer, amount);
                                 }
@@ -188,28 +226,12 @@ public class Main {
                             }
                             Player target = interactor.selectPlayer(currPlayer, game);
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateTotalWorth();
-                            if (interactor.doubleTheRent(currPlayer)) amount *= 2;
+                            if (actionRemain > 1 && interactor.doubleTheRent(currPlayer)) {
+                                amount *= 2;
+                                actionRemain--;
+                            }
                             if (interactor.refuseByNo(target,"pay $"+amount + " M to " + currPlayer.getName())) break;
                             interactor.askToPay(target, currPlayer, amount);
-                        }
-                        break;
-                        case Command.DEPOSIT_IN_BANK:
-                        {
-                            DepositInBank depositInBank = (DepositInBank) command;
-                            interactor.depositMoney(currPlayer, depositInBank.getMoney());
-                            interactor.alert("REPORT: Successfully deposited "+depositInBank.getMoney().getName());
-                        }
-                        break;
-                        case Command.ALL_PAY_MONEY:
-                        {
-                            AllPayMoney payMoney = (AllPayMoney) command;
-                            Player performer = payMoney.getPerformer();
-                            int amount = payMoney.getAmount();
-                            for (int i = 0; i < game.getAllPlayers().length; i++) {
-                                if (game.getAllPlayers()[i] != performer) {
-                                    interactor.askToPay(game.getAllPlayers()[i], performer, amount);
-                                }
-                            }
                         }
                         break;
                         default:
