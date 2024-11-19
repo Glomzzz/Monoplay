@@ -21,28 +21,54 @@ public class Color {
     private final int id;
     private final String name;
     /* Store the rent level, based on the number of color.
-     * For example, if a player owns 2 Red Property and 1 Blue Property
-     * He can receive the rent of 3 + 3 = 6 M */
+     * For example, if a player owns 2 Red Property and 1 Green Property
+     * He can receive the rent of 3 + 2 = 5 M */
     private final int[] levels;
 
+    //=============== Constructor =================
+    //DEVELOPED BY: MORRO
     private Color(int id,String name, int[] levels) {
         this.id = id;
         this.name = name;
         this.levels = levels;
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the ID
+     *
+     * @return the ID
+     */
     public int getId() {
         return id;
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the name of the color
+     *
+     * @return the Color
+     */
     public String getName() {
         return name;
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the levels of the color
+     *
+     * @return the levels of the color
+     */
     public int[] getLevels() {
         return levels;
     }
 
+    //DEVELOPED BY: MORRO
+    /**
+     * Get the max level of the color
+     *
+     * @return max level of the color
+     */
     public int getMaxLevel() {
         return levels.length;
     }

@@ -7,11 +7,12 @@ public abstract class CardCounter {
     private int size = 0;
 
     //=============== Constructor =================
-    //DEVELOPED BY: MORRO
+    //DEVELOPED BY: GLOM
     public CardCounter(int size) {
         this.cards = new int[size];
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Add the card to the card counter
      *
@@ -23,6 +24,7 @@ public abstract class CardCounter {
         size++;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the amount of card
      *
@@ -33,6 +35,7 @@ public abstract class CardCounter {
         return cards[index];
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the amount of card
      *
@@ -43,6 +46,7 @@ public abstract class CardCounter {
         return getNumOf(getIndexOf(card));
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Clear the cards
      *
@@ -56,6 +60,7 @@ public abstract class CardCounter {
         return num;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Clear the cards
      *
@@ -66,6 +71,7 @@ public abstract class CardCounter {
         return clearOf(getIndexOf(card));
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Take a card
      *
@@ -76,6 +82,7 @@ public abstract class CardCounter {
         size--;
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Take a card
      *
@@ -85,24 +92,27 @@ public abstract class CardCounter {
         take(getIndexOf(card));
     }
 
+    //DEVELOPED BY: GLOM
     /**
      * Get the size
-     * @return
+     * @return the size
      */
     public int getSize(){
         return size;
     }
 
+    //DEVELOPED BY: GLOM
     /**
-     * Get the amount of card based on the index of the card
+     * Get the index of the card
      *
      * @param   card the card
      * @return  the card's index
      */
     public abstract int getIndexOf(Card card);
 
+    //DEVELOPED BY: GLOM
     /**
-     * Get the card based on index
+     * Get the card
      *
      * @param index index of the card
      * @return the card
