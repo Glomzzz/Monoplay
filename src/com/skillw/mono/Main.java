@@ -35,6 +35,7 @@ public class Main {
             interactor.println("======================================");
             boolean hasWinner = game.hasWinner();
             while (actionRemain > 0 && !hasWinner){
+                interactor.setCurrentPlayer(currPlayer);
                 interactor.println("");
                 interactor.println(currPlayer.getName()+", this is your turn!");
 

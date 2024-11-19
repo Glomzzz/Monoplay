@@ -142,6 +142,17 @@ public class Interactor {
         println("Double The Rent (" + player.getCardList().getNumOfDoubleRent() + ")" + "  Just Say No (" + player.getCardList().getNumOfNo() + ")");
     }
 
+    private void recieve(Player player, Card card,Player from){
+        Player temp = currentPlayer;
+        currentPlayer = player;
+        println("You get a " + card.getName() + " from " + from.getName());
+        if (card instanceof Property){
+            setProperty(player,(Property) card);
+        } else {
+            player.recieveCard(card);
+        }
+    }
+
     //DEVELOPED BY: MORRO
     public void askToPay(Player from, Player to, int amount){
         Bank bank = from.getBank();
@@ -156,21 +167,21 @@ public class Interactor {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
                 for (int j = 0; j < num; j++) {
-                    to.recieveCard(card);
+                    recieve(to,card,from);
                 }
             }
             for (int i = 0; i < Bank.MONEYS.length; i++) {
                 Money money = Bank.MONEYS[i];
                 int num = bank.clearOf(money);
                 for (int j = 0; j < num; j++) {
-                    to.recieveCard(money);
+                    recieve(to,money,from);
                 }
             }
             for (int i = 0; i < Color.UNIVERSAL.length; i++) {
                 Properties properties = propertyList.getProperties(Color.UNIVERSAL[i]);
                 for (int j = 0; j < properties.getSize(); j++) {
                     Property property = properties.take(j);
-                    setProperty(to,property);
+                    recieve(to,property,from);
                 }
             }
         } else {
@@ -183,14 +194,14 @@ public class Interactor {
                     println("How much money will you pay with money in bank?   ( " + moneyFormat(amount - paid) + " left )");
                     Money money  = (Money) selectCardInBank(from,false);
                     bank.take(money);
-                    to.recieveCard(money);
+                    recieve(to,money,from);
                     paid += money.getWorth();
                     bankWorth = bank.calculateTotalWorth();
                 } else if (propertyWorth > 0){
                     println("You have " + moneyFormat(propertyWorth) + " in properties, you have to pay with properties.");
                     println("Which property will you pay with?   ( " + moneyFormat(amount - paid) + " left )");
                     Property property = selectSinglePropertyFrom(from,from,ALL);
-                    setProperty(to,property);
+                    recieve(to,property,from);
                     paid += property.getWorth();
                     propertyWorth = propertyList.calculateWorthOfAll();
                 }else {
@@ -198,7 +209,7 @@ public class Interactor {
                     println("Which card will you pay with?   ( "  + moneyFormat(amount - paid) + " left )");
                     Card card = selectAllCard(from,false);
                     cardList.take(card);
-                    to.recieveCard(card);
+                    recieve(to,card,from);
                     paid += card.getWorth();
                 }
             }
@@ -437,6 +448,7 @@ public class Interactor {
 
         if (option < minOption || option > result.length){
             println("Invalid color index. Please choose again: ");
+            currentPlayer = temp;
             return chooseColor(player,result, COLOR_FILTER_ALL);
         }
         currentPlayer = temp;
