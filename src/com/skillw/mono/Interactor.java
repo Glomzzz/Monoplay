@@ -219,7 +219,7 @@ public class Interactor {
         for (int i = from; i < Math.min(to, CardList.CARDS.length); i++) {
             if (cardList.getNumOf(i) > 0){
                 map[index] = i;
-                Card card = CardList.CARDS[i];
+                Card card = cardList.getCardOf(i);
                 System.out.printf(ITEM_FORMAT,currentPlayer.getName(), index++, card.getName(), cardList.getNumOf(i), card.getWorth());
             }
         }
