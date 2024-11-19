@@ -87,7 +87,7 @@ public class Main {
                             BuildProperty buildProperty = (BuildProperty) command;
                             Property property = buildProperty.getProperty();
                             interactor.setProperty(currPlayer,property);
-                            interactor.alert("Property "+ property.getName()  +" successfully added on the table");
+                            interactor.alert(property.getName()  +" successfully added on the table");
                         }
                         break;
                         case Command.PAY_MONEY:
