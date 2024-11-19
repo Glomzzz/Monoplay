@@ -151,7 +151,7 @@ public class Interactor {
         int cardWorth = cardList.calculateTotalWorth();
         if (bankWorth + cardWorth + propertyWorth < amount){
             println(from.getName() + " don't have enough money & cards to pay, so you will take all cards from " + from.getName());
-            for (int i = 0; i < cardList.size(); i++) {
+            for (int i = 0; i < cardList.getSize(); i++) {
                 Card card = CardList.CARDS[i];
                 int num = cardList.clearOf(i);
                 for (int j = 0; j < num; j++) {
