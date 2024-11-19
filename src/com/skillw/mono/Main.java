@@ -195,7 +195,7 @@ public class Main {
                         {
                             DepositInBank depositInBank = (DepositInBank) command;
                             interactor.depositMoney(currPlayer, depositInBank.getMoney());
-                            interactor.alert("REPORT: Successfully deposited $"+depositInBank.getMoney().getName());
+                            interactor.alert("REPORT: Successfully deposited "+depositInBank.getMoney().getName());
                         }
                         break;
                         case Command.ALL_PAY_MONEY:
