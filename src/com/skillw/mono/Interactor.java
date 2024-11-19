@@ -390,7 +390,7 @@ public class Interactor {
             Color[] filtered = new Color[colors.length];
             int count = 0;
             switch (filter){
-                case COLOR_FILTER_OWNED:
+                case COLOR_FILTER_INCOMPLETED:
                     for (int i = 0; i < colors.length; i++) {
                         Properties properties = propertyList.getProperties(colors[i]);
                         if (!properties.isCompleted()) {
@@ -398,7 +398,7 @@ public class Interactor {
                         }
                     }
                     break;
-                case COLOR_FILTER_INCOMPLETED:
+                case COLOR_FILTER_OWNED:
                     for (int i = 0; i < colors.length; i++) {
                         Properties properties = propertyList.getProperties(colors[i]);
                         if (properties.getSize() > 0) {
