@@ -41,7 +41,6 @@ public class Property extends PerformableCard {
         this.colors = new Color[] {color1, color2};
     }
     private Property(String name,Color[] colors, int worth) {
-
         super(name,worth);
         this.colors = colors;
     }

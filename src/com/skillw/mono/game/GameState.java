@@ -20,7 +20,7 @@ public class GameState {
         return players;
     }
 
-
+    //DEVELOPED BY: GLOM
     /**
      * Initialize the game when the game first started
      */
@@ -52,6 +52,7 @@ public class GameState {
         this.turn++;
     }
 
+    //DEVELOPED BY: MORRO
     public boolean hasWinner(){
         for (int i = 0; i < players.length; i++) {
             if(players[i].getPropertyList().getCompletedNum() >= 3){
@@ -60,6 +61,8 @@ public class GameState {
         }
         return false;
     }
+
+    //DEVELOPED BY: MORRO
     public Player getWinner(){
         for (int i = 0; i < players.length; i++) {
             if(players[i].getPropertyList().getCompletedNum() >= 3){

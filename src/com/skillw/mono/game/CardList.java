@@ -17,8 +17,6 @@ public class CardList extends CardCounter{
     public static final int PROPERTY_END = 24;
     public static final int RENT_START = 24;
     public static final int RENT_END = 30;
-    public static final int MONEY_START = 30;
-    public static final int MONEY_END = 36;
     public static final Card[] CARDS = new Card[]{
             PassGo.PASS_GO,                                   // 0
             DealBreaker.DEAL_BREAKER,
@@ -62,11 +60,6 @@ public class CardList extends CardCounter{
 
     private CardStack cardStack;
 
-    public CardList(GameState game){
-        super(CARDS.length);
-        this.cardStack = game.getCardStack();
-    }
-
     public CardList(CardStack cardStack) {
         super(CARDS.length);
         this.cardStack = cardStack;
@@ -78,7 +71,7 @@ public class CardList extends CardCounter{
                 return i;
             }
         }
-        return -1;
+        return -1; 
     }
 
     public void consume(Card card){
