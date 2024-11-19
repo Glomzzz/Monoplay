@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class Interactor {
 
     private static final String PREFIX = "%-9s>>    ";
-
     private static final String CARD_FORMAT = PREFIX + "%d. %-25s%n";
+
     private static final String ITEM_FORMAT = PREFIX + "%d. %-25s    x%-2d    ~ $ %dM %n";
     private static final String PROPERTY_HEAD = PREFIX + "    Properties: %n";
     private static final String PROPERTY_FORMAT = PREFIX + "    |-  %d. %-11s    ( %d / %d )    - $ %dM %n";
@@ -359,6 +359,11 @@ public class Interactor {
         return (PerformableCard) selectCard(player.getCardList(),cancellable,CardList.RENT_START,CardList.RENT_END, player);
     }
 
+    public final static byte COLOR_FILTER_ALL = 0;
+    public final static byte COLOR_FILTER_OWNED = 1;
+    public final static byte COLOR_FILTER_INCOMPLETED = 2;
+
+
     //DEVELOPED BY: MORRO
     /**
      * Ask player to choose a color
@@ -366,47 +371,71 @@ public class Interactor {
      * @param colors the array of colors
      * @return the color the player choose
      */
-    public Color chooseColor(Player player,Color[] colors){
-        Player temp = currentPlayer;
+    public Color chooseColor(Player player,Color[] colors,byte filter){
         /*
          * Change current player for the player to know that it's other player's action
          * If player is not current player
          */
+        Player temp = currentPlayer;
         currentPlayer = player;
+        Color[] result;
+        {
+            PropertyList propertyList = player.getPropertyList();
+            Color[] filtered = new Color[colors.length];
+            int count = 0;
+            switch (filter){
+                case COLOR_FILTER_OWNED:
+                    for (int i = 0; i < colors.length; i++) {
+                        Properties properties = propertyList.getProperties(colors[i]);
+                        if (!properties.isCompleted()) {
+                            filtered[count++] = colors[i];
+                        }
+                    }
+                    break;
+                case COLOR_FILTER_INCOMPLETED:
+                    for (int i = 0; i < colors.length; i++) {
+                        Properties properties = propertyList.getProperties(colors[i]);
+                        if (properties.getSize() > 0) {
+                            filtered[count++] = colors[i];
+                        }
+                    }
+                    break;
+                default:
+                    filtered = colors;
+                    break;
+            }
+            result = new Color[count];
+            for (int i = 0; i < count; i++) {
+                result[i] = filtered[i];
+            }
+        }
 
+        int minOption = 1;
+        if (filter != COLOR_FILTER_INCOMPLETED){
+            minOption = 0;
+            println("0. Go Back");
+        }
         //Show all the color options available
-        for (int i = 0; i < colors.length; i++) {
-            Color color = colors[i];
+        for (int i = 0; i < result.length; i++) {
+            Color color = result[i];
             println(i+1 + ". " + color.getName());
         }
         int option = readInt( player.getName() +", please select a color: ");
-        if (option < 1 || option > colors.length){
+
+        if (option < minOption || option > result.length){
             println("Invalid color index. Please choose again: ");
-            return chooseColor(player,colors);
+            return chooseColor(player,result, COLOR_FILTER_ALL);
         }
         currentPlayer = temp;
-        return colors[option-1];
+        if (option == 0) return null;
+        return result[option-1];
     }
 
     //DEVELOPED BY: MORRO
     public void setProperty(Player player, Property property){
         //filter completed colors
-        PropertyList propertyList = player.getPropertyList();
-        Color[] colors = property.getColors();
-        Color[] filtered = new Color[colors.length];
-        int count = 0;
-        for (int i = 0; i < colors.length; i++) {
-            Properties properties = propertyList.getProperties(colors[i]);
-            if (!properties.isCompleted()){
-                filtered[count++] = colors[i];
-            }
-        }
-        Color[] result = new Color[count];
-        for (int i = 0; i < count; i++) {
-            result[i] = filtered[i];
-        }
-        Color chosen = chooseColor(player,result);
-        propertyList.addProperty(property, chosen);
+        Color chosen = chooseColor(player,property.getColors(), COLOR_FILTER_INCOMPLETED);
+        player.getPropertyList().addProperty(property, chosen);
     }
 
     public void alert(String message){

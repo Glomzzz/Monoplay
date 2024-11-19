@@ -8,6 +8,8 @@ import com.skillw.mono.game.GameState;
 import com.skillw.mono.game.Player;
 import com.skillw.mono.game.Properties;
 
+import static com.skillw.mono.Interactor.COLOR_FILTER_OWNED;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -148,7 +150,12 @@ public class Main {
                         case Command.RENT:
                         {
                             RentSingleColor rentSingleColor = (RentSingleColor) command;
-                            Color color = interactor.chooseColor(currPlayer,rentSingleColor.getColors());
+                            Color color = interactor.chooseColor(currPlayer,rentSingleColor.getColors(),COLOR_FILTER_OWNED);
+                            if (color == null){
+                                interactor.alert("You didn't choose any color.");
+                                success = false;
+                                break;
+                            }
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
 
                             Player performer = rentSingleColor.getPerformer();
@@ -162,7 +169,12 @@ public class Main {
                         case Command.RENT_UNIVERSAL:
                         {
                             RentAllColor rentAllColor = (RentAllColor) command;
-                            Color color = interactor.chooseColor(currPlayer,rentAllColor.getColors());
+                            Color color = interactor.chooseColor(currPlayer,rentAllColor.getColors(),COLOR_FILTER_OWNED);
+                            if (color == null){
+                                interactor.alert("You didn't choose any color.");
+                                success = false;
+                                break;
+                            }
                             Player target = interactor.selectPlayer(currPlayer, game);
                             int amount = currPlayer.getPropertyList().getProperties(color).calculateWorth();
                             interactor.askToPay(target, currPlayer, amount);
