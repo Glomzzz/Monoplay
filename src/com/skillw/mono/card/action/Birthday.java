@@ -24,6 +24,6 @@ public class Birthday extends PerformableCard {
      * @return the command to be executed
      */
     public Command action(Player performer) {
-       return new AllPayMoney(performer,5);
+       return new AllPayMoney(performer,2);
     }
 }
